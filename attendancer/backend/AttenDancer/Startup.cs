@@ -1,4 +1,6 @@
 ﻿using AttenDancer.Data;
+using AttenDancer.Entities;
+using AttenDancer.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttenDancer;
@@ -15,6 +17,19 @@ public class Startup(IConfiguration configuration)
             throw new InvalidOperationException("Connection string 'AttenDancerDb'" + " not found.");
         services.AddDbContext<AttenDancerDbContext>(options =>
             options.UseSqlServer(conString));
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy(
+                name: "AllowOrigin",
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+        });
+
+        services.AddTransient<AttenDancerDbContext>();
+        services.AddTransient<IRepository<Employee>, Repository<Employee>>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -23,6 +38,8 @@ public class Startup(IConfiguration configuration)
         {
             // Swagger
         }
+
+        app.UseCors("AllowOrigin");
 
         app.UseRouting();
 
