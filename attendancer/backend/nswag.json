@@ -14,6 +14,8 @@
       "className": "{controller}Client",
       "template": "Angular",
       "httpClass": "HttpClient",
+      "injectionTokenType": "InjectionToken",
+      "useSingletonProvider": true,
       "rxJsVersion": 7.0,
       "dateTimeType": "string",
       "generateClientClasses": true,

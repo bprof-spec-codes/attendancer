@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmployeeService } from './employee.service';
-import { Employee } from './employee.model';
+
+import { EmployeeClient, Employee } from '../app.api-client.generated';
 
 @Component({
   selector: 'app-employee-list',
@@ -12,7 +12,7 @@ import { Employee } from './employee.model';
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeClient) {}
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe(data => {
