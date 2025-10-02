@@ -28,6 +28,8 @@ public class Startup(IConfiguration configuration)
                 });
         });
 
+        services.AddOpenApiDocument();
+
         services.AddTransient<AttenDancerDbContext>();
         services.AddTransient<IRepository<Employee>, Repository<Employee>>();
     }
@@ -36,7 +38,8 @@ public class Startup(IConfiguration configuration)
     {
         if (env.IsDevelopment())
         {
-            // Swagger
+            app.UseOpenApi();
+            app.UseSwaggerUi();
         }
 
         app.UseCors("AllowOrigin");
