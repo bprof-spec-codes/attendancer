@@ -1,6 +1,6 @@
 ﻿using AttenDancer.Data;
-using AttenDancer.Entities;
-using AttenDancer.Repositories;
+using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Entity_Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttenDancer;
@@ -15,6 +15,7 @@ public class Startup(IConfiguration configuration)
 
         string conString = Configuration.GetConnectionString("AttenDancerDb") ??
             throw new InvalidOperationException("Connection string 'AttenDancerDb'" + " not found.");
+
         services.AddDbContext<AttenDancerDbContext>(options =>
             options.UseSqlServer(conString));
 
@@ -28,8 +29,11 @@ public class Startup(IConfiguration configuration)
                 });
         });
 
-        services.AddTransient<AttenDancerDbContext>();
-        services.AddTransient<IRepository<Employee>, Repository<Employee>>();
+        services.AddTransient<IRepository<User>, Repository<User>>();
+        services.AddTransient<IRepository<Event>, Repository<Event>>();
+        services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
+        services.AddTransient<IRepository<Participant>, Repository<Participant>>();
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
