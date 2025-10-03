@@ -29,6 +29,8 @@ public class Startup(IConfiguration configuration)
                 });
         });
 
+        services.AddOpenApiDocument();
+
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
@@ -40,7 +42,8 @@ public class Startup(IConfiguration configuration)
     {
         if (env.IsDevelopment())
         {
-            // Swagger
+            app.UseOpenApi();
+            app.UseSwaggerUi();
         }
 
         app.UseCors("AllowOrigin");
