@@ -11,7 +11,7 @@ public class EmployeeController(IRepository<Employee> EmployeeRepository) : Cont
     private IRepository<Employee> EmployeeRepository = EmployeeRepository;
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees()
+    public async Task<ActionResult<List<Employee>>> GetEmployees()
     {
         return Ok(EmployeeRepository.GetAll());
     }
