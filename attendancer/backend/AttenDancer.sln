@@ -1,9 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36511.14 d17.14
+VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttenDancer", "AttenDancer\AttenDancer.csproj", "{3BB57BF5-BA0E-471E-B3C6-34A76DBA466C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E} = {67E7CAAA-AF62-465A-8D92-02A9756A2A8E}
+		{6D232077-0AD7-4808-AE12-A36D5720D979} = {6D232077-0AD7-4808-AE12-A36D5720D979}
+		{EA896049-AF9B-4580-9A7B-0B0A48027513} = {EA896049-AF9B-4580-9A7B-0B0A48027513}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttenDancer.Data", "AttenDancer.Data\AttenDancer.Data.csproj", "{67E7CAAA-AF62-465A-8D92-02A9756A2A8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D232077-0AD7-4808-AE12-A36D5720D979} = {6D232077-0AD7-4808-AE12-A36D5720D979}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttenDancer.Logic", "AttenDancer.Logic\AttenDancer.Logic.csproj", "{EA896049-AF9B-4580-9A7B-0B0A48027513}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E} = {67E7CAAA-AF62-465A-8D92-02A9756A2A8E}
+		{6D232077-0AD7-4808-AE12-A36D5720D979} = {6D232077-0AD7-4808-AE12-A36D5720D979}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttenDancer.Entity", "AttenDancer.Entity\AttenDancer.Entity.csproj", "{6D232077-0AD7-4808-AE12-A36D5720D979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +33,18 @@ Global
 		{3BB57BF5-BA0E-471E-B3C6-34A76DBA466C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB57BF5-BA0E-471E-B3C6-34A76DBA466C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BB57BF5-BA0E-471E-B3C6-34A76DBA466C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E7CAAA-AF62-465A-8D92-02A9756A2A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA896049-AF9B-4580-9A7B-0B0A48027513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA896049-AF9B-4580-9A7B-0B0A48027513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA896049-AF9B-4580-9A7B-0B0A48027513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA896049-AF9B-4580-9A7B-0B0A48027513}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D232077-0AD7-4808-AE12-A36D5720D979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D232077-0AD7-4808-AE12-A36D5720D979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D232077-0AD7-4808-AE12-A36D5720D979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D232077-0AD7-4808-AE12-A36D5720D979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

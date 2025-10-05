@@ -16,4 +16,10 @@
     <PackageReference Include="NSwag.AspNetCore" Version="14.6.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AttenDancer.Data\AttenDancer.Data.csproj" />
+    <ProjectReference Include="..\AttenDancer.Entity\AttenDancer.Entity.csproj" />
+    <ProjectReference Include="..\AttenDancer.Logic\AttenDancer.Logic.csproj" />
+  </ItemGroup>
+
 </Project>
