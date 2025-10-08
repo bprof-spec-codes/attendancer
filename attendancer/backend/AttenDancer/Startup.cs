@@ -1,6 +1,8 @@
 ﻿using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
+using AttenDancer.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttenDancer;
@@ -11,7 +13,16 @@ public class Startup(IConfiguration configuration)
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+
+        services.AddControllers(opt =>
+        {
+            opt.Filters.Add<ExceptionFilter>();
+            opt.Filters.Add<ValidationFilter>();
+        });
 
         string conString = Configuration.GetConnectionString("AttenDancerDb") ??
             throw new InvalidOperationException("Connection string 'AttenDancerDb'" + " not found.");
