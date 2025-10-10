@@ -1,20 +1,25 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { Login } from './login/login';
 import { Registration } from './registration/registration';
+import { Nav } from './nav/nav';
+import { Footer } from './footer/footer';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     App,
     Login,
-    Registration
+    Registration,
+    Nav,
+    Footer
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
