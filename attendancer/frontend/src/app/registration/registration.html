@@ -1,0 +1,51 @@
+<div class="background">
+    <main class="shell">
+        <section class="card-on-blue">
+            <div class="card-media"
+                style="background: url('Assets/yana-marudova--gJdh38StBU-unsplash.jpg') center/cover no-repeat;">
+                <div class="card-media-overlay">
+                    <img class="icon large" src="Assets/Attendancer emblem.svg">
+                    <p style="justify-content: center; align-items: center;">Attendance tracking made easy</p>
+                </div>
+            </div>
+
+            <div class="card-form">
+                <h1>Create an account</h1>
+
+                <form class="form">
+                    <div class="form-field">
+                    <input 
+                    type="text"
+                    formControlName="username"
+                    placeholder="Username"
+                    >
+                    </div>
+                    <div class="form-field">
+                    <input 
+                    type="text" 
+                    formControlName="email"
+                    placeholder="Email address"
+                    >
+                    </div>
+                    <div class="form-field">
+                    <input 
+                    type="password" 
+                    formControlName="password"
+                    placeholder="Password">
+                    </div>
+                    <div class="form-field">
+                    <input 
+                    type="text" 
+                    formControlName="passwordConfirm"
+                    placeholder="Password again">
+                    </div>
+                    <button type="submit" class="button-primary">Create account</button>
+                    <p class="small-text">
+                        Already have an account?
+                        <a routerLink="/login" class="nav-link">Sign in!</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+</div>
