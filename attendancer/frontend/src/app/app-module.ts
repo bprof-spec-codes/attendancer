@@ -7,6 +7,7 @@ import { Registration } from './registration/registration';
 import { Nav } from './nav/nav';
 import { Footer } from './footer/footer';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Sheet } from './sheet/sheet';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     Login,
     Registration,
     Nav,
-    Footer
+    Footer,
+    Sheet
   ],
   imports: [
     BrowserModule,
