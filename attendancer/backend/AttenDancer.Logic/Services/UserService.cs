@@ -46,5 +46,25 @@ namespace AttenDancer.Logic.Services
 
             return await _userRepository.Create(user);
         }
+
+        public async Task<User> LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetAll()
+                .FirstOrDefaultAsync(u => u.Email == email.ToLower());
+
+            if (user == null)
+            {
+                throw new Exception("Hibás email vagy jelszó");
+            }
+
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            if (!isPasswordValid)
+            {
+                throw new Exception("Hibás email vagy jelszó");
+            }
+
+            return user;
+        }
     }
 }
