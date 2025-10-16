@@ -73,6 +73,7 @@ public class Startup(IConfiguration configuration)
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
 
+        services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
     }
 
