@@ -13,13 +13,15 @@ namespace AttenDancer.Logic.Services
     {
 
         private readonly IRepository<User> _userRepository;
+        private readonly AuthService _authService;
 
-        public UserService(IRepository<User> userRepository)
+        public UserService(IRepository<User> userRepository, AuthService authService)
         {
             _userRepository = userRepository;
+            _authService = authService;
         }
 
-
+        //loginban meg kell majd hívni az _authService.GenerateJwtToken(user)-t
 
         public async Task<User> RegisterAsync(string firstName, string lastName, string email, string password)
         {
