@@ -1,0 +1,91 @@
+<div class="background">
+  <!--Routingot meg kell csinalni majd-->
+  <main class="shell">
+    <div class="sheet">
+      <div class="table-title-card">
+        <!--Gombokhoz jogosultság-->
+        <div class="table-title-card-actions">
+          <button class="button-small">
+            <img *ngIf="" src="Assets/Icons/edit-svgrepo-com.svg" style="width:15px; height: 15px;">
+            Edit
+          </button>
+
+          <div class="table-title-card-actions-group">
+            <!--QR code cuccli-->
+            <button class="button-small button-outline">Show QR code</button>
+            <button class="button-small button-alert">
+              <img src="Assets/Icons/trash-svgrepo-com.svg" style="width:15px; height: 15px;">
+              Delete QR code
+            </button>
+          </div>
+        </div>
+        <!--Ide is majd sheet property.title kell majd-->
+        <h1>Example sheet</h1>
+        <div class="table-title-card-counters">
+          <div class="table-title-card-actions-group">
+            <!--Egy sum a jelenlévőkre és akik nincsenek-->
+            <div class="counter-present">25</div>
+            <div class="counter-absent">12</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <table class="sheet-table sheet-table-head">
+          <thead>
+            <!--Ide majd kell az *ngFor-->
+            <tr>
+              <th>Name</th>
+              <th>Data1</th>
+              <th>Data2</th>
+              <th>Data3</th>
+              <th>Presence</th>
+            </tr>
+          </thead>
+        </table>
+
+        <table class="sheet-table sheet-table-body">
+          <tbody>
+            <!--Ide is-->
+            <tr>
+              <td class="sheet-table-cell">Pista</td>
+              <td>Kismacska</td>
+              <td>data2</td>
+              <td>data3</td>
+              <td class="sheet-table-cell">
+                <span class="presence-icon">✔</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="sheet-table-cell">Pista</td>
+              <td>Kismacska</td>
+              <td>data2</td>
+              <td>data3</td>
+              <td class="sheet-table-cell">
+                <span class="presence-icon">✔</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="sheet-table-cell">Pista</td>
+              <td>Kismacska</td>
+              <td>data2</td>
+              <td>data3</td>
+              <td class="sheet-table-cell">
+                <span class="presence-icon">✔</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="sheet-table-cell">Pista</td>
+              <td>Kismacska</td>
+              <td>data2</td>
+              <td>data3</td>
+              <td class="sheet-table-cell">
+                <span class="presence-icon">✔</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

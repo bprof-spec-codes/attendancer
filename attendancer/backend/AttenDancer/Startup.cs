@@ -2,6 +2,7 @@
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +48,8 @@ public class Startup(IConfiguration configuration)
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
+
+        services.AddScoped<UserService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
