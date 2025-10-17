@@ -11,6 +11,8 @@ import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './error.interceptor';
+import { LoadingSpinner } from './loading-spinner/loading-spinner';
+import { LoadingInterceptor } from './loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { ErrorInterceptor } from './error.interceptor';
     Nav,
     Footer,
     Sheet,
-    Popup
+    Popup,
+    LoadingSpinner
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { ErrorInterceptor } from './error.interceptor';
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [App]
 })
