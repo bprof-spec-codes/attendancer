@@ -58,5 +58,23 @@ namespace AttenDancer.Logic.Services
             EventViewDto eventView = dtoProvider.Mapper.Map<EventViewDto>(getevent);
             return eventView;
         }
+
+        public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
+        {
+            var existingEvent = await _eventRepository.GetOne(id);
+
+            if (existingEvent == null)
+            {
+                throw new Exception("Esemény nem található");
+            }
+
+            dtoProvider.Mapper.Map(updatedto, existingEvent);
+            return await _eventRepository.Update(existingEvent);
+        }
+
+        public void DeleteEvent(string eventId)
+        {
+            _eventRepository.DeleteById(eventId);
+        }
     }
 }
