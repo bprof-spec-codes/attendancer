@@ -16,12 +16,14 @@ namespace AttenDancer.Logic.Services
     public class EventGroupService
     {
         private readonly IRepository<EventGroup> _eventGroupRepository;
+        private readonly IRepository<Event> _eventRepository;
         DtoProvider dtoProvider;
 
-        public EventGroupService(IRepository<EventGroup> eventGroupRepository, DtoProvider dtoProvider)
+        public EventGroupService(IRepository<EventGroup> eventGroupRepository, DtoProvider dtoProvider, IRepository<Event> eventRepository)
         {
             _eventGroupRepository = eventGroupRepository;
             this.dtoProvider = dtoProvider;
+            _eventRepository = eventRepository;
         }
 
         public async Task<EventGroup> CreateEventGroupAsync(EventGroupCreateDto createDto)
@@ -54,6 +56,22 @@ namespace AttenDancer.Logic.Services
             EventGroupParticipantInfoDto eventGroupView = dtoProvider.Mapper.Map<EventGroupParticipantInfoDto>(eventGroup, opt => opt.Items["userId"] = userId);
 
             return eventGroupView;
+        }
+
+        public async Task<EventGroup> UpdateEventGroup(List<string> eventIds, string name, string eventGroupId)
+        {
+            EventGroup? eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
+
+            if (eventGroup == null)
+            {
+                throw new Exception("Hibás eseménycsoport azonosító");
+            }
+
+            List<Event> events = _eventRepository.GetAll().Where(e => eventIds.Contains(e.Id)).ToList();
+
+            eventGroup.Name = name;
+            eventGroup.Events = events;
+            return await _eventGroupRepository.Update(eventGroup);
         }
     }
 }
