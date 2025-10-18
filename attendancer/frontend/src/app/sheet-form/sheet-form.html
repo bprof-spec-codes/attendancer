@@ -1,0 +1,58 @@
+<div class="background">
+    <div class="shell">
+        <div class="card-on-blue" style="display: block;">
+            <div class="card-form" style="display: flex; columns: none;">
+                <form class="form-singular">
+                    <div class="form-two-column" style="margin-bottom: 1rem;">
+                        <h1 class="field-label" style="text-align: left;">Sheet group:</h1>
+                        <!--Példa csoport, a lényeg az lenne, hogy vannak a létező groupok és a vonal a group
+                        felsorolás után jelenne meg és alatta a pseudo groupokat jelenítené meg. Ezek a létrehozás után grouppá
+                        válnak és összekapcsolja a groupot a sheet-tel-->
+                        <div class="form-field">
+                            <select id="sheetGroup" class="select-button">
+                                <option value="">Choose</option>
+                                <option value="a">Group A</option>
+                                <option disabled>────────────</option>
+                                <option value="b">Group B</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form" style="gap: 0.75rem; margin-top: 4rem;">
+                        <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">Name
+                            your sheet:</label>
+                        <input type="text" placeholder="Sheet name">
+                        <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">Date of
+                            event:</label>
+                        <input type="datetime-local" placeholder="Date of event">
+                        <hr>
+                        <!--Kis logika az extra adat hozzaadashoz-->
+                        <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">Required
+                            Data:</label>
+                        @for (field of customFields; track field; let i = $index) {
+                        <div class="custom-field-row">
+                            <input type="text" [attr.name]="'requiredField' + i" placeholder="Enter label">
+                            <button type="button" class="button-icon button-icon-danger"
+                                (click)="removeCustomField(i)">
+                                <img style="width: 15px; height: 15px;" src="/Assets/Icons/cross-svgrepo-com.svg">
+                            </button>
+                        </div>
+                        }
+                        <button type="button" class="button-striped" (click)="addCustomField()">+</button>
+
+                        <!--Ez akkor, ha egy megadott groupot választ a user, akkor kilistázza a bekért adatokat
+                        de nem szerkeszthetőek a csoporton megadott adat inputok-->
+                        <!--<label for="sheetName" class="field-label"
+                            style="font-size: 1.3rem; font-weight: 700;">Required Data:</label>
+                        <div class="form">
+                            <input disabled type="text" placeholder="Neptun ID">
+                            <input disabled type="text" placeholder="Email">
+                            <input disabled type="text" placeholder="Phone number">
+                        </div>-->
+                        <button type="submit" class="button-primary"
+                            style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

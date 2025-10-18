@@ -154,6 +154,11 @@ body
     font-size: xx-large
     text-align: center
 
+  hr
+    border: 0
+    border-top: 2px solid
+    margin: 2rem 0
+
 .form
   display: flex
   flex-direction: column
@@ -169,10 +174,10 @@ body
     padding: 0.9rem 1rem
     border-radius: 10px
     border: 2px solid $color-brand
-    background-color: #d3d3d3
+    background-color: #e7e5e5
     font-size: 1rem
     font-weight: 400
-    color: $color-text-muted
+    color: $color-brand
 
     &::placeholder
       color: $color-text-muted
@@ -184,10 +189,19 @@ body
       outline: none
       border-color: $color-brand
 
+    &:disabled
+      background-color: rgba($color-text-muted, 0.2)
+
 .form-field
   display: flex
   flex-direction: column
   gap: 0.4rem
+
+.form-two-column
+  display: grid
+  grid-template-columns: 1fr minmax(200px, 1fr)
+  gap: 1.5rem
+  align-items: center
 
 .form-error
   font-size: 0.85rem
@@ -204,7 +218,53 @@ body
   &:hover
     text-decoration: underline
 
+.custom-field-row
+  display: flex
+  align-items: center
+  gap: 0.75rem
+
+  input
+    flex: 1
+
 //Buttons --------------------------------------------------------------------------
+
+.select-button
+  border: 2px solid $color-brand
+  border-radius: 5px
+  height: 2rem
+  color: $color-brand
+  background-color: transparent
+  align-items: center
+  font-weight: 600
+
+  &:focus,
+  &:active
+    outline: none
+    border-color: 2px solid $color-brand
+    border-radius: 5px
+
+.button-striped
+  @include button-reset
+  padding: 0.35rem 1.1rem
+  border: 2px dashed $color-brand
+  border-radius: 9px
+  font-size: 1.6rem
+  font-weight: 700
+  color: $color-brand
+  background-color: transparent
+  width: 80%
+  align-self: center
+
+  &:hover
+    background-color: rgba($color-brand, 0.08)
+
+  &:focus-visible
+    outline: 3px solid rgba($color-brand, 0.35)
+    outline-offset: 2px
+
+  &:active
+    transform: translateY(1px)
+
 .button-primary
   @include button-reset
   padding: 0.5rem 4.5rem
@@ -291,7 +351,35 @@ body
   &:hover
     background-color: rgba($color-danger, 1)
     color: $color-surface
-    
+
+.button-icon
+  @include button-reset
+  width: 1.5rem
+  height: 1.5rem
+  border: none
+  border-radius: 8px
+  font-size: 1.2rem
+  font-weight: 700
+  color: $color-brand
+  background-color: transparent
+
+  &:hover
+    background-color: rgba($color-brand, 0.08)
+
+  &:focus-visible
+    outline: 3px solid rgba($color-brand, 0.35)
+    outline-offset: 2px
+
+  &:active
+    transform: translateY(1px)
+
+.button-icon-danger
+  border-color: $color-danger
+  color: $color-danger
+
+  &:hover
+    background-color: rgba($color-danger, 0.12)
+
 //Table title card ---------------------------------------------------------------------
 .table-title-card
   display: flex
@@ -337,7 +425,7 @@ body
   width: 80px
   height: 80px
   margin-top: 0.5rem
-  margin-bottom: 0.5rem 
+  margin-bottom: 0.5rem
   background-color: $color-surface
   @include card-shadow(0 0 25px rgba(110, 110, 110, 0.4))
 

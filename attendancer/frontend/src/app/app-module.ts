@@ -11,6 +11,7 @@ import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './error.interceptor';
+import { SheetForm } from './sheet-form/sheet-form';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ErrorInterceptor } from './error.interceptor';
     Nav,
     Footer,
     Sheet,
-    Popup
+    Popup,
+    SheetForm
   ],
   imports: [
     BrowserModule,
