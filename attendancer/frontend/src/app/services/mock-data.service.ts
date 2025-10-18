@@ -27,13 +27,13 @@ export class MockDataService {
   // Egy esemény résztvevőinek lekérdezése.
   // A mock-ban már az esemény id alapján visszaadott résztvevők adatait szimulálja.
   // /api/Participant/{eventid}
-  // userId < userName ???
+  // userId < username ???
   // date < present ???
   getParticipantsByEventId(): Observable<any> {
     const mockData =
     [
       {
-        "userName": "Gipsz Jakab",
+        "username": "Gipsz Jakab",
         "present": true,
         "metadata": [
             "JMAH67",
@@ -41,7 +41,7 @@ export class MockDataService {
         ]
       },
       {
-        "userName": "Béla",
+        "username": "Béla",
         "present": true,
         "metadata": [
             "KLX523",
@@ -49,7 +49,7 @@ export class MockDataService {
         ]
       },
       {
-        "userName": "Pista",
+        "username": "Pista",
         "present": false,
         "metadata": [
             "IUSR67",
@@ -57,7 +57,7 @@ export class MockDataService {
         ]
       },
       {
-        "userName": "Bence",
+        "username": "Bence",
         "present": true,
         "metadata": [
             "ITS439",
@@ -65,7 +65,7 @@ export class MockDataService {
         ]
       },
       {
-        "userName": "Kati",
+        "username": "Kati",
         "date": false,
         "metadata": [
             "STRDO5",

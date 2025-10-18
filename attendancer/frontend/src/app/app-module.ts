@@ -10,7 +10,9 @@ import { Footer } from './footer/footer';
 import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
-import { ErrorInterceptor } from './error.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { ErrorInterceptor } from './error.interceptor';
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true }
   ],
   bootstrap: [App]
 })
