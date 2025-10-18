@@ -73,5 +73,10 @@ namespace AttenDancer.Logic.Services
             eventGroup.Events = events;
             return await _eventGroupRepository.Update(eventGroup);
         }
+
+        public void DeleteEventGroup(string eventGroupId)
+        {
+             _eventGroupRepository.DeleteById(eventGroupId);
+        }
     }
 }
