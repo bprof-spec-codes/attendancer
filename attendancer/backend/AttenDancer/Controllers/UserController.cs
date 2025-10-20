@@ -43,5 +43,28 @@ namespace AttenDancer.Controllers
             }
 
         }
+
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
+        {
+            try
+            {
+                var user = await _userService.LoginAsync(dto.Email, dto.Password);
+
+                return Ok(new
+                {
+                    id = user.Id,
+                    firstName = user.FirstName,
+                    lastName = user.LastName,
+                    email = user.Email
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
