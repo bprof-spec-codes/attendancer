@@ -10,25 +10,26 @@
                 </div>
             </div>
 
-            <div class="card-form">
+            <div class="card-form" (ngSubmit)="onLogin()">
                 <h1>Sign into Attendancer</h1>
 
                 <form class="form">
                     <div class="form-field">
-                    <input 
-                    type="text"
-                    formControlName="username" 
-                    placeholder="Username" />
-                    </div>
-
-                    <div class="form-field">
-                    <input 
-                    type="email" 
-                    formControlName="email"
+                    <input
+                    type="email"
+                    [(ngModel)]="loginModel.email"
+                    name="email"
                     placeholder="Email address" />
                     </div>
 
-                    <button type="submit" class="button-primary">Sign in</button>
+                    <div class="form-field">
+                    <input
+                    type="password"
+                    [(ngModel)]="loginModel.password"
+                    placeholder="Password" />
+                    </div>
+
+                    <button type="submit" class="button-primary" [disabled]="!inputCheck() || isLoading">{{ isLoading ? 'Signing in...' : 'Sign in' }}</button>
                     <p class="small-text">
                         Don&#39;t have an account yet?
                         <a routerLink="/register" class="nav-link">Sign up!</a>
