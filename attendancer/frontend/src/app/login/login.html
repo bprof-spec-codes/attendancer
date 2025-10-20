@@ -13,6 +13,11 @@
             <div class="card-form" (ngSubmit)="onLogin()">
                 <h1>Sign into Attendancer</h1>
 
+                <!-- HIBAÜZENET MEGJELENÍTÉS -->
+                <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+                </div>
+
                 <form class="form">
                     <div class="form-field">
                     <input
