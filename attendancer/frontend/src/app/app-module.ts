@@ -11,6 +11,7 @@ import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './error.interceptor';
+import { SheetForm } from './sheet-form/sheet-form';
 import { LoadingSpinner } from './loading-spinner/loading-spinner';
 import { LoadingInterceptor } from './loading.interceptor';
 
@@ -23,6 +24,7 @@ import { LoadingInterceptor } from './loading.interceptor';
     Footer,
     Sheet,
     Popup,
+    SheetForm,
     LoadingSpinner
   ],
   imports: [
