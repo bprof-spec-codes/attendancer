@@ -11,6 +11,8 @@ import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './error.interceptor';
+import { LoadingSpinner } from './loading-spinner/loading-spinner';
+import { LoadingInterceptor } from './loading.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 
 @NgModule({
@@ -22,6 +24,7 @@ import { SheetForm } from './sheet-form/sheet-form';
     Footer,
     Sheet,
     Popup,
+    LoadingSpinner,
     SheetForm
   ],
   imports: [
@@ -32,7 +35,8 @@ import { SheetForm } from './sheet-form/sheet-form';
   providers: [
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [App]
 })

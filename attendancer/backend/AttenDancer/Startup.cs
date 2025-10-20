@@ -1,10 +1,13 @@
-﻿using AttenDancer.Data;
+﻿using System.Text;
+using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
 using AttenDancer.Logic.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AttenDancer;
 
@@ -41,6 +44,27 @@ public class Startup(IConfiguration configuration)
                 });
         });
 
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = Configuration["Jwt:Issuer"],
+                ValidAudience = Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            };
+        });
+
+
         services.AddOpenApiDocument();
 
         services.AddTransient<IRepository<User>, Repository<User>>();
@@ -49,6 +73,7 @@ public class Startup(IConfiguration configuration)
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
 
+        services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
     }
 
@@ -68,5 +93,8 @@ public class Startup(IConfiguration configuration)
         {
             endpoints.MapControllers();
         });
+
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 }
