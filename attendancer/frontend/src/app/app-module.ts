@@ -11,6 +11,8 @@ import { Popup } from './popup/popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { LoadingSpinner } from './loading-spinner/loading-spinner';
+import { LoadingInterceptor } from './loading.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
@@ -22,7 +24,8 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
     Nav,
     Footer,
     Sheet,
-    Popup
+    Popup,
+    LoadingSpinner
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true }
   ],

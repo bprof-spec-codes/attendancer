@@ -1,0 +1,75 @@
+﻿using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Dtos.Event;
+using AttenDancer.Entity.Dtos.EventGroup;
+using AttenDancer.Entity.Dtos.Participant;
+using AttenDancer.Entity.Entity_Models;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AttenDancer.Logic.Helper
+{
+    public class DtoProvider
+    {
+        public Mapper Mapper { get; }
+        private readonly IRepository<User> _userRepository;
+
+        public DtoProvider()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<EventCreateDto, Event>();
+
+                cfg.CreateMap<Event, EventViewDto>()
+                   .AfterMap((src, dest) =>
+                   {
+                       dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : "Nincs csoportja";
+                   });
+
+                cfg.CreateMap<Participant, ParticipantViewDto>()
+                   .AfterMap((src, dest) =>
+                   {
+                       dest.UserFullName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.FirstName}" +
+                       $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.LastName}";
+                       dest.MetadataDictionary = src.Metadata != null
+                           ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(src.Metadata)
+                           : new Dictionary<string, string>();
+                       dest.Date = src.Date;
+                   });
+
+                cfg.CreateMap<ParticipantCreateDto, Participant>();
+                cfg.CreateMap<EventGroupCreateDto, EventGroup>();
+                cfg.CreateMap<EventGroup, EventGroupViewDto>();
+                cfg.CreateMap<EventGroup, EventGroupParticipantInfoDto>()
+                    .AfterMap((src, dest, context) =>
+                    {
+                        context.Items.TryGetValue("userId", out var getuserId);
+                        string userId = getuserId as string;
+                        int count = src.Events.Count(ev => ev.Participants.Any(p => p.UserId == userId));
+
+                        dest.EventCount = count;
+
+                        dest.UserName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == userId)?.LastName} " +
+                              $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == userId)?.FirstName}";
+
+                        dest.Metadata = count == 0 ? src.Events.SelectMany(ev => ev.Participants)
+                                                     .Where(p => p.UserId == userId)
+                                                     .Where(p => p != null)
+                                                     .Select(p => p.MetadataDict)
+                                                     .FirstOrDefault() : new Dictionary<string, string>();
+
+                        dest.DateTimes = count == 0 ? src.Events.SelectMany(ev => ev.Participants)
+                                                      .Where(p => p.UserId == userId)
+                                                      .Where(p => p != null)
+                                                      .Select(p => p.Date)
+                                                      .ToList() : new List<DateTime>();
+                    });
+            });
+            Mapper = new Mapper(config);
+        }
+
+    }
+}
