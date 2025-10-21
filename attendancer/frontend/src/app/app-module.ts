@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingSpinner } from './loading-spinner/loading-spinner';
-import { LoadingInterceptor } from './loading.interceptor';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 

@@ -27,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Egy táblázatba kéne! -->
       <div>
         <table class="sheet-table sheet-table-head">
           <thead>
@@ -47,8 +46,8 @@
                 {{ data }}
               </td>
               <td class="sheet-table-cell">
-                <span class="presence-icon" *ngIf="participant.present; else notPresent;">✔</span>
-                <ng-template #notPresent>
+                <span class="presence-icon" *ngIf="participant.present; else absent;">✔</span>
+                <ng-template #absent>
                   <span class="presence-icon">❌</span>
                 </ng-template>
               </td>
