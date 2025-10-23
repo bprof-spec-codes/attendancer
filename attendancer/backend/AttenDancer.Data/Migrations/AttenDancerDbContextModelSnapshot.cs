@@ -53,7 +53,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.EventGroup", b =>
@@ -74,7 +74,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EventGroups");
+                    b.ToTable("EventGroups", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Participant", b =>
@@ -103,7 +103,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("UserId", "EventId")
                         .IsUnique();
 
-                    b.ToTable("Participants");
+                    b.ToTable("Participants", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.User", b =>
@@ -136,7 +136,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Event", b =>
