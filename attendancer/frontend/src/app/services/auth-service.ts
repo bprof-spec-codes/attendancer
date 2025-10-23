@@ -4,6 +4,7 @@ import { RegisterModel } from '../models/register-model';
 import { environment } from '../../environments/environment';
 import { LoginModel } from '../models/login-model';
 import { JwtPayload } from '../models/jwt-payload';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { JwtPayload } from '../models/jwt-payload';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   register(registerModel: RegisterModel) {
   return this.http.post(environment.apis.register, registerModel);
@@ -36,16 +37,8 @@ export class AuthService {
   }
 
   logout(): void {
-    const token = localStorage.getItem(environment.tokenKey);
-    localStorage.removeItem(environment.tokenKey);
-
-    if (token) {
-      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-      this.http.post(environment.apis.logout, {}, { headers }).subscribe({
-        next: () => { console.log("logout successful!"); },
-        error: () => { console.log("Logout error!"); }
-      });
-    }
+  localStorage.removeItem(environment.tokenKey);
+  this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
