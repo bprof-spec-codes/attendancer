@@ -10,31 +10,32 @@
                 </div>
             </div>
 
-            <div class="card-form" (ngSubmit)="onLogin()">
+            <div class="card-form" >
                 <h1>Sign into Attendancer</h1>
 
-                <!-- HIBAÜZENET MEGJELENÍTÉS -->
+
                 <div *ngIf="errorMessage" class="error-message">
                   {{ errorMessage }}
                 </div>
 
-                <form class="form">
+                <form class="form" (ngSubmit)="onLogin()">
                     <div class="form-field">
                     <input
                     type="email"
                     [(ngModel)]="loginModel.email"
                     name="email"
-                    placeholder="Email address" />
+                    placeholder="Enter email" />
                     </div>
 
                     <div class="form-field">
                     <input
                     type="password"
                     [(ngModel)]="loginModel.password"
-                    placeholder="Password" />
+                    name="password"
+                    placeholder="Enter password" />
                     </div>
 
-                    <button type="submit" class="button-primary" [disabled]="!inputCheck() || isLoading">{{ isLoading ? 'Signing in...' : 'Sign in' }}</button>
+                    <button type="submit" class="button-primary" [disabled]="!inputCheck()">Sign in</button>
                     <p class="small-text">
                         Don&#39;t have an account yet?
                         <a routerLink="/register" class="nav-link">Sign up!</a>
