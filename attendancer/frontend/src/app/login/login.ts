@@ -31,6 +31,16 @@ export class Login {
     } else {
       this.errorMessage = "Invalid email or password";
     }
+
+    this.authService.login(this.loginModel);
+
+    setTimeout(() => {
+      if (this.authService.isLoggedIn()) {
+        this.router.navigate(['/profile']);
+      } else {
+        this.errorMessage = "Invalid email or password. Please try again.";
+      }
+  }, 1000);
   }
  inputCheck(): boolean {
   const emailValid = this.loginModel.email.length > 0;
