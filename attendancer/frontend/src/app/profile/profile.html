@@ -1,0 +1,563 @@
+<div class="container-fluid vh-100 p-0" style="background-color: #EFF1F2; overflow-x: hidden;">
+    <div class="row h-100 g-0">
+        <!--Vertikális navigáció, aktív oldal gombja kékkel ki legyen jelölve-->
+        <div class="col-2 col-sm-1 p-0 mt-5">
+            <div class="d-flex flex-column">
+                <button class="button-secondary-profile" [class.active-menu]="activeSection === 'profile'"
+                    (click)="setActiveSection('profile')">Profile</button>
+                <button class="button-secondary-profile" [class.active-menu]="activeSection === 'statistics'"
+                    (click)="setActiveSection('statistics')">Statistics</button>
+                <button class="button-secondary-profile" [class.active-menu]="activeSection === 'sheets'"
+                    (click)="setActiveSection('sheets')">My sheets</button>
+            </div>
+        </div>
+        <div class="col-10 col-lg-11 card border-0 ps-5"
+            style="background-color:#213F9A; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+            <!--Profile felület, ide kell majd a példa adat helyett az aláírt jelenléti ívek nézet, illetve a profil nézete. Kérdééses, hogy fényképre szükség van-e-->
+            @if (activeSection === 'profile'){
+            <div class="row g-3">
+                <div class="col-lg-2 mt-5">
+                    <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2;">
+                        <div class="card-body">
+                            <div class="text-center mt-4">
+                                <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
+                                    src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
+                            </div>
+                            <h2 class="text-center mt-4">Hannah Manson</h2>
+                        </div>
+                        <hr class="w-100 m-1">
+                        <div class="card-body mt-2 mb-2">
+                            <button class="btn btn-primary btn-lg w-100" style="height:3rem; background-color:#213F9A;">
+                                Edit
+                            </button>
+                            <button class="btn btn-danger btn-lg w-100 mt-3" style="height:3rem;">
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-10 mt-5">
+                    <div class="card ms-4" style="background-color: #EFF1F2;
+                    border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
+                            <div class="scrollable-container">
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2>Calculus I.</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <span class="attendance-block present"></span><span
+                                                        class="attendance-block absent"></span>
+                                                </div>
+                                                <div class="col-md-6 text-end">
+                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            <!--Statisztikákhoz a mátrixos megjelenítés, ide kell majd-->
+            @if (activeSection === 'statistics'){
+            <div class="col-lg-11 mt-5">
+                <div class="card" style="background-color: #EFF1F2; width: 240vh;
+                border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-sm-5 align-items-center align-self-center pt-4">
+                                <h1>Statistics</h1>
+                            </div>
+                            <div class="col-sm-7 align-self-center text-end">
+                                <div class="form-field d-inline-block">
+                                    <select id="sheetGroup" class="select-button">
+                                        <option value="">Choose</option>
+                                        <option value="a">Group A</option>
+                                        <option disabled>────────────</option>
+                                        <option value="b">Group B</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="mt-4 w-100" style="height: 3px; background-color: #213F9A; opacity: 1;">
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="table-responsive" style="background-color: #EFF1F2;">
+                                    <table class="bg-transparent w-100 attendance-table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>1.</th>
+                                                <th>2.</th>
+                                                <th>3.</th>
+                                                <th>4.</th>
+                                                <th>5.</th>
+                                                <th>6.</th>
+                                                <th>7.</th>
+                                                <th>8.</th>
+                                                <th>9.</th>
+                                                <th>10.</th>
+                                                <th>11.</th>
+                                                <th>12.</th>
+                                                <th>13.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Steve Harrison</strong></td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Jon Snow</strong></td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                                <td class="text-center"><i
+                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            <!--Minden a felhasználó által létrehozott jelenléti ív csoport és egyedi listázása. Kérdéses, hogy egyáltalán ez kell-e-->
+            @if (activeSection === 'sheets'){
+            <div class="col-lg-10 mt-5">
+                <div class="card" style="background-color: #EFF1F2; width: 240vh;
+                border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="card-body" style="max-height: 93vh; overflow-y: auto;">
+                        <div class="scrollable-container">
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h2>Calculus I.</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 ms-1 mb-0">
+                                            <div class="col-md-6">
+                                                <div class="row" style="gap: 2vh;">
+                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-end">
+                                                <a>Created at:<b> 2025.10.18.</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
