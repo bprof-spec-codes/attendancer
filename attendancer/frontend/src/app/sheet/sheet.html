@@ -1,5 +1,4 @@
 <div class="background">
-  <!--Routingot meg kell csinalni majd-->
   <main class="shell">
     <div class="sheet">
       <div class="table-title-card">
@@ -19,13 +18,11 @@
             </button>
           </div>
         </div>
-        <!--Ide is majd sheet property.title kell majd-->
-        <h1>Example sheet</h1>
+        <h1>{{ event.name }}</h1>
         <div class="table-title-card-counters">
           <div class="table-title-card-actions-group">
-            <!--Egy sum a jelenlévőkre és akik nincsenek-->
-            <div class="counter-present">25</div>
-            <div class="counter-absent">12</div>
+            <div class="counter-present">{{ presentCount }}</div>
+            <div class="counter-absent">{{ absentCount }}</div>
           </div>
         </div>
       </div>
@@ -33,12 +30,9 @@
       <div>
         <table class="sheet-table sheet-table-head">
           <thead>
-            <!--Ide majd kell az *ngFor-->
             <tr>
               <th>Name</th>
-              <th>Data1</th>
-              <th>Data2</th>
-              <th>Data3</th>
+              <th *ngFor="let data of event.metadata">{{ data }}</th>
               <th>Presence</th>
             </tr>
           </thead>
@@ -46,41 +40,16 @@
 
         <table class="sheet-table sheet-table-body">
           <tbody>
-            <!--Ide is-->
-            <tr>
-              <td class="sheet-table-cell">Pista</td>
-              <td>Kismacska</td>
-              <td>data2</td>
-              <td>data3</td>
-              <td class="sheet-table-cell">
-                <span class="presence-icon">✔</span>
+            <tr *ngFor="let participant of participants">
+              <td class="sheet-table-cell">{{ participant.username }}</td>
+              <td *ngFor="let data of participant.metadata">
+                {{ data }}
               </td>
-            </tr>
-            <tr>
-              <td class="sheet-table-cell">Pista</td>
-              <td>Kismacska</td>
-              <td>data2</td>
-              <td>data3</td>
               <td class="sheet-table-cell">
-                <span class="presence-icon">✔</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="sheet-table-cell">Pista</td>
-              <td>Kismacska</td>
-              <td>data2</td>
-              <td>data3</td>
-              <td class="sheet-table-cell">
-                <span class="presence-icon">✔</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="sheet-table-cell">Pista</td>
-              <td>Kismacska</td>
-              <td>data2</td>
-              <td>data3</td>
-              <td class="sheet-table-cell">
-                <span class="presence-icon">✔</span>
+                <span class="presence-icon" *ngIf="participant.present; else absent;">✔</span>
+                <ng-template #absent>
+                  <span class="presence-icon">❌</span>
+                </ng-template>
               </td>
             </tr>
           </tbody>
