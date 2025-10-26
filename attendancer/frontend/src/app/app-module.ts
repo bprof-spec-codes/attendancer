@@ -25,6 +25,7 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
     Footer,
     Sheet,
     Popup,
+    SheetForm,
     LoadingSpinner
   ],
   imports: [
