@@ -15,6 +15,7 @@ import { LoadingSpinner } from './loading-spinner/loading-spinner';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { SheetForm } from './sheet-form/sheet-form';
 
 @NgModule({
   declarations: [
