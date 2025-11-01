@@ -12,6 +12,7 @@ namespace AttenDancer.Entity.Entity_Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = null!;
         public string QrCode { get; set; } = null!;
+        public bool IsQrValid { get; set; } = true;
 
         public string? Metadata { get; set; }
 
@@ -20,8 +21,8 @@ namespace AttenDancer.Entity.Entity_Models
         public User User { get; set; } = null!;
 
         
-        public string EventGroupId { get; set; }
-        public EventGroup EventGroup { get; set; }
+        public string? EventGroupId { get; set; }
+        public EventGroup? EventGroup { get; set; }
 
         
         public ICollection<Participant> Participants { get; set; } = new List<Participant>();
