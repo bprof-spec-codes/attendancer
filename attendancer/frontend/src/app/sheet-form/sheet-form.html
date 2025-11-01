@@ -62,8 +62,11 @@
                             </div>
                         </ng-template>
 
-                        <button type="submit" class="button-primary" (click)="createSheet()"
+                        <button type="submit" class="button-primary" (click)="createSheet()" [disabled]="inputInvalid()"
                             style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
+                        <div *ngIf="inputInvalid()" class="invalid-validation-message">
+                            <p>You need to give a name and a date to your new sheet!</p>
+                        </div>
                     </div>
                 </form>
             </div>
