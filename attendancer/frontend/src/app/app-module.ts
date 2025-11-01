@@ -8,7 +8,7 @@ import { Registration } from './registration/registration';
 import { Nav } from './nav/nav';
 import { Footer } from './footer/footer';
 import { Popup } from './popup/popup';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingSpinner } from './loading-spinner/loading-spinner';
@@ -32,7 +32,8 @@ import { SheetForm } from './sheet-form/sheet-form';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     provideHttpClient(),
