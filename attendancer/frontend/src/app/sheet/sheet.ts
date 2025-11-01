@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './sheet.html',
   styleUrl: './sheet.sass'
 })
-export class Sheet {
+export class Sheet implements OnInit {
   eventId: string = ""
   event: any
   participants: any
@@ -26,9 +26,11 @@ export class Sheet {
     this.mockDataService.getEventById(this.eventId).subscribe((data) => {
       this.event = data;
     });
+
     this.mockDataService.getParticipantsByEventId(this.eventId).subscribe((data) => {
       this.participants = data;
     });
+
     this.countPresent()
   }
 
