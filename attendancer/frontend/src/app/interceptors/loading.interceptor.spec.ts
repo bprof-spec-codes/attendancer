@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingSpinner } from './loading-spinner/loading-spinner';
+import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 
 describe('LoadingInterceptor', () => {
   let httpTestingController: HttpTestingController;

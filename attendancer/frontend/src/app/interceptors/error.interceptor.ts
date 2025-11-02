@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http'
 import { catchError, Observable, throwError } from 'rxjs'
-import { PopupService } from './popup/popup.service'
+import { PopupService } from '../popup/popup.service'
 
 const getErrorMsgByStatus = (status: number): string => {
   switch (status) {

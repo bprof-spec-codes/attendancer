@@ -28,13 +28,24 @@ namespace AttenDancer.Logic.Services
 
         public async Task<EventGroup> CreateEventGroupAsync(EventGroupCreateDto createDto)
         {
+            if (createDto.EventIds == null || createDto.EventIds.Count == 0)
+            {
+                throw new Exception("Eseménycsoportnak legalább egy eseményt tartalmaznia kell.");
+            }
+            List<Event> events = _eventRepository.GetAll().Where(e => createDto.EventIds.Contains(e.Id)).ToList();
+            events.Where(e => e.UserId != createDto.UserId).ToList().ForEach(e =>
+            {
+                throw new Exception($"Az eseménycsoport létrehozásához minden eseménynek ugyanahhoz a felhasználóhoz kell tartoznia." +
+                    $" Hibás esemény azonosító: {e.Id}");
+            });
             var newEventGroup = dtoProvider.Mapper.Map<EventGroup>(createDto);
             return await _eventGroupRepository.Create(newEventGroup);
         }
 
         public async Task<EventGroupViewDto> GetEventGroupByID(string eventGroupId)
         {
-            EventGroupViewDto eventGroup = dtoProvider.Mapper.Map<EventGroupViewDto>(await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId));
+            EventGroupViewDto eventGroup = dtoProvider.Mapper.Map<EventGroupViewDto>(await _eventGroupRepository.GetAll()
+                .FirstOrDefaultAsync(e => e.Id == eventGroupId));
 
             if (eventGroup == null)
             {
@@ -52,7 +63,7 @@ namespace AttenDancer.Logic.Services
             {
                 throw new Exception("Hibás eseménycsoport azonosító");
             }
-            
+
             EventGroupParticipantInfoDto eventGroupView = dtoProvider.Mapper.Map<EventGroupParticipantInfoDto>(eventGroup, opt => opt.Items["userId"] = userId);
 
             return eventGroupView;
@@ -76,7 +87,7 @@ namespace AttenDancer.Logic.Services
 
         public void DeleteEventGroup(string eventGroupId)
         {
-             _eventGroupRepository.DeleteById(eventGroupId);
+            _eventGroupRepository.DeleteById(eventGroupId);
         }
     }
 }
