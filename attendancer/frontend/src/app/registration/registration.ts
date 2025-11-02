@@ -21,7 +21,7 @@ export class Registration {
     private router: Router
   ){
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/sheet/1']);
     }
   }
 
