@@ -18,9 +18,9 @@ namespace AttenDancer.Data.Migrations
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Password" },
                 values: new object[,]
                 {
-                    { "22f10921-4a13-48ce-aaf8-61f99c0e3433", "janos.kovacs@example.com", "János", "Kovács", "hashed_password_123" },
-                    { "843f06a0-befe-48a3-8a3d-6ad8ca807670", "peter.toth@example.com", "Péter", "Tóth", "hashed_password_789" },
-                    { "b5f30803-2ff2-42a3-8353-20fc04bd0992", "anna.nagy@example.com", "Anna", "Nagy", "hashed_password_456" }
+                    { "22f10921-4a13-48ce-aaf8-61f99c0e3433", "janos.kovacs@example.com", "János", "Kovács", "$2a$12$W/5Oa.ZAHo5kOYXkM6xZlO9T7VrehdFZCRmxUiehWhJeiDPDiid0C" },
+                    { "843f06a0-befe-48a3-8a3d-6ad8ca807670", "peter.toth@example.com", "Péter", "Tóth", "$2a$12$96CPpvdEUa0RdOlHnuC7pOBp1/e8n80M4G4Nb1vnk21.OMH7FAubW" },
+                    { "b5f30803-2ff2-42a3-8353-20fc04bd0992", "anna.nagy@example.com", "Anna", "Nagy", "$2a$12$9hDRjL5dqLM7n3fzviXlOuusJEts86QEhw4cXmdoQwZ8mbUB.oP.G" }
                 });
 
             migrationBuilder.InsertData(
