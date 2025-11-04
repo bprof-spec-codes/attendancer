@@ -3,7 +3,7 @@
         <img src="assets/attendancer.svg" alt="Attendancer Logo">
     </div>
     <div class="nav-actions" *ngIf="!authService.isLoggedIn(); else logOutSection">
-        <a class="nav-link">Log in</a>
+        <a routerLink="/login" class="nav-link">Log in</a>
     </div>
     <ng-template #logOutSection>
         <div class="nav-actions">
