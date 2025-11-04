@@ -34,7 +34,41 @@ namespace AttenDancer.Controllers
             return Ok(events);
         }
 
-        
+        [HttpPost("{eventId}/generate-qr")]
+        public async Task<IActionResult> GenerateQrForEvent(string eventId)
+        {
+            var ev = await _eventService.GetEventAsync(eventId);
+
+            if (!ev.IsQrValid)
+            {
+                return BadRequest("QR code is invalidated");
+            }
+
+            string qrUrl = $"{Request.Scheme}://{Request.Host}/api/event/{eventId}/qr";
+
+            return Ok(new { QrCodeUrl = qrUrl });
+        }
+
+        [HttpGet("{eventId}/qr")]
+        public async Task<IActionResult> GetEventQrCode(string eventId)
+        {
+            var ev = await _eventService.GetEventAsync(eventId);
+
+            if (!ev.IsQrValid)
+                return BadRequest("QR code is invalidated");
+
+            // A Qr tartalma. Ez konkrétan a participant create végponthoz vezet és ott meglévő adatokkal létrehozza a résztvevőt
+            // Például: http://localhost:5000/api/participant/create/{qrCode}
+            // A Request Sceme a http vagy https részt adja a Request Host pedig a localhostos részt
+
+            string qrContent = $"{Request.Scheme}://{Request.Host}/api/participant/{eventId}";
+            var qrBytes = _qrService.GenerateQrCode(qrContent);
+
+            //Ezzel tudunk visszaadni egy képet, nem application/json lesz a headerben, hanem image/png
+            return File(qrBytes, "image/png");
+        }
+
+       
 
     }
 }
