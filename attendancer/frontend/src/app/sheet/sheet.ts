@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth-service';
 
 @Component({
   selector: 'app-sheet',
@@ -15,7 +16,7 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private mockDataService: MockDataService) {}
+  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService) {}
 
   ngOnInit(): void {
     // Az id lekérdezése a route-ból.
@@ -42,5 +43,9 @@ export class Sheet implements OnInit {
     }
 
     this.absentCount = this.participants.length - this.presentCount
+  }
+
+  remove(): void {
+    this.mockDataService.deleteEvent(this.eventId)
   }
 }
