@@ -94,5 +94,28 @@ namespace AttenDancer.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPut("changeprofile")]
+        public async Task<IActionResult> ChangeProfile([FromBody] UserChangeProfileDto dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized("A token nem tartalmaz érvényes azonosítót.");
+            }
+
+            try
+            {
+                var user = await _userService.ChangeProfileAsync(userId, dto.FirstName, dto.LastName, dto.Email);
+
+                return Ok(new { message = "Felhasználó módosítása sikeres." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
