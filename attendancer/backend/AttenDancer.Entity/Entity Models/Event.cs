@@ -14,9 +14,10 @@ namespace AttenDancer.Entity.Entity_Models
         public string QrCode { get; set; } = null!;
         public bool IsQrValid { get; set; } = true;
 
-        public string? Metadata { get; set; }
+        //public string? Metadata { get; set; }
+        public List<string> Metadata { get; set; } = new List<string>();
 
-        
+
         public string UserId { get; set; } = null!;
         public User User { get; set; } = null!;
 

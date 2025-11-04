@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterModel } from '../models/register-model';
 import { environment } from '../../environments/environment';
 import { LoginModel } from '../models/login-model';
 import { JwtPayload } from '../models/jwt-payload';
 import { Router } from '@angular/router';
-
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,38 +15,34 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   register(registerModel: RegisterModel) {
-  return this.http.post(environment.apis.register, registerModel);
-}
+    return this.http.post(environment.apis.register, registerModel);
+  }
 
-  login(loginModel: LoginModel): void {
-    this.http.post<{ token: string}>(environment.apis.login, loginModel)
-    .subscribe({
-      next: (res) => {
-        const token = res?.token
+  login(loginModel: LoginModel): Observable<{ token: string}> {
+    return this.http.post<{ token: string}>(environment.apis.login, loginModel)
+    .pipe(
+      tap(res => {
+        const token = res?.token;
         if (!token) {
-          console.error('Login response does not contain a token.')
-          return
+          console.error('Login response does not contain a token.');
+          throw new Error('Token not found in response');
         }
-        localStorage.setItem(environment.tokenKey, token)
-        console.log('Registration successful!')
-      },
-      error: (err) => {
-        console.error('Login error:', err)
-      }
-    })
+        localStorage.setItem(environment.tokenKey, token);
+        console.log('Login successful!');
+      })
+    );
   }
 
   logout(): void {
-  localStorage.removeItem(environment.tokenKey);
-  this.router.navigate(['/login']);
+    localStorage.removeItem(environment.tokenKey);
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
-    const token = this.getToken()
+    const token = this.getToken();
     if (!token) return false;
-    const payload = this.getPayload(token)
+    const payload = this.getPayload(token);
     if (!payload?.exp) return true;
-
 
     const nowSec = Math.floor(Date.now() / 1000);
     return payload.exp > nowSec;

@@ -10,10 +10,12 @@ namespace AttenDancer.Controllers
     {
 
         private readonly UserService _userService;
+        private readonly AuthService _authService;
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, AuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
 
@@ -53,6 +55,9 @@ namespace AttenDancer.Controllers
             {
                 var user = await _userService.LoginAsync(dto.Email, dto.Password);
 
+                var token = _authService.GenerateJwtToken(user);
+
+                /*
                 return Ok(new
                 {
                     id = user.Id,
@@ -60,6 +65,8 @@ namespace AttenDancer.Controllers
                     lastName = user.LastName,
                     email = user.Email
                 });
+                */
+                return Ok(new { token });
             }
             catch (Exception ex)
             {
