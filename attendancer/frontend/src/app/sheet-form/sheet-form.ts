@@ -62,6 +62,9 @@ export class SheetForm implements OnInit {
   createSheet() {
     // Nagyon egyszerű validáció.
     if (!this.inputInvalid()) {
+      // Kitörölni az üres metaadatokat a tömbből.
+      this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
+
       // Ha már meglévő eseményhez vagy esemény csoporthoz lesz hozzárendelve a jelenleg elkészült esemény akkor nem lesz elküldve a metadata.
       this.mockDataService.postEvent(this.currentEvent)
       this.resetPage()
