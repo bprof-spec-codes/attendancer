@@ -3,6 +3,7 @@ using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace AttenDancer.Logic.Services
             return await _eventRepository.Create(newEvent);
         }
 
-        public async Task<EventViewDto> GetEvent(string eventId)
+        public async Task<EventViewDto> GetEventAsync(string eventId)
         {
             Event? getevent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventId);
 
@@ -40,13 +41,13 @@ namespace AttenDancer.Logic.Services
             return eventView;
         }
 
-        public async Task<List<EventViewDto>> GetAllEvents()
+        public async Task<List<EventViewDto>> GetAllEventsAsync()
         {
             List<EventViewDto> events = dtoProvider.Mapper.Map<List<EventViewDto>>(await _eventRepository.GetAll().ToListAsync());
             return events;
         }
 
-        public async Task<EventViewDto> GetEventByUserId(string userId)
+        public async Task<EventViewDto> GetEventByUserIdAsync(string userId)
         {
             Event? getevent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Participants.Any(u => u.UserId == userId));
 
@@ -61,7 +62,7 @@ namespace AttenDancer.Logic.Services
 
         public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
         {
-            var existingEvent = await _eventRepository.GetOne(id);
+            Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == id);
 
             if (existingEvent == null)
             {
@@ -72,12 +73,13 @@ namespace AttenDancer.Logic.Services
             return await _eventRepository.Update(existingEvent);
         }
 
-        public async Task<Event> InValidateQr(string eventId)
+        public async Task<Event> InValidateQrAsync(string eventId)
         {
-            var existingEvent = await _eventRepository.GetOne(eventId);
+            Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventId);
             if (existingEvent == null)
             {
                 throw new Exception("Esemény nem található");
+
             }
             existingEvent.IsQrValid = false;
             return await _eventRepository.Update(existingEvent);

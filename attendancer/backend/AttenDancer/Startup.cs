@@ -3,6 +3,7 @@ using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Helper;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,10 @@ public class Startup(IConfiguration configuration)
 
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
+        services.AddScoped<ParticipantService>();
+        services.AddScoped<EventService>();
+        services.AddScoped<EventGroupService>();
+        services.AddScoped<DtoProvider>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
