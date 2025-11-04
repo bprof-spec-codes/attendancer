@@ -13,10 +13,13 @@ namespace AttenDancer.Controllers
     {
 
         private readonly UserService _userService;
+        private readonly AuthService _authService;
 
-        public UserController(UserService userService)
+
+        public UserController(UserService userService, AuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
 
@@ -56,13 +59,11 @@ namespace AttenDancer.Controllers
             {
                 var user = await _userService.LoginAsync(dto.Email, dto.Password);
 
-                return Ok(new
-                {
-                    id = user.Id,
-                    firstName = user.FirstName,
-                    lastName = user.LastName,
-                    email = user.Email
-                });
+                var token = _authService.GenerateJwtToken(user);
+
+
+                return Ok(new { token });
+
             }
             catch (Exception ex)
             {
@@ -75,7 +76,7 @@ namespace AttenDancer.Controllers
         [HttpPut("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordDto dto)
         {
-            var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
             {
