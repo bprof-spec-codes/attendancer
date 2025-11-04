@@ -49,23 +49,33 @@ namespace AttenDancer.Logic.Helper
                         context.Items.TryGetValue("userId", out var getuserId);
                         string userId = getuserId as string;
                         int count = src.Events.Count(ev => ev.Participants.Any(p => p.UserId == userId));
+                        var Participant = src.Events.SelectMany(ev => ev.Participants)
+                                                     .Where(p => p.UserId == userId)
+                                                     .Where(p => p != null);
+                        User user = _userRepository.GetAll().FirstOrDefault(u => u.Id == userId);
 
                         dest.EventCount = count;
 
-                        dest.UserName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == userId)?.LastName} " +
-                              $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == userId)?.FirstName}";
+                        dest.UserName = $"{user.LastName} " +
+                              $"{user.FirstName}";
 
-                        dest.Metadata = count == 0 ? src.Events.SelectMany(ev => ev.Participants)
-                                                     .Where(p => p.UserId == userId)
-                                                     .Where(p => p != null)
-                                                     .Select(p => p.MetadataDict)
-                                                     .FirstOrDefault() : new Dictionary<string, string>();
+                        dest.Metadata = count != 0 ? Participant.Select(p => p.MetadataDict).FirstOrDefault()
+                                                    : new Dictionary<string, string>();
 
-                        dest.DateTimes = count == 0 ? src.Events.SelectMany(ev => ev.Participants)
-                                                      .Where(p => p.UserId == userId)
-                                                      .Where(p => p != null)
-                                                      .Select(p => p.Date)
-                                                      .ToList() : new List<DateTime>();
+                        List<DateTime> dates = Participant.Select(p => p.Date).ToList();
+                        List<string> present = Participant.Select(p => p.EventId).ToList();
+
+                        if (present.Count > 0)
+                        {
+                            for (int i = 0; i < present.Count; i++)
+                            {
+                                dest.Present.Add(present[i], dates[i]);
+                            }
+                        }
+                        else
+                        {
+                            dest.Present = new Dictionary<string, DateTime>();
+                        }
                     });
             });
             Mapper = new Mapper(config);
