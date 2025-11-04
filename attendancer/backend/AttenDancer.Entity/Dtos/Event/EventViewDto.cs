@@ -19,7 +19,7 @@ namespace AttenDancer.Entity.Dtos.Event
         public string Id { get; set; } = null!;
 
         [Required]
-        public string QrCode { get; set; } = null!;
+        public string? QrCode { get; set; } = null!;
 
         [Required]
         public bool IsQrValid { get; set; } = true;
@@ -27,9 +27,9 @@ namespace AttenDancer.Entity.Dtos.Event
         [Required]
         public List<string>? Metadata { get; set; }
 
-        public string EventGroupName { get; set; }
+        public string? EventGroupName { get; set; }
 
         [Required]
-        public ICollection<ParticipantViewDto> Participants { get; set; } = new List<ParticipantViewDto>();
+        public ICollection<ParticipantViewDto>? Participants { get; set; } = new List<ParticipantViewDto>();
     }
 }

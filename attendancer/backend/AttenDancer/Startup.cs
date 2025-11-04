@@ -79,6 +79,7 @@ public class Startup(IConfiguration configuration)
         services.AddScoped<ParticipantService>();
         services.AddScoped<EventService>();
         services.AddScoped<EventGroupService>();
+        services.AddScoped<QrService>();
         services.AddScoped<DtoProvider>();
     }
 

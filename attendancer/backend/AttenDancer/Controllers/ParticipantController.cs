@@ -15,12 +15,12 @@ namespace AttenDancer.Controllers
             _participantService = participantService;
         }
 
-        [HttpPost("{createDto.EventId}")]
-        [Authorize]
+        [HttpPost("{eventId}")]
+        //[Authorize]
         public async Task<IActionResult> CreateParticipant([FromBody] ParticipantCreateDto createDto)
         {
             var participant = await _participantService.CreateParticipantAsync(createDto);
-            return Ok();
+            return Ok(participant);
         }
     }
 }

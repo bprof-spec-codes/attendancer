@@ -85,6 +85,18 @@ namespace AttenDancer.Logic.Services
             return await _eventRepository.Update(existingEvent);
         }
 
+        public async Task<Event> ValidateQrAsync(string eventId)
+        {
+            Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventId);
+            if (existingEvent == null)
+            {
+                throw new Exception("Esemény nem található");
+
+            }
+            existingEvent.IsQrValid = true;
+            return await _eventRepository.Update(existingEvent);
+        }
+
         public void DeleteEvent(string eventId)
         {
             _eventRepository.DeleteById(eventId);

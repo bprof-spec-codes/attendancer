@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AttenDancer.Entity.Entity_Models
@@ -19,6 +20,8 @@ namespace AttenDancer.Entity.Entity_Models
 
         
         public string EventId { get; set; } = null!;
+
+        [JsonIgnore]
         public Event Event { get; set; } = null!;
 
         public DateTime Date { get; set; } = DateTime.UtcNow;

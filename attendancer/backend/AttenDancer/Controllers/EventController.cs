@@ -68,7 +68,19 @@ namespace AttenDancer.Controllers
             return File(qrBytes, "image/png");
         }
 
-       
+        [HttpPut("{eventId}/invalidate")]
+        public async Task<IActionResult> InvalidateQr(string eventId)
+        {
+            await _eventService.InValidateQrAsync(eventId);
+            return Ok();
+        }
+
+        [HttpPut("{eventId}/validate")]
+        public async Task<IActionResult> validateQr(string eventId)
+        {
+            await _eventService.ValidateQrAsync(eventId);
+            return Ok();
+        }
 
     }
 }
