@@ -1,5 +1,8 @@
-﻿using AttenDancer.Entity.Dtos.User;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Logic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenDancer.Controllers
@@ -60,6 +63,30 @@ namespace AttenDancer.Controllers
                     lastName = user.LastName,
                     email = user.Email
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordDto dto)
+        {
+            var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if (userId == null)
+            {
+                return Unauthorized("A token nem tartalmaz érvényes azonosítót.");
+            }
+
+            try
+            {
+                var user = await _userService.ChangePasswordAsync(userId, dto.OldPassword, dto.NewPassword);
+
+                return Ok(new { message = "Jelszó módosítása sikeres." });
             }
             catch (Exception ex)
             {
