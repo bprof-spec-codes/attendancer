@@ -65,7 +65,20 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument();
+        services.AddOpenApiDocument(config =>
+        {
+            config.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
+                Name = "Authorization",
+                In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                Description = "Írd be ide: Bearer TOKEN"
+            });
+
+            config.OperationProcessors.Add(
+                new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+        });
+
 
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
