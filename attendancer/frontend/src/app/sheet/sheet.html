@@ -7,10 +7,11 @@
                         <img src="assets/icons/white-edit.svg" style="width:15px; height: 15px;">
                         Edit
                     </button>
-                    <button class="btn btn-danger" (click)="remove()">
+                    <button class="btn btn-danger" (click)="modal.open()">
                         <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
                         Delete
                     </button>
+                    <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
 
                     <div class="table-title-card-actions-group">
                         <!--QR code cuccli-->

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
 
 @Component({
@@ -18,6 +18,9 @@ export class Sheet implements OnInit {
 
   constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService) {}
 
+  /**
+   * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
+   */
   ngOnInit(): void {
     // Az id lekérdezése a route-ból.
     this.route.params.subscribe(params => {
@@ -35,6 +38,9 @@ export class Sheet implements OnInit {
     this.countPresent()
   }
 
+  /**
+   * Megjelent és hiányzó résztvevők kiszámítása.
+   */
   countPresent(): void {
     for (let i = 0; i < this.participants.length; i++) {
       if (this.participants[i].present) {
@@ -43,9 +49,5 @@ export class Sheet implements OnInit {
     }
 
     this.absentCount = this.participants.length - this.presentCount
-  }
-
-  remove(): void {
-    this.mockDataService.deleteEvent(this.eventId)
   }
 }
