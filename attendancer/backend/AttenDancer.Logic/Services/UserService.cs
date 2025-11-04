@@ -68,5 +68,28 @@ namespace AttenDancer.Logic.Services
 
             return user;
         }
+
+        public async Task<User> ChangePasswordAsync(string userId ,string oldPassword, string newPassword)
+        {
+            var user = await _userRepository.GetOne(userId);
+
+            if (user == null) 
+            {
+                throw new Exception("Felhasználó nem található");
+            }
+
+            if (!(BCrypt.Net.BCrypt.Verify(oldPassword, user.Password)))
+            {
+                throw new Exception("A beírt jelenlegi jelszó helytelen.");
+            }
+
+            string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            user.Password = newHashedPassword;
+
+            await _userRepository.Update(user);
+
+            return user;
+        }
     }
 }
