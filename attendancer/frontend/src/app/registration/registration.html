@@ -16,11 +16,10 @@
       <div class="card-form">
         <h1>Create an account</h1>
 
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
-
         <form #registerForm="ngForm" class="form" (ngSubmit)="onRegister(registerForm)">
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
           <div class="form-field">
             <input
               type="text"
