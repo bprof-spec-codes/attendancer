@@ -83,12 +83,6 @@ namespace AttenDancer.Controllers
         {
             try
             {
-                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-                if (id != authenticatedUserId)
-                {
-                    return Forbid();
-                }
 
                 var user = await _userService.GetByIdAsync(id);
                 return Ok(user);
@@ -186,6 +180,30 @@ namespace AttenDancer.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "Érvénytelen token" });
+                }
+
+                var user = await _userService.GetByIdAsync(userId);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
 
 
     }
