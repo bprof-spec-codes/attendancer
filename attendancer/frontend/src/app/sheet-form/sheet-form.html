@@ -26,7 +26,6 @@
                         </label>
                         <input type="text" placeholder="Sheet name" name="sheetName" [(ngModel)]="currentEvent.name">
 
-                        <!--??? Date ???-->
                         <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
                             Date of event:
                         </label>
@@ -49,7 +48,7 @@
                                     [(ngModel)]="currentEvent.metadata[i]"
                                     [ngModelOptions]="{ standalone: true }">
                                 <button type="button" class="button-icon button-icon-danger" (click)="removeCustomField(i)">
-                                    <img style="width: 15px; height: 15px;" src="/Assets/Icons/cross-svgrepo-com.svg">
+                                    <img style="width: 15px; height: 15px;" src="/assets/icons/red-cross.svg">
                                 </button>
                             </div>
                             <button type="button" class="button-striped" (click)="addCustomField()">+</button>

@@ -330,7 +330,14 @@ export class MockDataService {
   // Egy új esemény hozzáadása.
   // POST - /api/Event
   postEvent(event: any) {
-    console.log("The following data will be sent to the backend:")
+    console.log("(POST - /api/Event) The following data will be sent to the backend:")
     console.log(event)
+  }
+
+  // Egy esemény törlése az id-je alapján.
+  // DELETE - /api/Event/{eventid}
+  deleteEvent(eventId: string) {
+    console.log("(DELETE - /api/Event/{eventid}) The following data will be sent to the backend:")
+    console.log(eventId)
   }
 }
