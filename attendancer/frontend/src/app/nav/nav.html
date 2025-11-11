@@ -1,11 +1,21 @@
-<div class="nav">
-    <div class="icon">
-        <img src="Assets/Attendancer.svg" alt="">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EFF1F2; height: 70px;">
+    <div class="container-fluid">
+        <div class="icon" style="width: 200px; height: 200px;">
+            <img src="Assets/Attendancer_emblem_blue.svg" alt="">
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <!--Ide majd valami olyasmi, hogy *ngIf="isSignedIn", hogy csak akkor jelenjenek meg a menüpontok, ha valaki bejelentkezett-->
+                <div class="nav-actions">
+                    <button class="button-create" routerLink="/createSheet">Create sheet</button>
+                    <a routerLink="/profile" class="nav-link">Profile</a>
+                    <a class="nav-link">Log out</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--Ide majd valami olyasmi, hogy *ngIf="isSignedIn", hogy csak akkor jelenjenek meg a menüpontok, ha valaki bejelentkezett-->
-    <div class="nav-actions">
-    <button class="button-create" routerLink="/createSheet">Create sheet</button>
-    <a routerLink="/profile" class="nav-link">Profile</a>
-    <a class="nav-link">Log out</a>
-    </div>
-</div>
+</nav>

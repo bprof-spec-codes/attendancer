@@ -1,74 +1,61 @@
-<div class="background">
-    <main class="shell">
-        <section class="card-on-blue">
-            <div class="card-media"
-                style="background: url('Assets/yana-marudova--gJdh38StBU-unsplash.jpg') center/cover no-repeat;">
-                <div class="card-media-overlay">
-                    <img class="icon large" src="Assets/Attendancer emblem.svg">
-                    <p style="justify-content: center; align-items: center;">Attendance tracking made easy</p>
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card shadow-sm border-0" style="border-radius: 10px;">
+                    <div class="row g-0">
+                        <div class="col-md-6 d-none d-md-block position-relative" style="background: url('Assets/yana-marudova--gJdh38StBU-unsplash.jpg') center/cover no-repeat;
+                        border-bottom-left-radius: 9px; border-top-left-radius: 9px;">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-start align-items-center pt-5"
+                                style="background-color: rgba(0,0,0,0.5); border-bottom-left-radius: 8px; border-top-left-radius: 8px;">
+                                <div class="row mt-5 justify-content-center">
+                                    <h2 style="color: #EFF1F2; font-size: 35px; align-self: center; text-align: center;">Attendance tracking<br>
+                                        made easy</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card-body p-5">
+                                <div class="text-center mb-5">
+                                    <h1 style="font-size: 35px;">Sign up!</h1>
+                                </div>
+
+                                <div *ngIf="errorMessage" class="error-message">
+                                    {{ errorMessage }}
+                                </div>
+
+                                <form class="form" (ngSubmit)="onRegister()">
+                                    <div class="form-field">
+                                        <input type="text" [(ngModel)]="registerModel.firstName" name="firstname"
+                                            placeholder="Frist name" required>
+                                    </div>
+                                    <div class="form-field">
+                                        <input type="text" [(ngModel)]="registerModel.lastName" name="lastname"
+                                            placeholder="Last name" required>
+                                    </div>
+                                    <div class="form-field">
+                                        <input type="email" [(ngModel)]="registerModel.email" name="email"
+                                            placeholder="Email address" required>
+                                    </div>
+                                    <div class="form-field">
+                                        <input type="password" [(ngModel)]="registerModel.password" name="password"
+                                            placeholder="Password" required>
+                                    </div>
+                                    <div class="form-field">
+                                        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
+                                            placeholder="Password again" required>
+                                    </div>
+                                    <button type="submit" class="button-primary mt-2" [disabled]="!inputCheck()"
+                                        style="height: 55px; width: 98%; align-self: center; font-size: 30px;">
+                                        Create account</button>
+                                    <p class="small-text d-flex align-self-center" style="font-size: 15px;">
+                                        <a routerLink="/login" class="nav-link">Already have an account? <b>Sign in!</b></a>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="card-form" >
-                <h1>Create an account</h1>
-
-                <div *ngIf="errorMessage" class="error-message">
-                  {{ errorMessage }}
-                </div>
-
-                <form class="form" (ngSubmit)="onRegister()">
-                    <div class="form-field">
-                    <input
-                    type="text"
-                    [(ngModel)]="registerModel.firstName"
-                    name="firstname"
-                    placeholder="Frist name"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="text"
-                    [(ngModel)]="registerModel.lastName"
-                    name="lastname"
-                    placeholder="Last name"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="email"
-                    [(ngModel)]="registerModel.email"
-                    name="email"
-                    placeholder="Email address"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="registerModel.password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Password again"
-                    required
-                    >
-                    </div>
-                    <button type="submit" class="button-primary" [disabled]="!inputCheck()">Create account</button>
-                    <p class="small-text">
-                        Already have an account?
-                        <a routerLink="/login" class="nav-link">Sign in!</a>
-                    </p>
-                </form>
-            </div>
-        </section>
-    </main>
-</div>
+        </div>
+    </div>

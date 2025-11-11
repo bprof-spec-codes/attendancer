@@ -1,74 +1,86 @@
-<div class="background">
-    <div class="shell">
-        <div class="card-on-blue" style="display: block;">
-            <div class="card-form" style="display: flex; columns: none;">
-                <form class="form-singular">
-                    <div class="form-two-column" style="margin-bottom: 1rem;">
-                        <h1 class="field-label" style="text-align: left;">Sheet group:</h1>
-                        <div class="form-field">
-                            <!--
-                            Felsorolni a felhasználó által készített esemény csoportokat majd a végére vonallal elválasztva 
-                            legyenek a felhasználó által készített események amelyek nincsenek egy esemény csoportban sem.
-                            Továbbá egy elem kijelölésekor jelenjenek meg a metaadataik az opcionális adatoknál disabled input-ok segítségével.
-                            -->
-                            <select id="sheetGroup" class="select-button" [(ngModel)]="selectedEventOrEventGroup" (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
-                                <option [value]="''" default>No sheet group</option>
-                                <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{ eventGroup.name }}</option>
-                                <option disabled>────────────</option>
-                                <option *ngFor="let event of events" [value]="event.id">{{ event.name }}</option>
-                            </select>
-                        </div>
+<div class="d-flex align-items-center justify-content-center min-vh-100 mt-2 mb-2">
+    <div class="container p-4">
+        <div class="row justify-content-center">
+            <div class="card shadow shadow-sm" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row">
+                        <form>
+                            <div class="row g-3 d-flex justify-content-between align-items-center" style="margin-bottom: 1rem;">
+                                <div class="col-auto">
+                                    <h1>Sheet group:</h1>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-field">
+                                        <select id="sheetGroup" class="form-select"
+                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
+                                            [(ngModel)]="selectedEventOrEventGroup"
+                                            (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
+                                            <option [value]="''" default>No sheet group</option>
+                                            <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{
+                                                eventGroup.name }}</option>
+                                            <option disabled>────────────</option>
+                                            <option *ngFor="let event of events" [value]="event.id">{{ event.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form" style="gap: 0.75rem; margin-top: 4rem;">
+                                <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                                    Name your sheet:
+                                </label>
+                                <input type="text" placeholder="Sheet name" name="sheetName"
+                                    [(ngModel)]="currentEvent.name">
+
+                                <!--??? Date ???-->
+                                <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                                    Date of event:
+                                </label>
+                                <input type="datetime-local" placeholder="Date of event" name="sheetDate"
+                                    [(ngModel)]="currentEvent.date">
+
+                                <hr>
+
+                                <label for="sheetMetadata" class="field-label"
+                                    style="font-size: 1.3rem; font-weight: 700;">
+                                    Optional data:
+                                </label>
+
+                                <!-- Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport. -->
+                                <div *ngIf="selectedEventOrEventGroup === ''; else alreadyExistEventGroup" class="form">
+                                    <!-- Metadata hozzáadás. -->
+                                    <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
+                                        <input type="text" [attr.name]="'requiredField' + i" placeholder="Enter data"
+                                            name="sheetMetadata" [(ngModel)]="currentEvent.metadata[i]"
+                                            [ngModelOptions]="{ standalone: true }">
+                                        <button class="border-0 p-0" type="button" (click)="removeCustomField(i)">
+                                            <img src="Assets/Icons/cross-svgrepo-com.svg"
+                                                style="width: 25px; height: 25px;">
+                                        </button>
+                                    </div>
+                                    <button type="button" class="button-striped" (click)="addCustomField()">+</button>
+                                </div>
+
+                                <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
+                                <ng-template #alreadyExistEventGroup>
+                                    <div class="form">
+                                        <input *ngFor="let data of currentlySelectedMetadata" [placeholder]="data"
+                                            disabled type="text">
+                                    </div>
+                                </ng-template>
+
+                                <button type="submit" class="button-primary" (click)="createSheet()"
+                                    [disabled]="inputInvalid()"
+                                    style="width: 50%; align-self: center; margin-top: 1rem;">Create</button>
+                                <div *ngIf="inputInvalid()" class="invalid-validation-message">
+                                    <p>You need to give a name and a date to your new sheet!</p>
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="form" style="gap: 0.75rem; margin-top: 4rem;">
-                        <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                            Name your sheet:
-                        </label>
-                        <input type="text" placeholder="Sheet name" name="sheetName" [(ngModel)]="currentEvent.name">
-
-                        <!--??? Date ???-->
-                        <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                            Date of event:
-                        </label>
-                        <input type="datetime-local" placeholder="Date of event" name="sheetDate" [(ngModel)]="currentEvent.date">
-
-                        <hr>
-
-                        <label for="sheetMetadata" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                            Optional data:
-                        </label>
-
-                        <!-- Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport. -->
-                        <div *ngIf="selectedEventOrEventGroup === ''; else alreadyExistEventGroup" class="form">
-                            <!-- Metadata hozzáadás. -->
-                            <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
-                                <input type="text"
-                                    [attr.name]="'requiredField' + i"
-                                    placeholder="Enter data"
-                                    name="sheetMetadata"
-                                    [(ngModel)]="currentEvent.metadata[i]"
-                                    [ngModelOptions]="{ standalone: true }">
-                                <button type="button" class="button-icon button-icon-danger" (click)="removeCustomField(i)">
-                                    <img style="width: 15px; height: 15px;" src="/Assets/Icons/cross-svgrepo-com.svg">
-                                </button>
-                            </div>
-                            <button type="button" class="button-striped" (click)="addCustomField()">+</button>
-                        </div>
-
-                        <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
-                        <ng-template #alreadyExistEventGroup>
-                            <div class="form">
-                                <input *ngFor="let data of currentlySelectedMetadata" [placeholder]="data" disabled type="text">
-                            </div>
-                        </ng-template>
-
-                        <button type="submit" class="button-primary" (click)="createSheet()" [disabled]="inputInvalid()"
-                            style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
-                        <div *ngIf="inputInvalid()" class="invalid-validation-message">
-                            <p>You need to give a name and a date to your new sheet!</p>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

@@ -27,11 +27,9 @@
                         </div>
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
-                            <button class="btn btn-primary btn-lg w-100" style="height:3rem; background-color:#213F9A;">
+                            <button class="button-primary" style="height:50px; width: 250px; font-size: 20px;"
+                                (click)="setActiveSection('edit')">
                                 Edit
-                            </button>
-                            <button class="btn btn-danger btn-lg w-100 mt-3" style="height:3rem;">
-                                Delete Account
                             </button>
                         </div>
                     </div>
@@ -234,13 +232,14 @@
                 <div class="card" style="background-color: #EFF1F2; width: 240vh;
                 border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-sm-5 align-items-center align-self-center pt-4">
+                        <div class="row g-3 d-flex justify-content-between align-items-center">
+                            <div class="col-auto pt-4">
                                 <h1>Statistics</h1>
                             </div>
-                            <div class="col-sm-7 align-self-center text-end">
-                                <div class="form-field d-inline-block">
-                                    <select id="sheetGroup" class="select-button">
+                            <div class="col-auto">
+                                <div class="form-field">
+                                    <select id="sheetGroup" class="form-select"
+                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;">
                                         <option value="">Choose</option>
                                         <option value="a">Group A</option>
                                         <option disabled>────────────</option>
@@ -384,12 +383,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -410,12 +410,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -436,12 +437,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -462,12 +464,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -488,12 +491,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -514,12 +518,13 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
@@ -540,18 +545,126 @@
                                         <div class="row mt-3 ms-1 mb-0">
                                             <div class="col-md-6">
                                                 <div class="row" style="gap: 2vh;">
-                                                <button class="btn button-primary" style="width: 5vh;">Edit</button>
-                                                <button class="btn button-alert" style="width: 5vh; height: 4.5vh;">Delete</button>
+                                                    <button class="btn button-primary" style="width: 5vh;">Edit</button>
+                                                    <button class="btn button-alert"
+                                                        style="width: 5vh; height: 4.5vh;">Delete</button>
 
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 text-end">
                                                 <a>Created at:<b> 2025.10.18.</b></a>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if (activeSection === 'edit'){
+            <div class="row g-3">
+                <div class="col-lg-2 mt-5">
+                    <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2;">
+                        <div class="card-body">
+                            <div class="text-center mt-4">
+                                <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
+                                    src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
+                            </div>
+                            <h2 class="text-center mt-4">Hannah Manson</h2>
+                        </div>
+                        <hr class="w-100 m-1">
+                        <div class="card-body mt-2 mb-2">
+                            <button class="button-primary" style="height:50px; width: 250px; font-size: 20px;"
+                                (click)="setActiveSection('edit')">
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-10 mt-5">
+                    <div class="card ms-4" style="background-color: #EFF1F2;
+                    border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
+                            <div class="row">
+                                <div class="row d-flex justify-content-between align-items-center mt-1">
+                                    <div class="col-auto">
+                                        <h1 style="font-size: 43px;">Edit user info</h1>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="border-0 p-0" type="button"
+                                            (click)="setActiveSection('profile')">
+                                            <img src="Assets/Icons/cross-svgrepo-com.svg"
+                                                style="width: 50px; height: 50px; margin-bottom: 5px;">
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="mt-2">
+                                <div class="row d-flex justify-content-center align-items-center mb-4">
+                                    <div class="col-8 text-center">
+                                        <div class="form mt-3" style="gap: 0.75rem;">
+                                            <label for="userName" class="field-label"
+                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                                Change Username
+                                            </label>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                                <input type="text" placeholder="Username" name="userName"
+                                                    class="flex-grow-1">
+                                                <button type="submit" class="button-primary">Change username</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-4">
+                                <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
+                                    <div class="col-8 text-center">
+                                        <div class="form" style="gap: 0.75rem;">
+                                            <label for="userName" class="field-label"
+                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                                Change Password
+                                            </label>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                                <input type="text" placeholder="Password" name="password"
+                                                    class="flex-grow-1">
+                                                <input type="text" placeholder="Password again" name="passwordCheck"
+                                                    class="flex-grow-1">
+                                                <button type="submit" class="button-primary">Change password</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-3">
+                                <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
+                                    <div class="col-8 text-center">
+                                        <div class="form" style="gap: 0.75rem;">
+                                            <label for="userName" class="field-label"
+                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                                Change Email
+                                            </label>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                                <input type="text" placeholder="Password" name="email"
+                                                    class="flex-grow-1">
+                                                <input type="text" placeholder="Password again" name="emailCheck"
+                                                    class="flex-grow-1">
+                                                <button type="submit" class="button-primary">Change password</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-3">
+                                <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-4">
+                                    <div class="col-8 text-center">
+                                        <button class="button-danger"
+                                            style="height:50px; width: 300px; font-size: 20px;"
+                                            (click)="setActiveSection('edit')">
+                                            Delete Account
+                                        </button>
                                     </div>
                                 </div>
                             </div>
