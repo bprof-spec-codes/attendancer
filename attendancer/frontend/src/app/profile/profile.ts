@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './profile.sass'
 })
 export class Profile {
-  activeSection: 'profile' | 'statistics' | 'sheets' = 'profile';
+  activeSection: 'profile' | 'statistics' | 'edit' | 'sheets' = 'profile';
 
-  setActiveSection(section: 'profile'|'statistics'|'sheets'): void{
+  setActiveSection(section: 'profile'|'statistics'| 'edit' |'sheets'): void{
     this.activeSection = section;
   }
 }
