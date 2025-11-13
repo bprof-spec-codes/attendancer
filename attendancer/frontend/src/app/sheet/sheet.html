@@ -3,15 +3,19 @@
     <div class="container-fluid">
       <div class="card shadow-sm">
         <div class="card-body">
-          <div class="row">
-            <div class="col-6 d-flex justify-content-start">
-              <button class="button-primary w-25">Edit</button>
-            </div>
-            <div class="col-6 d-flex justify-content-end gap-3">
-              <button class="button-small button-outline">Show QR code</button>
-              <button class="button-small button-alert">Delete QR code</button>
-            </div>
+          <div class="row" *ngIf="!authService.isLoggedIn(); else logOutSection">
           </div>
+          <ng-template #logOutSection>
+            <div class="row">
+              <div class="col-6 d-flex justify-content-start">
+                <button class="button-primary w-25">Edit</button>
+              </div>
+              <div class="col-6 d-flex justify-content-end gap-3">
+                <button class="button-primary">Show QR code</button>
+                <button class="button-alert">Delete QR code</button>
+              </div>
+            </div>
+          </ng-template>
           <div class="row">
             <div class="container-fluid d-flex justify-content-center align-items-center">
               <h1>{{ event.name }}</h1>
@@ -42,28 +46,28 @@
       <div class="card shadow-sm">
         <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-striped m-0" style="border-radius: 5px; overflow: hidden;">
+            <table class="table table-striped m-0 text-center" style="border-radius: 5px; overflow: hidden;">
               <thead style="font-size: 25px; color: #213F9A;">
-              <tr>
-                <th class="text-center brand-color-text">Name</th>
-                <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data }}</th>
-                <th class="text-center brand-color-text">Presence</th>
-              </tr>
+                <tr>
+                  <th class="text-center brand-color-text">Name</th>
+                  <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data }}</th>
+                  <th class="text-center brand-color-text">Presence</th>
+                </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let participant of participants">
-                <td class="sheet-table-cell">{{ participant.username }}</td>
-                <td *ngFor="let data of participant.metadata">
-                {{ data }}
-                </td>
-                <td class="sheet-table-cell">
-                <span *ngIf="participant.present; else absent;"><img src="Assets/Icons/check-svgrepo-com.svg"
-                  style="width: 25px; height: 25px;"> </span>
-                <ng-template #absent>
-                  <span><img src="Assets/Icons/cross-svgrepo-com.svg" style="height: 30px; width: 30px;"></span>
-                </ng-template>
-                </td>
-              </tr>
+                <tr *ngFor="let participant of participants">
+                  <td class="sheet-table-cell text-center">{{ participant.username }}</td>
+                  <td *ngFor="let data of participant.metadata">
+                    {{ data }}
+                  </td>
+                  <td class="sheet-table-cell text-center">
+                    <span *ngIf="participant.present; else absent;"><img src="Assets/Icons/check-svgrepo-com.svg"
+                        style="width: 25px; height: 25px;"> </span>
+                    <ng-template #absent>
+                      <span><img src="Assets/Icons/cross-svgrepo-com.svg" style="height: 30px; width: 30px;"></span>
+                    </ng-template>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
