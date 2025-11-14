@@ -13,17 +13,18 @@
         </div>
         <div class="col-10 col-lg-11 card border-0 ps-5"
             style="background-color:#213F9A; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-            <!--Profile felület, ide kell majd a példa adat helyett az aláírt jelenléti ívek nézet, illetve a profil nézete. Kérdééses, hogy fényképre szükség van-e-->
-            @if (activeSection === 'profile'){
+            <!--Profile felület, ide kell majd a példa adat helyett az aláírt jelenléti ívek nézet, illetve a profil nézete. Kérdéses, hogy fényképre szükség van-e-->
+            @if (activeSection === 'profile') {
             <div class="row g-3">
                 <div class="col-lg-2 mt-5">
                     <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2;">
                         <div class="card-body">
-                            <div class="text-center mt-4">
+                            <!--<div class="text-center mt-4">
                                 <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
                                     src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
-                            </div>
-                            <h2 class="text-center mt-4">Hannah Manson</h2>
+                            </div>-->
+                            <h2 class="text-center mt-4">{{ user.lastName }} {{ user.firstName }}</h2>
+                            <p class="text-center">{{ user.email }}</p>
                         </div>
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
@@ -38,190 +39,37 @@
                 </div>
 
                 <div class="col-lg-10 mt-5">
-                    <div class="card ms-4" style="background-color: #EFF1F2;
-                    border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="card ms-4" style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                         <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
                             <div class="scrollable-container">
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
+                                @for (currentParticipation of participation; track $index) {
+                                    <div class="row mb-3">
+                                        <div class="card shadow" style="background-color: #EFF1F2;">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <h2>{{ currentParticipation.name }}</h2>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        @for (signedEvent of currentParticipation.signedEvents; track $index) {
+                                                            @if (signedEvent) {
+                                                                <span class="attendance-block present"></span>
+                                                            }
+                                                            @else {
+                                                                <span class="attendance-block absent"></span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-6 text-end">
+                                                        <span>Last signed: <b>{{ currentParticipation.lastSigned }}</b></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="card shadow" style="background-color: #EFF1F2;">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <h2>Calculus I.</h2>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="attendance-block present"></span><span
-                                                        class="attendance-block absent"></span>
-                                                </div>
-                                                <div class="col-md-6 text-end">
-                                                    <a>Last signed:<b> 2025.10.18.</b></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -561,3 +409,5 @@
             </div>
             }
         </div>
+    </div>
+</div>
