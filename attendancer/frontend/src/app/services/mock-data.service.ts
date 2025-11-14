@@ -240,6 +240,23 @@ export class MockDataService {
           ]
         },
         {
+          "id": "angulareventgroupid",
+          "name": "Angular",
+          "metadata": [
+            "Neptun code",
+            "Email",
+            "Phone number"
+          ]
+        },
+        {
+          "id": "mobileventgroupid",
+          "name": "Mobil Prog",
+          "metadata": [
+            "Neptun code",
+            "Seat"
+          ]
+        },
+        {
           "id": "devopseventgroupid",
           "name": "DevOps",
           "metadata": [
@@ -274,6 +291,23 @@ export class MockDataService {
           "metadata": [
             "Neptun code",
             "Email"
+          ]
+        },
+        {
+          "id": "angulareventgroupid",
+          "name": "Angular",
+          "metadata": [
+            "Neptun code",
+            "Email",
+            "Phone number"
+          ]
+        },
+        {
+          "id": "mobileventgroupid",
+          "name": "Mobil Prog",
+          "metadata": [
+            "Neptun code",
+            "Seat"
           ]
         },
         {
