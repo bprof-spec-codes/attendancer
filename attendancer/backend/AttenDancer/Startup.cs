@@ -3,6 +3,7 @@ using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Helper;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -65,16 +66,35 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument();
+        services.AddOpenApiDocument(cfg =>
+        {
+            cfg.Title = "AttenDancer API";
+
+            cfg.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
+                Name = "Authorization",
+                In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                Description = "Írd be így: Bearer {token}"
+            });
+
+            cfg.OperationProcessors.Add(new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+        });
+
 
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
-
+        services.AddScoped<DtoProvider>();
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
+        services.AddScoped<ParticipantService>();
+        services.AddScoped<EventService>();
+        services.AddScoped<EventGroupService>();
+        services.AddScoped<QrService>();
+        services.AddScoped<DtoProvider>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -89,12 +109,15 @@ public class Startup(IConfiguration configuration)
 
         app.UseRouting();
 
+        app.UseAuthentication();
+        app.UseMiddleware<ActiveUserMiddleware>();
+        app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+        
     }
 }

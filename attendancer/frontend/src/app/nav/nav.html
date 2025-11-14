@@ -1,11 +1,15 @@
-<div class="nav">
+<nav class="nav">
     <div class="icon">
-        <img src="Assets/Attendancer.svg" alt="">
+        <img src="assets/attendancer.svg" alt="Attendancer Logo">
     </div>
-    <!--Ide majd valami olyasmi, hogy *ngIf="isSignedIn", hogy csak akkor jelenjenek meg a menüpontok, ha valaki bejelentkezett-->
-    <div class="nav-actions">
-    <button class="button-create" routerLink="/createSheet">Create sheet</button>
-    <a routerLink="/profile" class="nav-link">Profile</a>
-    <a  class="nav-link">Log out</a>
+    <div class="nav-actions" *ngIf="!authService.isLoggedIn(); else logOutSection">
+        <a routerLink="/login" class="nav-link">Log in</a>
     </div>
-</div>
+    <ng-template #logOutSection>
+        <div class="nav-actions">
+            <a routerLink="/createSheet" class="button-create">Create sheet</a>
+            <a routerLink="/profile" class="nav-link">Profile</a>
+            <a (click)="authService.logout()" class="nav-link">Log out</a>
+        </div>
+    </ng-template>
+</nav>

@@ -13,7 +13,7 @@ export class SheetForm implements OnInit {
   currentEvent: any = { // egy Event mock-olása - itt majd ez lesz: currentEvent: Event
     name: "",
     eventGroupId: "",
-    date: "", // ??? date ???
+    date: "",
     metadata: []
   }
   events: any[] = []
@@ -62,6 +62,9 @@ export class SheetForm implements OnInit {
   createSheet() {
     // Nagyon egyszerű validáció.
     if (!this.inputInvalid()) {
+      // Kitörölni az üres metaadatokat a tömbből.
+      this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
+
       // Ha már meglévő eseményhez vagy esemény csoporthoz lesz hozzárendelve a jelenleg elkészült esemény akkor nem lesz elküldve a metadata.
       this.mockDataService.postEvent(this.currentEvent)
       this.resetPage()
@@ -73,7 +76,7 @@ export class SheetForm implements OnInit {
    * @returns boolean - Igazat ad vissza ha a bemenet üres névre és/vagy a dátumra. Ha ezek teljesülnek akkor igazat ad vissza.
    */
   inputInvalid(): boolean {
-    return !(this.currentEvent.name.length > 0 && this.currentEvent.date.length > 0) // ??? date
+    return !(this.currentEvent.name.length > 0 && this.currentEvent.date.length > 0)
   }
 
   /**
