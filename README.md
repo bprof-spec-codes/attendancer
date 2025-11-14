@@ -1,5 +1,5 @@
 # attendancer
-# 📧 Email Service
+# Email Service
 
 ## Leírás
 
@@ -16,7 +16,7 @@ Jelenleg a fejlesztői környezetben a szolgáltatás **lokálisan futó SMTP sz
 
 ## Használat
 
-### 1️⃣ SMTP szerver futtatása fejlesztéshez
+###  SMTP szerver futtatása fejlesztéshez
 
 - Töltsd le a **FakeSMTP**-t innen: [FakeSMTP Download](https://nilhcem.github.io/FakeSMTP/)  
 - Indítsd el a programot a **localhost**-on, pl. port `25`-ön.  
