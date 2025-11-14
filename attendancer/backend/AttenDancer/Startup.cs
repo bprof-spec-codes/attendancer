@@ -105,6 +105,7 @@ public class Startup(IConfiguration configuration)
         app.UseRouting();
 
         app.UseAuthentication();
+        app.UseMiddleware<ActiveUserMiddleware>();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
