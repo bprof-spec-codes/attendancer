@@ -8,7 +8,7 @@ import { MockDataService } from '../services/mock-data.service';
   styleUrl: './profile.sass'
 })
 export class Profile implements OnInit {
-  activeSection: 'profile' | 'statistics' | 'sheets' = 'profile';
+  activeSection: 'profile' | 'statistics' | 'edit' | 'sheets' = 'profile';
   participation: any[] = [ // mock-olása
     {
       "name": "",
@@ -35,7 +35,7 @@ export class Profile implements OnInit {
     });
   }
 
-  setActiveSection(section: 'profile' | 'statistics' | 'sheets'): void {
+  setActiveSection(section: 'profile' | 'statistics' | 'edit' | 'sheets'): void {
     this.activeSection = section;
   }
 }
