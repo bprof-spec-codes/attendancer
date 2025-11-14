@@ -4,6 +4,7 @@ using AttenDancer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttenDancer.Data.Migrations
 {
     [DbContext(typeof(AttenDancerDbContext))]
-    partial class AttenDancerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251114104539_AddSoftDeleteToUser")]
+    partial class AddSoftDeleteToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace AttenDancer.Data.Migrations
                     b.Property<string>("EventGroupId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsQrValid")
                         .HasColumnType("bit");
 
@@ -45,7 +45,8 @@ namespace AttenDancer.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("QrCodeValue")
+                    b.Property<string>("QrCode")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 

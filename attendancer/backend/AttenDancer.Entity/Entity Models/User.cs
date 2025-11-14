@@ -18,6 +18,9 @@ namespace AttenDancer.Entity.Entity_Models
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
 
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
+
 
 
         public ICollection<EventGroup> EventGroups { get; set; } = new List<EventGroup>();

@@ -66,14 +66,28 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument();
+        services.AddOpenApiDocument(cfg =>
+        {
+            cfg.Title = "AttenDancer API";
+
+            cfg.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
+                Name = "Authorization",
+                In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                Description = "Írd be így: Bearer {token}"
+            });
+
+            cfg.OperationProcessors.Add(new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+        });
+
 
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
-
+        services.AddScoped<DtoProvider>();
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
         services.AddScoped<ParticipantService>();
@@ -95,12 +109,15 @@ public class Startup(IConfiguration configuration)
 
         app.UseRouting();
 
+        app.UseAuthentication();
+        app.UseMiddleware<ActiveUserMiddleware>();
+        app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+        
     }
 }
