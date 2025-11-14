@@ -30,6 +30,7 @@ namespace AttenDancer.Logic.Services
         {
 
             var exists = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted)
                 .AnyAsync(u => u.Email == email.ToLower());
 
             if (exists)
@@ -55,6 +56,7 @@ namespace AttenDancer.Logic.Services
         public async Task<User> LoginAsync(string email, string password)
         {
             var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted)
                 .FirstOrDefaultAsync(u => u.Email == email.ToLower());
 
             if (user == null)
@@ -75,7 +77,10 @@ namespace AttenDancer.Logic.Services
 
         public async Task<UserResponseDto> GetByIdAsync(string id)
         {
-            var user = await _userRepository.GetOne(id);
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
                 throw new Exception("Felhasználó nem található");
@@ -85,7 +90,10 @@ namespace AttenDancer.Logic.Services
 
         public async Task<List<UserResponseDto>> GetAllUsersAsync()
         {
-            var users = await _userRepository.GetAll().ToListAsync();
+            var users = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted)
+                .ToListAsync();
+
             return _dtoProvider.Mapper.Map<List<UserResponseDto>>(users);
         }
 
@@ -94,7 +102,11 @@ namespace AttenDancer.Logic.Services
 
         public async Task<UserResponseDto> UpdateAsync(string id, UserUpdateDto updateDto)
         {
-            var user = await _userRepository.GetOne(id);
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
+
             if (user == null)
             {
                 throw new Exception("Felhasználó nem található");
@@ -103,6 +115,7 @@ namespace AttenDancer.Logic.Services
             if (user.Email != updateDto.Email.ToLower())
             {
                 var emailExists = await _userRepository.GetAll()
+                    .Where(u => !u.IsDeleted)
                     .AnyAsync(u => u.Email == updateDto.Email.ToLower() && u.Id != id);
                 if (emailExists)
                 {
@@ -121,7 +134,10 @@ namespace AttenDancer.Logic.Services
 
         public async Task ChangePasswordAsync(string id, UserChangePassword changePasswordDto)
         {
-            var user = await _userRepository.GetOne(id);
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
                 throw new Exception("Felhasználó nem található");
@@ -142,12 +158,20 @@ namespace AttenDancer.Logic.Services
 
         public async Task DeleteAsync(string id)
         {
-            var user = await _userRepository.GetOne(id);
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
                 throw new Exception("Felhasználó nem található");
             }
-            await _userRepository.DeleteById(id);
+
+
+            user.IsDeleted = true;
+            user.DeletedAt = DateTime.UtcNow;
+
+            await _userRepository.Update(user);
 
 
 
