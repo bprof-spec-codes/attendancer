@@ -37,35 +37,51 @@
                             Optional data:
                         </label>
 
-                        <!-- Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport. -->
-                        <div *ngIf="selectedEventOrEventGroup === ''; else alreadyExistEventGroup" class="form">
-                            <!-- Metadata hozzáadás. -->
-                            <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
-                                <input type="text"
-                                    [attr.name]="'requiredField' + i"
-                                    placeholder="Enter data"
-                                    name="sheetMetadata"
-                                    [(ngModel)]="currentEvent.metadata[i]"
-                                    [ngModelOptions]="{ standalone: true }">
-                                <button type="button" class="button-icon button-icon-danger" (click)="removeCustomField(i)">
-                                    <img style="width: 15px; height: 15px;" src="/assets/icons/red-cross.svg">
-                                </button>
-                            </div>
-                            <button type="button" class="button-striped" (click)="addCustomField()">+</button>
-                        </div>
-
-                        <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
-                        <ng-template #alreadyExistEventGroup>
+                        <!--
+                            Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
+                            Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
+                        -->
+                        @if (selectedEventOrEventGroup === '' || ((selectedEventOrEventGroup === '' || selectedEventOrEventGroup === currentEvent.eventGroupId) && editMode)) {
                             <div class="form">
-                                <input *ngFor="let data of currentlySelectedMetadata" [placeholder]="data" disabled type="text">
+                                <!-- Metadata hozzáadás. -->
+                                <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
+                                    <input type="text"
+                                        [attr.name]="'requiredField' + i"
+                                        placeholder="Enter data"
+                                        name="sheetMetadata"
+                                        [(ngModel)]="currentEvent.metadata[i]"
+                                        [ngModelOptions]="{ standalone: true }">
+                                    <button type="button" class="button-icon button-icon-danger" (click)="removeCustomField(i)">
+                                        <img style="width: 15px; height: 15px;" src="/assets/icons/red-cross.svg">
+                                    </button>
+                                </div>
+                                <button type="button" class="button-striped" (click)="addCustomField()">+</button>
                             </div>
-                        </ng-template>
+                        }
+                        @else {
+                            <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
+                            <div class="form">
+                                @for (data of currentlySelectedMetadata; track $index) {
+                                    <input [placeholder]="data" disabled type="text">
+                                }
+                            </div>
+                        }
 
-                        <button type="submit" class="button-primary" (click)="createSheet()" [disabled]="inputInvalid()"
-                            style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
-                        <div *ngIf="inputInvalid()" class="invalid-validation-message">
-                            <p>You need to give a name and a date to your new sheet!</p>
-                        </div>
+                        <!-- A megfelelő gomb megjelenítése. -->
+                        @if (editMode) {
+                            <button type="submit" class="button-primary" (click)="editSheet()" [disabled]="inputInvalid()"
+                                style="width: 50%; align-self: center; margin-top: 1rem;">Edit sheet</button>
+                        }
+                        @else {
+                            <button type="submit" class="button-primary" (click)="createSheet()" [disabled]="inputInvalid()"
+                                style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
+                        }
+
+                        @if (inputInvalid()) {
+                            <div class="invalid-validation-message">
+                                <p>You need to give a name and a date to your sheet!</p>
+                            </div>
+                        }
                     </div>
                 </form>
             </div>
