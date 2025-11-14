@@ -1,5 +1,6 @@
 ﻿using AttenDancer.Logic.Interfaces;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Hosting;
 using MimeKit;
 
 namespace AttenDancer.Logic.Services
@@ -25,7 +26,7 @@ namespace AttenDancer.Logic.Services
             }
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("MyApp", "no-reply@myapp.com"));
+            message.From.Add(new MailboxAddress("Attendancer Admin", "admin@attendancer.com"));
             message.To.Add(MailboxAddress.Parse(to));
             message.Subject = subject;
             message.Body = new TextPart("html") { Text = html };

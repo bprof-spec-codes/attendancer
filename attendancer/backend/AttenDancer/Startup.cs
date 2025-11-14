@@ -1,13 +1,14 @@
-﻿using System.Text;
-using AttenDancer.Data;
+﻿using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Interfaces;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AttenDancer;
 
@@ -75,6 +76,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

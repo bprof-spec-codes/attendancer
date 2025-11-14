@@ -34,7 +34,6 @@ namespace AttenDancer.Controllers
                     dto.Password
                 );
 
-                var token = Guid.NewGuid().ToString();
                 var confirmUrl = $"https://www.youtube.com/shorts/Ay8lynMZ4mE";
 
                 var placeholders = new Dictionary<string, string>

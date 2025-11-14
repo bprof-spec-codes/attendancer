@@ -19,4 +19,8 @@
     <ProjectReference Include="..\AttenDancer.Entity\AttenDancer.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmailTemplates\" />
+  </ItemGroup>
+
 </Project>
