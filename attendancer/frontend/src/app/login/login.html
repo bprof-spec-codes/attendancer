@@ -1,46 +1,55 @@
 <div class="background">
+  <main class="shell">
+    <section class="card-on-blue">
+      <div
+        class="card-media"
+        style="background: url('assets/login-image.jpg') center/cover no-repeat;"
+      >
+        <div class="card-media-overlay">
+          <img class="icon large" src="assets/attendancer-emblem.svg" />
+          <p style="justify-content: center; align-items: center;">
+            {{ 'LOGIN.WELCOME_BACK' | translate }}
+          </p>
+        </div>
+      </div>
 
-    <main class="shell">
-        <section class="card-on-blue">
-            <div class="card-media"
-                style="background: url('assets/login-image.jpg') center/cover no-repeat;">
-                <div class="card-media-overlay">
-                    <img class="icon large" src="assets/attendancer-emblem.svg">
-                    <p style="justify-content: center; align-items: center;">Welcome back!</p>
-                </div>
-            </div>
+      <div class="card-form">
+        <h1>{{ 'LOGIN.SIGN_IN_TITLE' | translate }}</h1>
 
-            <div class="card-form" >
-                <h1>Sign into Attendancer</h1>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
 
+        <form class="form" (ngSubmit)="onLogin()">
+          <div class="form-field">
+            <input
+              type="email"
+              [(ngModel)]="loginModel.email"
+              name="email"
+              [attr.placeholder]="'LOGIN.EMAIL' | translate"
+            />
+          </div>
 
-                <div *ngIf="errorMessage" class="error-message">
-                  {{ errorMessage }}
-                </div>
+          <div class="form-field">
+            <input
+              type="password"
+              [(ngModel)]="loginModel.password"
+              name="password"
+              [attr.placeholder]="'LOGIN.PASSWORD' | translate"
+            />
+          </div>
 
-                <form class="form" (ngSubmit)="onLogin()">
-                    <div class="form-field">
-                    <input
-                    type="email"
-                    [(ngModel)]="loginModel.email"
-                    name="email"
-                    placeholder="Enter email" />
-                    </div>
+          <button type="submit" class="button-primary" [disabled]="!inputCheck()">
+            {{ 'LOGIN.SIGN_IN_BUTTON' | translate }}
+          </button>
 
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="loginModel.password"
-                    name="password"
-                    placeholder="Enter password" />
-                    </div>
-
-                    <button type="submit" class="button-primary" [disabled]="!inputCheck()">Sign in</button>
-                    <p class="small-text">
-                        <a routerLink="/register" class="nav-link">Don't have an account yet? Sign up!</a>
-                    </p>
-                </form>
-            </div>
-        </section>
-    </main>
+          <p class="small-text">
+            <a routerLink="/register" class="nav-link">
+              {{ 'LOGIN.NO_ACCOUNT' | translate }}
+            </a>
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
 </div>

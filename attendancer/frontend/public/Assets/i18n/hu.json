@@ -1,14 +1,10 @@
 {
-  "NAVBAR": {
-    "HOME": "Főoldal",
-    "ABOUT": "Rólunk",
-    "CONTACT": "Kapcsolat",
-    "LANGUAGE": "Nyelv"
-  },
-  "WELCOME": "Üdvözlünk az alkalmazásunkban",
   "LOGIN": {
-    "USERNAME": "Felhasználónév",
+    "WELCOME_BACK": "Üdv újra!",
+    "SIGN_IN_TITLE": "Jelentkezz be az Attendancerbe",
+    "EMAIL": "E-mail cím",
     "PASSWORD": "Jelszó",
-    "BUTTON": "Bejelentkezés"
+    "SIGN_IN_BUTTON": "Bejelentkezés",
+    "NO_ACCOUNT": "Még nincs fiókod? Regisztrálj!"
   }
 }

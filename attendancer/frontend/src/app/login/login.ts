@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoginModel } from '../models/login-model';
 import { AuthService } from '../services/auth-service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +18,14 @@ export class Login {
   constructor(
     public authService: AuthService,
     private router: Router,
+    private translate: TranslateService
   ) {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/sheet/1']);
     }
+    translate.setDefaultLang('en');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang && ['en','hu','de'].includes(browserLang) ? browserLang : 'en');
   }
 
   onLogin(): void {

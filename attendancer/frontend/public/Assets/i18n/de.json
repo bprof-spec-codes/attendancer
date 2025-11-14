@@ -1,14 +1,10 @@
 {
-  "NAVBAR": {
-    "HOME": "Startseite",
-    "ABOUT": "Über uns",
-    "CONTACT": "Kontakt",
-    "LANGUAGE": "Sprache"
-  },
-  "WELCOME": "Willkommen in unserer App",
   "LOGIN": {
-    "USERNAME": "Benutzername",
-    "PASSWORD": "Passwort",
-    "BUTTON": "Einloggen"
+    "WELCOME_BACK": "Willkommen zurück!",
+    "SIGN_IN_TITLE": "Melde dich bei Attendancer an",
+    "EMAIL": "E-Mail eingeben",
+    "PASSWORD": "Passwort eingeben",
+    "SIGN_IN_BUTTON": "Anmelden",
+    "NO_ACCOUNT": "Noch keinen Account? Registriere dich!"
   }
 }
