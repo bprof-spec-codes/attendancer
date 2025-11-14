@@ -30,12 +30,26 @@ namespace AttenDancer.Logic.Services
         {
 
             var exists = await _userRepository.GetAll()
-                .Where(u => !u.IsDeleted)
-                .AnyAsync(u => u.Email == email.ToLower());
+                .FirstOrDefaultAsync(u => u.Email == email.ToLower());
 
-            if (exists)
+
+            if (exists != null)
             {
-                throw new Exception("Ez az email cím már regisztrálva van");
+                if (!exists.IsDeleted)
+                {
+                    throw new Exception("Ez az email cím már regisztrálva van");
+                }
+
+
+                exists.IsDeleted = false;
+                exists.DeletedAt = null;
+                exists.FirstName = firstName;
+                exists.LastName = lastName;
+                exists.Password = BCrypt.Net.BCrypt.HashPassword(password);
+
+                return await _userRepository.Update(exists);
+
+
             }
 
 
