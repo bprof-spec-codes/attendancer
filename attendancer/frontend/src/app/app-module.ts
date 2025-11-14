@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -17,6 +17,13 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { MultiTranslateLoader } from './multi-translate-loader';
+
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new MultiTranslateLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +42,14 @@ import { ModalWarning } from './modal-warning/modal-warning';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     provideHttpClient(),

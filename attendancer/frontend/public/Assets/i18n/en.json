@@ -1,0 +1,14 @@
+{
+  "NAVBAR": {
+    "HOME": "Home",
+    "ABOUT": "About",
+    "CONTACT": "Contact",
+    "LANGUAGE": "Language"
+  },
+  "WELCOME": "Welcome to our app",
+  "LOGIN": {
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "BUTTON": "Login"
+  }
+}

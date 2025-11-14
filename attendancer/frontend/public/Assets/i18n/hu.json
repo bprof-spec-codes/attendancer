@@ -1,0 +1,14 @@
+{
+  "NAVBAR": {
+    "HOME": "Főoldal",
+    "ABOUT": "Rólunk",
+    "CONTACT": "Kapcsolat",
+    "LANGUAGE": "Nyelv"
+  },
+  "WELCOME": "Üdvözlünk az alkalmazásunkban",
+  "LOGIN": {
+    "USERNAME": "Felhasználónév",
+    "PASSWORD": "Jelszó",
+    "BUTTON": "Bejelentkezés"
+  }
+}
