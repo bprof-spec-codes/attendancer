@@ -20,8 +20,8 @@ namespace AttenDancer.Entity.Entity_Models
 
 
 
-        public ICollection<EventGroup> EventGroups { get; set; } = new List<EventGroup>();
-        public ICollection<Event> Events { get; set; } = new List<Event>();
-        public ICollection<Participant> Participants { get; set; } = new List<Participant>();
+        public virtual ICollection<EventGroup> EventGroups { get; set; } = new List<EventGroup>();
+        public virtual ICollection<Event> Events { get; set; } = new List<Event>();
+        public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();
     }
 }

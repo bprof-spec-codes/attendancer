@@ -22,13 +22,13 @@ namespace AttenDancer.Entity.Entity_Models
 
 
         public string UserId { get; set; } = null!;
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
         
         public string? EventGroupId { get; set; }
-        public EventGroup? EventGroup { get; set; }
+        public virtual EventGroup? EventGroup { get; set; }
 
         
-        public ICollection<Participant> Participants { get; set; } = new List<Participant>();
+        public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();
     }
 }

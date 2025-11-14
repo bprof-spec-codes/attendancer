@@ -33,7 +33,8 @@ public class Startup(IConfiguration configuration)
             throw new InvalidOperationException("Connection string 'AttenDancerDb'" + " not found.");
 
         services.AddDbContext<AttenDancerDbContext>(options =>
-            options.UseSqlServer(conString));
+            options.UseLazyLoadingProxies()
+            .UseSqlServer(conString));
 
         services.AddCors(options =>
         {
@@ -67,7 +68,7 @@ public class Startup(IConfiguration configuration)
 
 
         services.AddOpenApiDocument();
-
+        services.AddControllers();
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
