@@ -1,0 +1,22 @@
+<div *ngIf="message === null" class="background">
+  <main class="shell">
+    <div class="sheet">
+      <div class="table-title-card">
+        <div class="table-title-card-actions">
+            <img [src]="qrUrl" class="my-image" alt="Qr Code">
+        </div>
+       </div>
+    </div>
+  </main>
+</div>
+<div *ngIf="message !== null" class="background">
+  <main class="shell">
+    <div class="sheet">
+      <div class="table-title-card">
+        <div class="table-title-card-actions, text-align-center">
+            <h1 *ngIf="message !== null">{{message}}</h1>
+        </div>
+       </div>
+    </div>
+  </main>
+</div>

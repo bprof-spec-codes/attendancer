@@ -11,11 +11,15 @@
 
           <div class="table-title-card-actions-group">
             <!--QR code cuccli-->
-            <button class="button-small button-outline">Show QR code</button>
-            <button class="button-small button-alert">
+            <button [routerLink]="['/qr', eventId]" class="button-small button-outline">Show QR code</button>
+            <button *ngIf="event.isQrValid" (click)="invalidateQr()" class="button-small button-alert">
               <img src="Assets/Icons/trash-svgrepo-com.svg" style="width:15px; height: 15px;">
               Delete QR code
             </button>
+            <button *ngIf="!event.isQrValid" (click)="validateQr()" class="button-small button-alert">
+              <img src="Assets/Icons/trash-svgrepo-com.svg" style="width:15px; height: 15px;">
+              Create QR code
+            </button> <!--Ezt a gombot nem tudom, hogyan kéne szépen megcsinálni :( -->
           </div>
         </div>
         <h1>{{ event.name }}</h1>

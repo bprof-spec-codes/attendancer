@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { EventService } from '../services/event-service';
 
 @Component({
   selector: 'app-sheet',
@@ -15,7 +16,7 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private mockDataService: MockDataService) {}
+  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, private eventService: EventService) {}
 
   ngOnInit(): void {
     // Az id lekérdezése a route-ból.
@@ -32,6 +33,14 @@ export class Sheet implements OnInit {
     });
 
     this.countPresent()
+  }
+
+  invalidateQr(): void {
+    this.eventService.invalidateQr(this.eventId)
+  }
+
+  validateQr(): void {
+    this.eventService.validateQr(this.eventId)
   }
 
   countPresent(): void {
