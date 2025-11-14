@@ -11,7 +11,7 @@ namespace AttenDancer.Entity.Entity_Configurations
         public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.Property(e => e.Name).HasMaxLength(150);
-            builder.Property(e => e.QrCode).HasMaxLength(500);
+            builder.Property(e => e.QrCodeValue).HasMaxLength(500);
 
             builder.HasOne(e => e.User)
                 .WithMany(u => u.Events)

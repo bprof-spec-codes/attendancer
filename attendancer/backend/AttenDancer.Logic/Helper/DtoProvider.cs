@@ -17,11 +17,23 @@ namespace AttenDancer.Logic.Helper
         public Mapper Mapper { get; }
         private readonly IRepository<User> _userRepository;
 
-        public DtoProvider()
+        public DtoProvider(IRepository<User> userRepository)
         {
+            _userRepository = userRepository;
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<EventCreateDto, Event>();
+
+                cfg.CreateMap<Participant, ParticipantViewDto>()
+                   .AfterMap((src, dest) =>
+                   {
+                       dest.UserFullName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.FirstName}" +
+                       $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.LastName}";
+                       dest.MetadataDictionary = src.Metadata != null
+                           ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(src.Metadata)
+                           : new Dictionary<string, string>();
+                       dest.Date = src.Date;
+                   });
 
                 cfg.CreateMap<Event, EventViewDto>()
                    .AfterMap((src, dest) =>

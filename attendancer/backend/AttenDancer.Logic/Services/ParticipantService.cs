@@ -22,18 +22,26 @@ namespace AttenDancer.Logic.Services
             this.dtoProvider = dtoProvider;
         }
 
-        public async Task<Participant> AddParticipantAsync(ParticipantCreateDto createDto)
+        public async Task<Participant> CreateParticipantAsync(ParticipantCreateDto createDto)
         {
             Event Getevent = _eventRepository.GetAll().FirstOrDefault(e => e.Id == createDto.EventId);
-            if(Getevent.IsQrValid)
+            if(!Getevent.IsQrValid)
             {
                 throw new Exception("Az esemény QR kódja érvénytelenítve van, nem lehet résztvevőt hozzáadni.");
             }
+
+            var existingParticipant = _participantRepository.GetAll()
+                .FirstOrDefault(p => p.EventId == createDto.EventId && p.UserId == createDto.UserId);
+            if (existingParticipant != null)
+            {
+                throw new Exception("A felhasználó már résztvevőként van regisztrálva ezen az eseményen.");
+            }
+
             var participant = dtoProvider.Mapper.Map<Participant>(createDto);
             return await _participantRepository.Create(participant);
         }
 
-        public async Task<List<ParticipantViewDto>> GetParticipants(string eventid)
+        public async Task<List<ParticipantViewDto>> GetParticipantsAsync(string eventid)
         {
             Event getevent = _eventRepository.GetAll().FirstOrDefault(e => e.Id == eventid);
 
