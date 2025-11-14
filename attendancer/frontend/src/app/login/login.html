@@ -26,11 +26,19 @@
 
                                 <form class="form" (ngSubmit)="onLogin()">
                                     <div class="form-field p-2">
+                                        <label for="email" class="field-label"
+                                            style="font-size: 1.3rem; font-weight: 700;">
+                                            Email address
+                                        </label>
                                         <input type="email" [(ngModel)]="loginModel.email" name="email"
                                             placeholder="Enter email" />
                                     </div>
 
                                     <div class="form-field p-2">
+                                        <label for="password" class="field-label"
+                                            style="font-size: 1.3rem; font-weight: 700;">
+                                            Password
+                                        </label>
                                         <input type="password" [(ngModel)]="loginModel.password" name="password"
                                             placeholder="Enter password" />
                                     </div>
@@ -39,7 +47,8 @@
                                         style="height: 55px; width: 98%; align-self: center; font-size: 30px;">
                                         Sign in</button>
                                     <p class="small-text d-flex align-self-center" style="font-size: 15px;">
-                                        <a routerLink="/register"class="nav-link">Don't have an account yet? <b>Sign up!</b></a>
+                                        <a routerLink="/register" class="nav-link">Don't have an account yet? <b>Sign
+                                                up!</b></a>
                                     </p>
                                 </form>
                             </div>
