@@ -3,6 +3,7 @@ using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Helper;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -85,9 +86,14 @@ public class Startup(IConfiguration configuration)
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
-
+        services.AddScoped<DtoProvider>();
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
+        services.AddScoped<ParticipantService>();
+        services.AddScoped<EventService>();
+        services.AddScoped<EventGroupService>();
+        services.AddScoped<QrService>();
+        services.AddScoped<DtoProvider>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -103,6 +109,7 @@ public class Startup(IConfiguration configuration)
         app.UseRouting();
 
         app.UseAuthentication();
+        app.UseMiddleware<ActiveUserMiddleware>();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
@@ -110,5 +117,6 @@ public class Startup(IConfiguration configuration)
             endpoints.MapControllers();
         });
 
+        
     }
 }

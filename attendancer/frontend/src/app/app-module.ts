@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -16,6 +16,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
+import { ModalWarning } from './modal-warning/modal-warning';
 
 @NgModule({
   declarations: [
@@ -27,14 +28,14 @@ import { SheetForm } from './sheet-form/sheet-form';
     Sheet,
     Popup,
     SheetForm,
-    LoadingSpinner
+    LoadingSpinner,
+    ModalWarning
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
   providers: [
     provideHttpClient(),

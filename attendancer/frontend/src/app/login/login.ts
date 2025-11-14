@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginModel } from '../models/login-model';
 import { AuthService } from '../services/auth-service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -20,31 +20,19 @@ export class Login {
     private router: Router,
   ) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/sheet/1']);
     }
-
   }
 
- onLogin(): void {
-    if (this.authService.isLoggedIn()) {
-       this.router.navigate(['/profile']);
-    } else {
-      this.errorMessage = "Invalid email or password";
-    }
-
-    this.authService.login(this.loginModel);
-
-    setTimeout(() => {
-      if (this.authService.isLoggedIn()) {
-        this.router.navigate(['/profile']);
-      } else {
+  onLogin(form: NgForm): void {
+    this.authService.login(this.loginModel).subscribe({
+      next: () => {
+        this.router.navigate(['/sheet/1']);
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
         this.errorMessage = "Invalid email or password. Please try again.";
       }
-  }, 1000);
-  }
- inputCheck(): boolean {
-  const emailValid = this.loginModel.email.length > 0;
-  const passwordValid = this.loginModel.password.length > 0;
-  return emailValid && passwordValid;
+    });
   }
 }

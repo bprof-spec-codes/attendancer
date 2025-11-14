@@ -3,45 +3,58 @@
     <main class="shell">
         <section class="card-on-blue">
             <div class="card-media"
-                style="background: url('Assets/miguel-henriques--8atMWER8bI-unsplash.jpg') center/cover no-repeat;">
+                style="background: url('assets/login-image.jpg') center/cover no-repeat;">
                 <div class="card-media-overlay">
-                    <img class="icon large" src="Assets/Attendancer emblem.svg">
+                    <img class="icon large" src="assets/attendancer-emblem.svg">
                     <p style="justify-content: center; align-items: center;">Welcome back!</p>
                 </div>
             </div>
 
-            <div class="card-form" >
-                <h1>Sign into Attendancer</h1>
+      <div class="card-form">
+        <h1>Sign into Attendancer</h1>
 
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
 
-                <div *ngIf="errorMessage" class="error-message">
-                  {{ errorMessage }}
-                </div>
-
-                <form class="form" (ngSubmit)="onLogin()">
-                    <div class="form-field">
-                    <input
-                    type="email"
-                    [(ngModel)]="loginModel.email"
-                    name="email"
-                    placeholder="Enter email" />
-                    </div>
-
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="loginModel.password"
-                    name="password"
-                    placeholder="Enter password" />
-                    </div>
-
-                    <button type="submit" class="button-primary" [disabled]="!inputCheck()">Sign in</button>
-                    <p class="small-text">
-                        Don&#39;t have an account yet?
-                        <a routerLink="/register" class="nav-link">Sign up!</a>
-                    </p>
-                </form>
+        <form #loginForm="ngForm" class="form" (ngSubmit)="onLogin(loginForm)">
+          <div class="form-field">
+            <input
+              type="email"
+              [(ngModel)]="loginModel.email"
+              name="email"
+              #email="ngModel"
+              placeholder="Enter email"
+              required
+              email
+            />
+            <div class="error" *ngIf="email.invalid && email.touched">
+              <small *ngIf="email.errors?.['required']">Email is required.</small>
+              <small *ngIf="email.errors?.['email']">Invalid email format.</small>
             </div>
-        </section>
-    </main>
+          </div>
+
+          <div class="form-field">
+            <input
+              type="password"
+              [(ngModel)]="loginModel.password"
+              name="password"
+              #password="ngModel"
+              placeholder="Enter password"
+              required
+            />
+            <div class="error" *ngIf="password.invalid && password.touched">
+              <small *ngIf="password.errors?.['required']">Password is required.</small>
+            </div>
+          </div>
+
+          <button type="submit" class="button-primary" [disabled]="loginForm.invalid">Sign in</button>
+          <p class="small-text">
+            Don&#39;t have an account yet?
+            <a routerLink="/register" class="nav-link">Sign up!</a>
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
 </div>

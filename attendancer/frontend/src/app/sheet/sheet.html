@@ -1,60 +1,64 @@
 <div class="background">
-  <main class="shell">
-    <div class="sheet">
-      <div class="table-title-card">
-        <!--Gombokhoz jogosultság-->
-        <div class="table-title-card-actions">
-          <button class="button-small">
-            <img *ngIf="" src="Assets/Icons/edit-svgrepo-com.svg" style="width:15px; height: 15px;">
-            Edit
-          </button>
+    <main class="shell">
+        <div class="sheet">
+            <div class="table-title-card">
+                <div class="table-title-card-actions" *ngIf="authService.isLoggedIn()">
+                    <button class="btn btn-primary">
+                        <img src="assets/icons/white-edit.svg" style="width:15px; height: 15px;">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" (click)="modal.open()">
+                        <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                        Delete
+                    </button>
+                    <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
 
-          <div class="table-title-card-actions-group">
-            <!--QR code cuccli-->
-            <button class="button-small button-outline">Show QR code</button>
-            <button class="button-small button-alert">
-              <img src="Assets/Icons/trash-svgrepo-com.svg" style="width:15px; height: 15px;">
-              Delete QR code
-            </button>
-          </div>
+                    <div class="table-title-card-actions-group">
+                        <!--QR code cuccli-->
+                        <button class="button-small button-outline">Show QR code</button>
+                        <button class="button-small button-alert">
+                            <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                            Delete QR code
+                        </button>
+                    </div>
+                </div>
+                <h1>{{ event.name }}</h1>
+                <div class="table-title-card-counters">
+                    <div class="table-title-card-actions-group">
+                        <div class="counter-present">{{ presentCount }}</div>
+                        <div class="counter-absent">{{ absentCount }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <table class="sheet-table sheet-table-head">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th *ngFor="let data of event.metadata">{{ data }}</th>
+                            <th>Presence</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <table class="sheet-table sheet-table-body">
+                    <tbody>
+                        <tr *ngFor="let participant of participants">
+                            <td class="sheet-table-cell">{{ participant.username }}</td>
+                            <td *ngFor="let data of participant.metadata">
+                                {{ data }}
+                            </td>
+                            <td class="sheet-table-cell">
+                                <span class="presence-icon" *ngIf="participant.present; else absent;">✔</span>
+                                <ng-template #absent>
+                                    <span class="presence-icon">❌</span>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <h1>{{ event.name }}</h1>
-        <div class="table-title-card-counters">
-          <div class="table-title-card-actions-group">
-            <div class="counter-present">{{ presentCount }}</div>
-            <div class="counter-absent">{{ absentCount }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <table class="sheet-table sheet-table-head">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th *ngFor="let data of event.metadata">{{ data }}</th>
-              <th>Presence</th>
-            </tr>
-          </thead>
-        </table>
-
-        <table class="sheet-table sheet-table-body">
-          <tbody>
-            <tr *ngFor="let participant of participants">
-              <td class="sheet-table-cell">{{ participant.username }}</td>
-              <td *ngFor="let data of participant.metadata">
-                {{ data }}
-              </td>
-              <td class="sheet-table-cell">
-                <span class="presence-icon" *ngIf="participant.present; else absent;">✔</span>
-                <ng-template #absent>
-                  <span class="presence-icon">❌</span>
-                </ng-template>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
+    </main>
 </div>

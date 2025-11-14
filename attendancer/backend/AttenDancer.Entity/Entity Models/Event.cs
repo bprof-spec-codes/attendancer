@@ -1,6 +1,7 @@
 ﻿using AttenDancer.Entity.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,15 @@ namespace AttenDancer.Entity.Entity_Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = null!;
-        public string QrCode { get; set; } = null!;
+
+        public string? QrCodeValue { get; set; } = null!;
         public bool IsQrValid { get; set; } = true;
+        public DateTime ExpirationDate { get; set; } = DateTime.UtcNow.AddDays(1); 
 
-        public string? Metadata { get; set; }
+        //public string? Metadata { get; set; }
+        public List<string> Metadata { get; set; } = new List<string>();
 
-        
+
         public string UserId { get; set; } = null!;
         public User User { get; set; } = null!;
 
