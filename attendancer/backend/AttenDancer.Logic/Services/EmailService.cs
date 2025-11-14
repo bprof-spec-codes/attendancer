@@ -1,36 +1,39 @@
-﻿using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AttenDancer.Logic.Interfaces;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace AttenDancer.Logic.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
-        public async Task SendEmailAsync(string toEmail, string subject, string body)
+
+        private readonly IHostEnvironment _env;
+
+        public EmailService(IHostEnvironment env)
         {
+            _env = env;
+        }
+        public async Task SendTemplateEmailAsync(string to, string subject, string templateName, Dictionary<string, string> placeholders)
+        {
+
+            var templatePath = Path.Combine(_env.ContentRootPath, "EmailTemplates", $"{templateName}.html");
+            var html = await File.ReadAllTextAsync(templatePath);
+
+            foreach (var (key, value) in placeholders)
+            {
+                html = html.Replace("{{" + key + "}}", value);
+            }
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("MyApp", "no-reply@myapp.com"));
-            message.To.Add(MailboxAddress.Parse(toEmail));
+            message.To.Add(MailboxAddress.Parse(to));
             message.Subject = subject;
+            message.Body = new TextPart("html") { Text = html };
 
-            message.Body = new TextPart("html")
-            {
-                Text = body
-            };
-
-            using (var client = new SmtpClient())
-            {
-                // FakeSMTP vagy valós szerver adatai ide
-                await client.ConnectAsync("localhost", 25, false);
-                // Ha nem kell autentikáció, ezt hagyd ki:
-                // await client.AuthenticateAsync("user", "password");
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
-            }
+            using var client = new SmtpClient();
+            await client.ConnectAsync("localhost", 25, false);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
     }
 }
