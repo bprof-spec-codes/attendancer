@@ -42,7 +42,7 @@ namespace AttenDancer.Logic.Services
             return await _eventGroupRepository.Create(newEventGroup);
         }
 
-        public async Task<EventGroupViewDto> GetEventGroupByID(string eventGroupId)
+        public async Task<EventGroupViewDto> GetEventGroupByIDAsync(string eventGroupId)
         {
             EventGroupViewDto eventGroup = dtoProvider.Mapper.Map<EventGroupViewDto>(await _eventGroupRepository.GetAll()
                 .FirstOrDefaultAsync(e => e.Id == eventGroupId));
@@ -55,7 +55,7 @@ namespace AttenDancer.Logic.Services
             return eventGroup;
         }
 
-        public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByID(string eventGroupId, string userId)
+        public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByIDAsync(string eventGroupId, string userId)
         {
             EventGroup? eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
 
@@ -69,7 +69,7 @@ namespace AttenDancer.Logic.Services
             return eventGroupView;
         }
 
-        public async Task<EventGroup> UpdateEventGroup(List<string> eventIds, string name, string eventGroupId)
+        public async Task<EventGroup> UpdateEventGroupAsync(List<string> eventIds, string name, string eventGroupId)
         {
             EventGroup? eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
 
