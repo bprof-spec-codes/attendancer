@@ -9,65 +9,106 @@
                 </div>
             </div>
 
-            <div class="card-form" >
-                <h1>Create an account</h1>
+      <div class="card-form">
+        <h1>Create an account</h1>
 
-                <div *ngIf="errorMessage" class="error-message">
-                  {{ errorMessage }}
-                </div>
-
-                <form class="form" (ngSubmit)="onRegister()">
-                    <div class="form-field">
-                    <input
-                    type="text"
-                    [(ngModel)]="registerModel.firstName"
-                    name="firstname"
-                    placeholder="First name"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="text"
-                    [(ngModel)]="registerModel.lastName"
-                    name="lastname"
-                    placeholder="Last name"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="email"
-                    [(ngModel)]="registerModel.email"
-                    name="email"
-                    placeholder="Email address"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="registerModel.password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    >
-                    </div>
-                    <div class="form-field">
-                    <input
-                    type="password"
-                    [(ngModel)]="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Password again"
-                    required
-                    >
-                    </div>
-                    <button type="submit" class="button-primary" [disabled]="!inputCheck()">Create account</button>
-                    <p class="small-text">
-                        <a routerLink="/login" class="nav-link">Already have an account? Sign in!</a>
-                    </p>
-                </form>
+        <form #registerForm="ngForm" class="form" (ngSubmit)="onRegister(registerForm)">
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          <div class="form-field">
+            <input
+              type="text"
+              [(ngModel)]="registerModel.firstName"
+              name="firstname"
+              #firstname="ngModel"
+              placeholder="Frist name"
+              required
+              minlength="2"
+            />
+            <div class="error" *ngIf="firstname.invalid && firstname.touched">
+              <small *ngIf="firstname.errors?.['required']">First name is required.</small>
+              <small *ngIf="firstname.errors?.['minlength']">Minimum 2 characters.</small>
             </div>
-        </section>
-    </main>
+          </div>
+          <div class="form-field">
+            <input
+              type="text"
+              [(ngModel)]="registerModel.lastName"
+              name="lastname"
+              #lastname="ngModel"
+              placeholder="Last name"
+              required
+            />
+            <div class="error" *ngIf="lastname.invalid && lastname.touched">
+              <small *ngIf="lastname.errors?.['required']">Last name is required.</small>
+            </div>
+          </div>
+          <div class="form-field">
+            <input
+              type="email"
+              [(ngModel)]="registerModel.email"
+              name="email"
+              #email="ngModel"
+              placeholder="Email address"
+              required
+              email
+            />
+            <div class="error" *ngIf="email.invalid && email.touched">
+              <small *ngIf="email.errors?.['required']">Email is required.</small>
+              <small *ngIf="email.errors?.['email']">Invalid email format.</small>
+            </div>
+          </div>
+          <div class="form-field">
+            <input
+              type="password"
+              [(ngModel)]="registerModel.password"
+              name="password"
+              placeholder="Password"
+              #password="ngModel"
+              required
+              minlength="6"
+              maxlength="18"
+              pattern="^(?=.*[A-Z])(?=.*\d).{6,18}$"
+            />
+            <div class="error" *ngIf="password.invalid && password.touched">
+              <small *ngIf="password.errors?.['required']">Password is required.</small>
+              <small *ngIf="password.errors?.['minlength']"
+                >Password must be at least 6 characters long.</small
+              >
+              <small *ngIf="password.errors?.['maxlength']"
+                >Password cannot exceed 18 characters.</small
+              >
+              <small *ngIf="password.errors?.['pattern']">
+                Password must contain at least one uppercase letter and one number.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <input
+              type="password"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              #confirmPasswordInput="ngModel"
+              placeholder="Password again"
+              required
+            />
+            <div
+              class="error"
+              *ngIf="confirmPasswordInput.touched && registerModel.password !== confirmPassword"
+            >
+              <small>Passwords don't match.</small>
+            </div>
+          </div>
+          <button type="submit" class="button-primary" [disabled]="registerForm.invalid">
+            Create account
+          </button>
+          <p class="small-text">
+            Already have an account?
+            <a routerLink="/login" class="nav-link">Sign in!</a>
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
 </div>

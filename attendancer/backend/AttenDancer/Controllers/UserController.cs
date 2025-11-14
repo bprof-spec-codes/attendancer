@@ -1,6 +1,8 @@
 ﻿using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Logic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AttenDancer.Controllers
 {
@@ -73,5 +75,136 @@ namespace AttenDancer.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            try
+            {
+
+                var user = await _userService.GetByIdAsync(id);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers() 
+        {
+            try
+            {
+                var users = await _userService.GetAllUsersAsync();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserUpdateDto dto)
+        {
+            try
+            {
+                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                
+                if (id != authenticatedUserId)
+                {
+                    return Forbid();
+                }
+
+                var updatedUser = await _userService.UpdateAsync(id, dto);
+                return Ok(updatedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut("{id}/password")]
+        public async Task<IActionResult> ChangePassword(string id, [FromBody] UserChangePassword dto)
+        {
+            try
+            {
+                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                
+                if (id != authenticatedUserId)
+                {
+                    return Forbid();
+                }
+
+                await _userService.ChangePasswordAsync(id, dto);
+                return Ok(new { message = "Jelszó sikeresen megváltoztatva" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                
+                if (id != authenticatedUserId)
+                {
+                    return Forbid();
+                }
+
+                await _userService.DeleteAsync(id);
+                return Ok(new { message = "Felhasználó sikeresen törölve" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "Érvénytelen token" });
+                }
+
+                var user = await _userService.GetByIdAsync(userId);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
     }
 }
