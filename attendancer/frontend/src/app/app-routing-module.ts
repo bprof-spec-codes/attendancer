@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'register', component: Registration },
   { path: 'sheet/:id', component: Sheet },
   { path: 'createSheet', component: SheetForm, canActivate: [authGuard] },
+  { path: 'editSheet', component: SheetForm, canActivate: [authGuard] },
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' },
 ];
