@@ -16,6 +16,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
+import { QrCode } from './qr-code/qr-code';
+import { Participant } from './participant/participant';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SheetForm } from './sheet-form/sheet-form';
     Sheet,
     Popup,
     SheetForm,
-    LoadingSpinner
+    LoadingSpinner,
+    QrCode,
+    Participant
   ],
   imports: [
     BrowserModule,
