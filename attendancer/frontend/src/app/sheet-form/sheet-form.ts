@@ -65,7 +65,7 @@ export class SheetForm implements OnInit {
       this.events = data;
     });
 
-    // Lekérdezni az eseménycsoport neveit és metaadataival.
+    // Lekérdezni az eseménycsoportok neveit és metaadatait.
     this.mockDataService.getEventGroupsWithMetadataByUserId(this.userId).subscribe((data) => {
       this.eventGroups = data;
     });
@@ -76,16 +76,19 @@ export class SheetForm implements OnInit {
    * @param selectedValue - A kiválasztott esemény vagy esemény csoport id-ja.
    */
   onSelectionChange(selectedValue: string) {
+    // Szerkesztő módba nem íródjon felül a jelenlegi esemény, esemény csoport id-ja. (Ez majd a 'editSheet()'-be történik meg.)
     if (!this.editMode) {
       this.currentEvent.eventGroupId = selectedValue
     }
 
+    // Beállítani a jelenleg kiválasztott események metaadatait.
     this.events.forEach(event => {
       if (event.id === selectedValue) {
         this.currentlySelectedMetadata = event.metadata
       }
     });
 
+    // Beállítani a jelenleg kiválasztott esemény csoportok metaadatait.
     this.eventGroups.forEach(eventGroup => {
       if (eventGroup.id === selectedValue) {
         this.currentlySelectedMetadata = eventGroup.metadata
@@ -109,6 +112,9 @@ export class SheetForm implements OnInit {
     }
   }
 
+  /**
+   * Meghívja egy esemény frissítését a service-ből ha érvényes a bemenet majd átirányítja a felhasználót egy másik oldalra.
+   */
   editSheet() {
     // Nagyon egyszerű validáció.
     if (!this.inputInvalid()) {
