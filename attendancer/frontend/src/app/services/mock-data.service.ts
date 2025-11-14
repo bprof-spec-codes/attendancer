@@ -16,8 +16,10 @@ export class MockDataService {
     if (eventId === "1") {
       mockData =
       {
+        "id": "elsodevopslaborid",
         "name": "1. DevOps labor",
-        "eventGroupId": "dasgf",
+        "date": "2025-11-14T01:10",
+        "eventGroupId": "devopseventgroupid",
         "metadata": [
           "Neptun code",
           "Seat"
@@ -27,8 +29,10 @@ export class MockDataService {
     else if (eventId === "2") {
       mockData =
       {
+        "id": "masodikangularlaborid",
         "name": "2. Angular labor",
-        "eventGroupId": "asdfghjkl",
+        "date": "2025-11-13T02:20",
+        "eventGroupId": "angulareventgroupid",
         "metadata": [
           "Neptun code"
         ]
@@ -37,8 +41,10 @@ export class MockDataService {
     else {
       mockData =
       {
+        "id": "harmadikmobillaborid",
         "name": "3. Mobil labor",
-        "eventGroupId": "bxdt32qgta",
+        "date": "2025-11-12T03:30",
+        "eventGroupId": "mobileventgroupid",
         "metadata": []
       };
     }
@@ -180,7 +186,7 @@ export class MockDataService {
     if (userId === "1") {
       mockData = [
         {
-          "id": "sdfga32sfd",
+          "id": "angulareventgroupid",
           "name": "Angular",
           "metadata": [
             "Neptun code",
@@ -189,7 +195,7 @@ export class MockDataService {
           ]
         },
         {
-          "id": "sdgfsd2qq",
+          "id": "mobileventgroupid",
           "name": "Mobil Prog",
           "metadata": [
             "Neptun code",
@@ -197,7 +203,7 @@ export class MockDataService {
           ]
         },
         {
-          "id": "jmhhgf34",
+          "id": "devopseventgroupid",
           "name": "DevOps",
           "metadata": [
             "Neptun code",
@@ -232,6 +238,14 @@ export class MockDataService {
             "Neptun code",
             "Email"
           ]
+        },
+        {
+          "id": "devopseventgroupid",
+          "name": "DevOps",
+          "metadata": [
+            "Neptun code",
+            "Email"
+          ]
         }
       ]
     }
@@ -257,6 +271,14 @@ export class MockDataService {
         {
           "id": "xcv52jhsad34fd",
           "name": "Hálózatok",
+          "metadata": [
+            "Neptun code",
+            "Email"
+          ]
+        },
+        {
+          "id": "devopseventgroupid",
+          "name": "DevOps",
           "metadata": [
             "Neptun code",
             "Email"
@@ -331,6 +353,14 @@ export class MockDataService {
   // POST - /api/Event
   postEvent(event: any) {
     console.log("(POST - /api/Event) The following data will be sent to the backend:")
+    console.log(event)
+  }
+
+  // Egy esemény frissítése.
+  // PUT - /api/Event/{eventid}
+  updateEvent(event: any) {
+    console.log("(PUT - /api/Event/{eventid}) The following data will be sent to the backend:")
+    console.log("eventid: " + event.id)
     console.log(event)
   }
 
