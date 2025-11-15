@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoginModel } from '../models/login-model';
 import { AuthService } from '../services/auth-service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class Login {
     }
   }
 
-  onLogin(): void {
+  onLogin(form: NgForm): void {
     this.authService.login(this.loginModel).subscribe({
       next: () => {
         this.router.navigate(['/sheet/1']);
@@ -33,11 +34,5 @@ export class Login {
         this.errorMessage = "Invalid email or password. Please try again.";
       }
     });
-  }
-
-  inputCheck(): boolean {
-    const emailValid = this.loginModel.email.length > 0;
-    const passwordValid = this.loginModel.password.length > 0;
-    return emailValid && passwordValid;
   }
 }
