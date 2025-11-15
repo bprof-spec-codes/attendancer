@@ -17,6 +17,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
+import { SheetSigned } from './sheet-signed/sheet-signed';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ModalWarning } from './modal-warning/modal-warning';
     Popup,
     SheetForm,
     LoadingSpinner,
-    ModalWarning
+    ModalWarning,
+    SheetSigned
   ],
   imports: [
     BrowserModule,
