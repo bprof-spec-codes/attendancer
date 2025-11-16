@@ -18,6 +18,8 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
 import { SheetSigned } from './sheet-signed/sheet-signed';
+import { Participant } from './participant/participant';
+import { QrCode } from './qr-code/qr-code';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { SheetSigned } from './sheet-signed/sheet-signed';
     SheetForm,
     LoadingSpinner,
     ModalWarning,
-    SheetSigned
+    SheetSigned,
+    Participant,
+    QrCode
   ],
   imports: [
     BrowserModule,

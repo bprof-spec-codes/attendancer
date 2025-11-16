@@ -7,6 +7,8 @@ import { SheetForm } from './sheet-form/sheet-form';
 import { authGuard } from './auth-guard';
 import { Profile } from './profile/profile';
 import { SheetSigned } from './sheet-signed/sheet-signed';
+import { QrCode } from './qr-code/qr-code';
+import { Participant } from './participant/participant';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'create', component: SheetForm }, //UI tesztelésre van
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'prof', component: Profile }, //UI tesztelésre van
+  { path: 'qr/:id', component:  QrCode},
+  { path: 'participant/:id', component: Participant },
   { path: 'sign/:id', component: SheetSigned},
   { path: '**', redirectTo: 'login' },
 ];

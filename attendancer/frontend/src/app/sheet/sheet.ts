@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
+import { EventService } from '../services/event-service';
 
 @Component({
   selector: 'app-sheet',
@@ -16,7 +17,7 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService) {}
+  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService, private enventService: EventService) {}
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
@@ -36,6 +37,14 @@ export class Sheet implements OnInit {
     });
 
     this.countPresent()
+  }
+
+  invalidateQr(): void{
+    this.enventService.invalidateQr(this.eventId)
+  }
+
+  validateQr(): void{
+    this.enventService.validateQr(this.eventId)
   }
 
   /**
