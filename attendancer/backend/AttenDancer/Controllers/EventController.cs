@@ -20,14 +20,14 @@ namespace AttenDancer.Controllers
             _qrService = qrSrevice;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateEvent([FromBody] EventCreateDto createDto)
         {
             await _eventService.CreateEventAsync(createDto);
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IActionResult> GetAllEvents()
         {
             var events = await _eventService.GetAllEventsAsync();
@@ -57,11 +57,11 @@ namespace AttenDancer.Controllers
             if (!ev.IsQrValid)
                 return BadRequest("QR code is invalidated");
 
-            // A Qr tartalma. Ez konkrétan a participant create végponthoz vezet és ott meglévő adatokkal létrehozza a résztvevőt
-            // Például: http://localhost:5000/api/participant/create/{qrCode}
-            // A Request Sceme a http vagy https részt adja a Request Host pedig a localhostos részt
+            // A Qr tartalma. Ez konkrétan a participant create frontend oldalhoz vezet és ott meglévő adatokkal létrehozza a résztvevőt, ha kell metaadat, akkor
+            // azt majd ott megadja forms kérdőívbe.
+            // A Request Sceme a http vagy https részt adja a Request Host pedig a localhostos részt ha majd később lesz domain
 
-            string qrContent = $"{Request.Scheme}://{Request.Host}/api/participant/{eventId}";
+            string qrContent = $"http://localhost:4200/participant/{eventId}";
             var qrBytes = _qrService.GenerateQrCode(qrContent);
 
             //Ezzel tudunk visszaadni egy képet, nem application/json lesz a headerben, hanem image/png

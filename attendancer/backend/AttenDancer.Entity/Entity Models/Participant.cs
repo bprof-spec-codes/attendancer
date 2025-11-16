@@ -14,22 +14,18 @@ namespace AttenDancer.Entity.Entity_Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        
         public string UserId { get; set; } = null!;
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        
         public string EventId { get; set; } = null!;
 
         [JsonIgnore]
-        public Event Event { get; set; } = null!;
+        public virtual Event Event { get; set; } = null!;
 
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
-
         public string? Metadata { get; set; }
 
-        
         [NotMapped]
         public Dictionary<string, string> MetadataDict
         {
@@ -45,7 +41,7 @@ namespace AttenDancer.Entity.Entity_Models
                 }
                 catch
                 {
-                    
+
                     return new Dictionary<string, string>();
                 }
             }

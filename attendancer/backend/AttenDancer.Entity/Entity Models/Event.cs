@@ -15,20 +15,17 @@ namespace AttenDancer.Entity.Entity_Models
 
         public string? QrCodeValue { get; set; } = null!;
         public bool IsQrValid { get; set; } = true;
-        public DateTime ExpirationDate { get; set; } = DateTime.UtcNow.AddDays(1); 
+        public DateTime ExpirationDate { get; set; } = DateTime.UtcNow.AddDays(1);
 
         //public string? Metadata { get; set; }
         public List<string> Metadata { get; set; } = new List<string>();
 
-
         public string UserId { get; set; } = null!;
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        
         public string? EventGroupId { get; set; }
-        public EventGroup? EventGroup { get; set; }
+        public virtual EventGroup? EventGroup { get; set; }
 
-        
-        public ICollection<Participant> Participants { get; set; } = new List<Participant>();
+        public virtual ICollection<Participant> Participants { get; set; } = new List<Participant>();
     }
 }
