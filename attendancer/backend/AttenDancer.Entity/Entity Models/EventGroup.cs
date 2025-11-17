@@ -14,9 +14,9 @@ namespace AttenDancer.Entity.Entity_Models
 
         
         public string UserId { get; set; } = null!;
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        
-        public ICollection<Event> Events { get; set; } = new List<Event>();
+
+        public virtual ICollection<Event> Events { get; set; } = new List<Event>();
     }
 }
