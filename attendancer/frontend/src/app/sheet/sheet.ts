@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth-service';
-import { EventClient, ParticipantClient } from '../app.api-client.generated';
+import { EventClient } from '../app.api-client.generated';
 
 @Component({
   selector: 'app-sheet',
@@ -23,7 +22,7 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private eventClient: EventClient, private participantClient: ParticipantClient, private mockDataService: MockDataService, public authService: AuthService) {}
+  constructor(private route: ActivatedRoute, private eventClient: EventClient, public authService: AuthService) {}
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
@@ -34,12 +33,14 @@ export class Sheet implements OnInit {
       this.eventId = params['id']
     })
 
+    // Az események lekérdezése az esemény id-je alapján.
     this.eventClient.getEventById(this.eventId).subscribe((response) => {
+      // JSON formátumba konvertálni a választ.
       const reader = new FileReader();
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string);
         this.event = jsonData;
-        //console.log(this.event);
+        console.log(this.event);
       };
       reader.readAsText(response.data);
     });
