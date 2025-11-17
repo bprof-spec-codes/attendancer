@@ -12,8 +12,11 @@ const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'register', component: Registration },
   { path: 'sheet/:id', component: Sheet },
+  { path: 'sheet', component: Sheet }, //UI tesztelésre van
   { path: 'createSheet', component: SheetForm, canActivate: [authGuard] },
+  { path: 'create', component: SheetForm }, //UI tesztelésre van
   { path: 'profile', component: Profile, canActivate: [authGuard] },
+  { path: 'prof', component: Profile }, //UI tesztelésre van
   { path: '**', redirectTo: 'login' },
 ];
 
