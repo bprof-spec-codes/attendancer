@@ -16,13 +16,13 @@ namespace AttenDancer.Entity.Entity_Models
 
         
         public string UserId { get; set; } = null!;
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        
+
         public string EventId { get; set; } = null!;
 
         [JsonIgnore]
-        public Event Event { get; set; } = null!;
+        public virtual Event Event { get; set; } = null!;
 
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
