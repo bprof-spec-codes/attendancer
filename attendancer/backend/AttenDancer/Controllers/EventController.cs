@@ -48,6 +48,21 @@ namespace AttenDancer.Controllers
             return Ok(events);
         }
 
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventById(string eventId)
+        {
+
+            try
+            {
+                var e = await _eventService.GetEventAsync(eventId);
+                return Ok(e);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("{eventId}/generate-qr")]
         public async Task<IActionResult> GenerateQrForEvent(string eventId)
         {
