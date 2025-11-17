@@ -47,17 +47,20 @@ namespace AttenDancer.Logic.Services
             return events;
         }
 
-        public async Task<EventViewDto> GetEventByUserIdAsync(string userId)
+        public async Task<List<EventViewDto>> GetEventByUserIdAsync(string userId)
         {
-            Event? getevent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Participants.Any(u => u.UserId == userId));
+            var events = await _eventRepository
+                .GetAll()
+                .Where(e => e.UserId == userId)
+                .ToListAsync();
 
-            if (getevent == null)
+            if (!events.Any())
             {
-                throw new Exception("Hibás esemény azonosító");
+                throw new Exception("Nincs a felhasználóhoz tartozó esemény.");
             }
 
-            EventViewDto eventView = dtoProvider.Mapper.Map<EventViewDto>(getevent);
-            return eventView;
+            List<EventViewDto> result = dtoProvider.Mapper.Map<List<EventViewDto>>(events);
+            return result;
         }
 
         public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
