@@ -105,7 +105,8 @@
             ],
             "styles": [
               "src/styles.sass"
-            ]
+            ],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

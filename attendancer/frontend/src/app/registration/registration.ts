@@ -1,53 +1,38 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth-service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, ValidationErrors, NgForm } from '@angular/forms';
 import { RegisterModel } from '../models/register-model';
 
 @Component({
   selector: 'app-registration',
   standalone: false,
   templateUrl: './registration.html',
-  styleUrl: './registration.sass'
+  styleUrl: './registration.sass',
 })
 export class Registration {
-
-  registerModel: RegisterModel = new RegisterModel()
+  registerModel: RegisterModel = new RegisterModel();
   confirmPassword: string = '';
   errorMessage: string = '';
 
-  constructor(
-    public authService: AuthService,
-    private router: Router
-  ){
+  constructor(public authService: AuthService, private router: Router) {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/sheet/1']);
     }
   }
 
-  onRegister(): void {
-      if (!this.registerModel.email || !this.registerModel.password) {
-        this.errorMessage = "Email and password are required!";
-        return;
-      }
-      if (this.registerModel.password !== this.confirmPassword) {
-        this.errorMessage = "Passwords do not match!";
-        return;
-      }
-      this.errorMessage = '';
-
-      this.authService.register(this.registerModel).subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: () => this.errorMessage = "Registration failed. Please try again!"
-      });
+  onRegister(form: NgForm): void {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      this.errorMessage = 'Please fill out all required fields correctly.';
+      return;
     }
 
- inputCheck(): boolean {
-    return this.registerModel.firstName.length > 0 &&
-           this.registerModel.lastName.length > 0 &&
-           this.registerModel.email.length > 0 &&
-           this.registerModel.password.length >= 6 &&
-           this.confirmPassword.length >= 6 &&
-           this.registerModel.password === this.confirmPassword;
+    this.errorMessage = '';
+
+    this.authService.register(this.registerModel).subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => (this.errorMessage = 'Registration failed. Please try again!'),
+    });
   }
 }

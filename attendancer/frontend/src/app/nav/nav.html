@@ -1,15 +1,18 @@
-<nav class="nav">
-    <div class="icon">
-        <img src="assets/attendancer.svg" alt="Attendancer Logo">
-    </div>
-    <div class="nav-actions" *ngIf="!authService.isLoggedIn(); else logOutSection">
-        <a routerLink="/login" class="nav-link">Log in</a>
-    </div>
-    <ng-template #logOutSection>
-        <div class="nav-actions">
-            <a routerLink="/createSheet" class="button-create">Create sheet</a>
-            <a routerLink="/profile" class="nav-link">Profile</a>
-            <a (click)="authService.logout()" class="nav-link">Log out</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EFF1F2; height: 70px;">
+    <div class="container-fluid">
+        <div class="icon" style="width: 200px; height: 200px;">
+            <img src="Assets/Attendancer emblem_blue.svg" alt="Attendancer emblem">
         </div>
-    </ng-template>
+        <div class="nav-actions" *ngIf="!authService.isLoggedIn(); else logOutSection">
+            <a routerLink="/login" class="nav-link">Log in</a>
+        </div>
+        <ng-template #logOutSection>
+            <div class="nav-actions">
+                <a routerLink="/createSheet" class="nav-link">+ Create sheet</a>
+                <a routerLink="/profile" class="nav-link">Profile</a>
+                <a (click)="authService.logout()" class="nav-link">Log out</a>
+            </div>
+        </ng-template>
+    </div>
+
 </nav>
