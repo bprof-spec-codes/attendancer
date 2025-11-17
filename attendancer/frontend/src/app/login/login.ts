@@ -20,14 +20,14 @@ export class Login {
     private router: Router,
   ) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/sheet/1']);
+      this.router.navigate(['/sheet/abcf9f45-d59d-4229-b13a-28e9a35718ca']);
     }
   }
 
   onLogin(form: NgForm): void {
     this.authService.login(this.loginModel).subscribe({
       next: () => {
-        this.router.navigate(['/sheet/1']);
+        this.router.navigate(['/sheet/abcf9f45-d59d-4229-b13a-28e9a35718ca']);
       },
       error: (err) => {
         console.error('Login failed:', err);

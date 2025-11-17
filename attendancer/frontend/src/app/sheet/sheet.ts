@@ -12,8 +12,14 @@ import { EventClient, ParticipantClient } from '../app.api-client.generated';
 })
 export class Sheet implements OnInit {
   eventId: string = ""
-  event: any
-  participants: any
+  event: any = {
+    name: "",
+    id: "",
+    qrCode: null,
+    isQrValid: null,
+    metadata: [],
+    participants: []
+  }
   presentCount: number = 0
   absentCount: number = 0
 
@@ -28,20 +34,14 @@ export class Sheet implements OnInit {
       this.eventId = params['id']
     })
 
-    this.eventClient.getEventById(this.eventId).subscribe((data) => {
-      this.event = data;
-    });
-
-    /*this.participantClient.getParticipantsByEventId(this.eventId).subscribe((data) => {
-      this.participants = data;
-    });*/
-
-    /*this.mockDataService.getEventById(this.eventId).subscribe((data) => {
-      this.event = data;
-    });*/
-
-    this.mockDataService.getParticipantsByEventId(this.eventId).subscribe((data) => {
-      this.participants = data;
+    this.eventClient.getEventById(this.eventId).subscribe((response) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string);
+        this.event = jsonData;
+        //console.log(this.event);
+      };
+      reader.readAsText(response.data);
     });
 
     this.countPresent()
@@ -51,12 +51,12 @@ export class Sheet implements OnInit {
    * Megjelent és hiányzó résztvevők kiszámítása.
    */
   countPresent(): void {
-    for (let i = 0; i < this.participants.length; i++) {
-      if (this.participants[i].present) {
+    for (let i = 0; i < this.event.participants.length; i++) {
+      if (this.event.participants[i].present) {
         this.presentCount++
       }
     }
 
-    this.absentCount = this.participants.length - this.presentCount
+    this.absentCount = this.event.participants.length - this.presentCount
   }
 }

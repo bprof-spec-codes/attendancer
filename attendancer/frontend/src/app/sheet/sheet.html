@@ -55,7 +55,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let participant of participants">
+                <tr *ngFor="let participant of event.participants">
                   <td class="sheet-table-cell text-center">{{ participant.username }}</td>
                   <td *ngFor="let data of participant.metadata">
                     {{ data }}
