@@ -1,6 +1,9 @@
-﻿using AttenDancer.Entity.Dtos.Event;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,9 +23,20 @@ namespace AttenDancer.Controllers
             _qrService = qrSrevice;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateEvent([FromBody] EventCreateDto createDto)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+
+
+            createDto.UserId = userId;
+
             await _eventService.CreateEventAsync(createDto);
             return Ok();
         }
