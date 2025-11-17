@@ -27,6 +27,13 @@ namespace AttenDancer.Controllers
             return Ok();
         }
 
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventById(string eventId)
+        {
+            var currentEvent = await _eventService.GetEventAsync(eventId);
+            return Ok(currentEvent);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllEvents()
         {

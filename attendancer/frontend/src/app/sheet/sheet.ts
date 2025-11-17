@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth-service';
+import { EventClient, ParticipantClient } from '../app.api-client.generated';
 
 @Component({
   selector: 'app-sheet',
@@ -16,7 +17,7 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService) {}
+  constructor(private route: ActivatedRoute, private eventClient: EventClient, private participantClient: ParticipantClient, private mockDataService: MockDataService, public authService: AuthService) {}
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
@@ -27,9 +28,17 @@ export class Sheet implements OnInit {
       this.eventId = params['id']
     })
 
-    this.mockDataService.getEventById(this.eventId).subscribe((data) => {
+    this.eventClient.getEventById(this.eventId).subscribe((data) => {
       this.event = data;
     });
+
+    /*this.participantClient.getParticipantsByEventId(this.eventId).subscribe((data) => {
+      this.participants = data;
+    });*/
+
+    /*this.mockDataService.getEventById(this.eventId).subscribe((data) => {
+      this.event = data;
+    });*/
 
     this.mockDataService.getParticipantsByEventId(this.eventId).subscribe((data) => {
       this.participants = data;
