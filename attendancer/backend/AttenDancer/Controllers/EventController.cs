@@ -63,6 +63,22 @@ namespace AttenDancer.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("/GetEventByUserId")]
+        public async Task<IActionResult> GetEventByUserIdAsync()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+
+
+            var events = await _eventService.GetEventByUserIdAsync(userId);
+            return Ok(events);
+        }
+
         [HttpPost("{eventId}/generate-qr")]
         public async Task<IActionResult> GenerateQrForEvent(string eventId)
         {
