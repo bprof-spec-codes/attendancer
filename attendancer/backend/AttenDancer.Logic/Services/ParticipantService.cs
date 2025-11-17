@@ -57,25 +57,6 @@ namespace AttenDancer.Logic.Services
         }
 
 
-        public async Task<List<EventSignedByUserViewDto>> GetSignedSheetsAsync(string userId)
-        {
-            var signedEvents = await _participantRepository.GetAll()
-                .Where(p => p.UserId == userId)
-                .Include(p => p.Event)
-                    .ThenInclude(e => e.EventGroup)
-                .OrderByDescending(p => p.Date)
-                .Select(p => new EventSignedByUserViewDto
-                {
-                    Id = p.Event.Id,
-                    Name = p.Event.Name,
-                    SignedAt = p.Date,
-                    EventGroupName = p.Event.EventGroup != null ? p.Event.EventGroup.Name : null,
-                    ExpirationDate = p.Event.ExpirationDate,
-                    IsQrValid = p.Event.IsQrValid
-                })
-                .ToListAsync();
-
-            return signedEvents;
-        }
+       
     }
 }
