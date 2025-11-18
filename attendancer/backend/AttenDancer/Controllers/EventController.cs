@@ -104,6 +104,28 @@ namespace AttenDancer.Controllers
             }
         }
 
+        [Authorize]
+        [HttpDelete("{eventId}")]
+        public async Task<IActionResult> DeleteEvent(string eventId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+
+            try
+            {
+                await _eventService.DeleteAsync(userId, eventId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("{eventId}/generate-qr")]
         public async Task<IActionResult> GenerateQrForEvent(string eventId)
         {

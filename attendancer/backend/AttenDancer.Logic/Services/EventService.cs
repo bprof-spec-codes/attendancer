@@ -105,9 +105,22 @@ namespace AttenDancer.Logic.Services
             return await _eventRepository.Update(existingEvent);
         }
 
-        public void DeleteEvent(string eventId)
+        public async Task DeleteAsync(string userId, string eventId)
         {
-            _eventRepository.DeleteById(eventId);
+            Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventId);
+
+            if (existingEvent == null)
+            {
+                throw new Exception("Esemény nem található");
+            }
+
+            if (existingEvent.UserId != userId)
+            {
+                throw new Exception("Esemény nem a bejelentkezett felhasználóhoz tartozik");
+            }
+
+            
+            await _eventRepository.DeleteById(eventId);
         }
     }
 }
