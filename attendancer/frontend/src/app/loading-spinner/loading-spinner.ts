@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { LoadingSpinnerService } from '../services/loading-spinner-service';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -7,13 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './loading-spinner.sass'
 })
 export class LoadingSpinner {
-  isLoading = false
-
-  show() {
-    this.isLoading = true
-  }
-
-  hide() {
-    this.isLoading = false
-  }
+  spinner = inject(LoadingSpinnerService);
 }
