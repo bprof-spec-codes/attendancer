@@ -111,20 +111,19 @@ namespace AttenDancer.Controllers
 
 
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserUpdateDto dto)
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto dto)
         {
             try
             {
-                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                
-                if (id != authenticatedUserId)
+                if (userId == null)
                 {
-                    return Forbid();
+                    return Unauthorized(new { message = "Érvénytelen token" });
                 }
 
-                var updatedUser = await _userService.UpdateAsync(id, dto);
+                var updatedUser = await _userService.UpdateAsync(userId, dto);
                 return Ok(updatedUser);
             }
             catch (Exception ex)
@@ -135,20 +134,19 @@ namespace AttenDancer.Controllers
 
 
         [Authorize]
-        [HttpPut("{id}/password")]
-        public async Task<IActionResult> ChangePassword(string id, [FromBody] UserChangePassword dto)
+        [HttpPut("/password")]
+        public async Task<IActionResult> ChangePassword([FromBody] UserChangePassword dto)
         {
             try
             {
-                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                
-                if (id != authenticatedUserId)
+                if (userId == null)
                 {
-                    return Forbid();
+                    return Unauthorized(new { message = "Érvénytelen token" });
                 }
 
-                await _userService.ChangePasswordAsync(id, dto);
+                await _userService.ChangePasswordAsync(userId, dto);
                 return Ok(new { message = "Jelszó sikeresen megváltoztatva" });
             }
             catch (Exception ex)
@@ -159,20 +157,19 @@ namespace AttenDancer.Controllers
 
 
         [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser()
         {
             try
             {
-                var authenticatedUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                
-                if (id != authenticatedUserId)
+                if (userId == null)
                 {
-                    return Forbid();
+                    return Unauthorized(new { message = "Érvénytelen token" });
                 }
 
-                await _userService.DeleteAsync(id);
+                await _userService.DeleteAsync(userId);
                 return Ok(new { message = "Felhasználó sikeresen törölve" });
             }
             catch (Exception ex)
