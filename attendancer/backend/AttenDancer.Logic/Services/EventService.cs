@@ -72,6 +72,11 @@ namespace AttenDancer.Logic.Services
                 throw new Exception("Esemény nem található");
             }
 
+            if (existingEvent.UserId != updatedto.UserId)
+            {
+                throw new Exception("Esemény nem a bejelentkezett felhasználóhoz tartozik");
+            }
+
             dtoProvider.Mapper.Map(updatedto, existingEvent);
             return await _eventRepository.Update(existingEvent);
         }

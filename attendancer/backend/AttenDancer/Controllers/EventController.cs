@@ -4,6 +4,7 @@ using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -77,6 +78,30 @@ namespace AttenDancer.Controllers
 
             var events = await _eventService.GetEventByUserIdAsync(userId);
             return Ok(events);
+        }
+
+        [Authorize]
+        [HttpPut("{eventId}")]
+        public async Task<IActionResult> UpdateEventAsync([FromBody] EventCreateDto dto, string eventId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+
+            try
+            {
+                dto.UserId = userId;
+
+                await _eventService.UpdateEventAsync(dto, eventId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("{eventId}/generate-qr")]
