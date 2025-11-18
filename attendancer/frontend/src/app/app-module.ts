@@ -11,15 +11,14 @@ import { Popup } from './popup/popup';
 import { Profile } from './profile/profile';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingSpinner } from './loading-spinner/loading-spinner';
-import { LoadingInterceptor } from './interceptors/loading.interceptor';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
 import { authenticationInterceptor } from './interceptors/authentication-interceptor';
-import { SheetSigned } from './sheet-signed/sheet-signed';
+import { errorInterceptor } from './interceptors/error-interceptor';
+import { loadingInterceptor } from './interceptors/loading-interceptor';
+import { loggingInterceptor } from './interceptors/logging-interceptor';
+import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { SheetSigned } from './sheet-signed/sheet-signed';
     SheetForm,
     LoadingSpinner,
     ModalWarning,
-    SheetSigned
   ],
   imports: [
     BrowserModule,
@@ -43,13 +41,17 @@ import { SheetSigned } from './sheet-signed/sheet-signed';
     FormsModule
   ],
   providers: [
-  provideHttpClient(
-    withInterceptors([
-      authenticationInterceptor
-    ])
-  ),
-  provideBrowserGlobalErrorListeners()
-],
+    provideHttpClient(
+      withInterceptors([
+        errorInterceptor,
+        authenticationInterceptor,
+        loadingInterceptor,
+        loggingInterceptor,
+        mockDataInterceptor
+      ])
+    ),
+    provideBrowserGlobalErrorListeners()
+  ],
   bootstrap: [App]
 })
 export class AppModule { }
