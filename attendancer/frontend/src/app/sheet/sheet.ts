@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
+import { EditEventService } from '../services/edit-event-service';
 
 @Component({
   selector: 'app-sheet',
@@ -16,7 +17,13 @@ export class Sheet implements OnInit {
   presentCount: number = 0
   absentCount: number = 0
 
-  constructor(private route: ActivatedRoute, private mockDataService: MockDataService, public authService: AuthService) {}
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private mockDataService: MockDataService, 
+    private editEventService: EditEventService, 
+    public authService: AuthService
+  ) {}
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
@@ -27,19 +34,22 @@ export class Sheet implements OnInit {
       this.eventId = params['id']
     })
 
+    // Lekérdezni az esemény adatait.
     this.mockDataService.getEventById(this.eventId).subscribe((data) => {
       this.event = data;
     });
 
+    // Lekérdezni az esemény résztvevőit.
     this.mockDataService.getParticipantsByEventId(this.eventId).subscribe((data) => {
       this.participants = data;
     });
 
+    // Kiszámolni a résztvevők és nem résztvevők számát.
     this.countPresent()
   }
 
   /**
-   * Megjelent és hiányzó résztvevők kiszámítása.
+   * A megjelent és hiányzó résztvevők kiszámítása.
    */
   countPresent(): void {
     for (let i = 0; i < this.participants.length; i++) {
@@ -49,5 +59,13 @@ export class Sheet implements OnInit {
     }
 
     this.absentCount = this.participants.length - this.presentCount
+  }
+
+  /**
+   * Átnavigálni az editSheet oldalra a jelenlegi esemény adataival.
+   */
+  edit(): void {
+    this.editEventService.setEvent(this.event);
+    this.router.navigate(['/editSheet']);
   }
 }
