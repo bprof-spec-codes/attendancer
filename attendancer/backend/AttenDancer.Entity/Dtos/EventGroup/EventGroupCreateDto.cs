@@ -10,9 +10,9 @@ namespace AttenDancer.Entity.Dtos.EventGroup
         public List<string> EventIds { get; set; } = new List<string>();
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }
