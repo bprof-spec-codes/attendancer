@@ -111,5 +111,27 @@ namespace AttenDancer.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("{eventGroupId}/{userId}")]
+        public async Task<IActionResult> GetEventGGetParticipantFromEventGroupByIDAsyncroupByIdAsync(string eventGroupId, string userId)
+        {
+            var Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+            try
+            {
+
+                return Ok(await _eventGroupService.GetParticipantFromEventGroupByIDAsync(eventGroupId, userId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+
     }
 }
