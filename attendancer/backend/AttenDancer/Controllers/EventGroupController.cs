@@ -20,7 +20,7 @@ namespace AttenDancer.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateEventGroup([FromBody] EventGroupCreateDto createDto)
+        public async Task<IActionResult> CreateEventGroupAsync([FromBody] EventGroupCreateDto createDto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -33,6 +33,30 @@ namespace AttenDancer.Controllers
                 createDto.UserId = userId;
 
                 await _eventGroupService.CreateEventGroupAsync(createDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+
+        [Authorize]
+        [HttpPut("{eventGroupId}")]
+        public async Task<IActionResult> UpdateEventGroupAsync(string eventGroupId, [FromBody] EventGroupCreateDto createDto)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+            try
+            {
+                createDto.UserId = userId;
+
+                await _eventGroupService.UpdateEventGroupAsync(eventGroupId, createDto);
                 return Ok();
             }
             catch (Exception ex)

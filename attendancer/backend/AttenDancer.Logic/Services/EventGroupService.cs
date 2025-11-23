@@ -77,8 +77,13 @@ namespace AttenDancer.Logic.Services
             return eventGroupView;
         }
 
-        public async Task<EventGroup> UpdateEventGroupAsync(List<string> eventIds, string name, string eventGroupId)
+        public async Task<EventGroup> UpdateEventGroupAsync(string eventGroupId, EventGroupCreateDto createDto)
         {
+            if (createDto.EventIds== null || createDto.EventIds.Count == 0)
+            {
+                throw new Exception("Eseménycsoportnak legalább egy eseményt tartalmaznia kell.");
+            }
+
             EventGroup? eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
 
             if (eventGroup == null)
@@ -86,11 +91,31 @@ namespace AttenDancer.Logic.Services
                 throw new Exception("Hibás eseménycsoport azonosító");
             }
 
-            List<Event> events = _eventRepository.GetAll().Where(e => eventIds.Contains(e.Id)).ToList();
+            var oldEvents = eventGroup.Events.ToList();
 
-            eventGroup.Name = name;
+            foreach (var e in oldEvents)
+            {
+                e.EventGroupId = null;
+                await _eventRepository.Update(e);
+            }
+
+            List<Event> events = _eventRepository.GetAll().Where(e => createDto.EventIds.Contains(e.Id)).ToList();
+            events.Where(e => e.UserId != createDto.UserId).ToList().ForEach(e =>
+            {
+                throw new Exception($"Az eseménycsoport létrehozásához minden eseménynek ugyanahhoz a felhasználóhoz kell tartoznia." +
+                    $" Hibás esemény azonosító: {e.Id}");
+            });
+
+            eventGroup.Name = createDto.Name;
             eventGroup.Events = events;
-            return await _eventGroupRepository.Update(eventGroup);
+            await _eventGroupRepository.Update(eventGroup);
+
+            foreach (var ev in events)
+            {
+                ev.EventGroupId = eventGroup.Id;
+                await _eventRepository.Update(ev);
+            }
+            return eventGroup;
         }
 
         public void DeleteEventGroup(string eventGroupId)
