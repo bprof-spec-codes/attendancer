@@ -1,15 +1,16 @@
-﻿using AttenDancer.Data.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Dtos.EventGroup;
 using AttenDancer.Entity.Dtos.Participant;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AttenDancer.Logic.Services
 {
@@ -48,6 +49,12 @@ namespace AttenDancer.Logic.Services
             }
 
             return newEventGroup;
+        }
+
+        public async Task<List<EventGroupViewDto>> GetAllEventGroupAsync()
+        {
+            List<EventGroupViewDto> events = dtoProvider.Mapper.Map<List<EventGroupViewDto>>(await _eventGroupRepository.GetAll().ToListAsync());
+            return events;
         }
 
         public async Task<EventGroupViewDto> GetEventGroupByIDAsync(string eventGroupId, string userId)
