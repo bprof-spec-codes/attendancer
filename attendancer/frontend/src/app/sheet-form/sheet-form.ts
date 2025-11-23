@@ -12,7 +12,7 @@ import { EditEventService } from '../services/edit-event-service';
 export class SheetForm implements OnInit {
   customFields: number[] = []
   selectedEventOrEventGroup: string = ""
-  currentEvent: any = { // egy Event mock-olása - itt majd ez lesz: currentEvent: Event
+  currentEvent: any = {
     id: "",
     name: "",
     date: "",
@@ -22,7 +22,7 @@ export class SheetForm implements OnInit {
   events: any[] = []
   eventGroups: any[] = []
   currentlySelectedMetadata: string[] = []
-  userId: string = (Math.floor(Math.random() * 3) + 1).toString() // a bejelentkezett felhasználó id-jének mock-olása
+  userId: string = (Math.floor(Math.random() * 3) + 1).toString()
   editMode: boolean = false
 
   constructor(
@@ -32,63 +32,45 @@ export class SheetForm implements OnInit {
     private editEventService: EditEventService
   ) {}
 
-  /**
-   * Lekérni az jelenleg bejelentkezett felhasználó által készített eseményeket és esemény csoportokat.
-   */
   ngOnInit(): void {
-    // Ellenőrizni, hogy melyik az editSheet oldalra jöttünk-e.
     if (this.route.snapshot.routeConfig?.path === "editSheet") {
 
-      // Igazra állítani a szerkesztő módot.
       this.editMode = true
 
-      // Lekérni a megfelelő esemény adatait.
       this.currentEvent = this.editEventService.getEvent();
 
-      // Ha nem kapott adatot, pl.: oldal újratöltése miatt.
       if (this.currentEvent === undefined) {
         this.router.navigate(['/createSheet']);
       }
 
-      // Létrehozni az opcionális adatok darabszámú inputmezőt.
       this.currentEvent.metadata.forEach(() => {
         this.addCustomField()
       });
 
-      // A megkapott eseményt beállítani a kiválasztott eseményre.
       this.selectedEventOrEventGroup = this.currentEvent.eventGroupId
       this.onSelectionChange(this.currentEvent.eventGroupId)
     }
     
-    // Lekérdezni az esemény adatait.
     this.mockDataService.getEventsByUserId(this.userId).subscribe((data) => {
       this.events = data;
     });
 
-    // Lekérdezni az eseménycsoportok neveit és metaadatait.
     this.mockDataService.getEventGroupsWithMetadataByUserId(this.userId).subscribe((data) => {
       this.eventGroups = data;
     });
   }
 
-  /**
-   * Egy esemény vagy esemény csoport kiválasztásakor a megfelelő metaadatokat betölteni és kiírni.
-   * @param selectedValue - A kiválasztott esemény vagy esemény csoport id-ja.
-   */
   onSelectionChange(selectedValue: string) {
-    // Szerkesztő módba nem íródjon felül a jelenlegi esemény, esemény csoport id-ja. (Ez majd a 'editSheet()'-be történik meg.)
     if (!this.editMode) {
       this.currentEvent.eventGroupId = selectedValue
     }
 
-    // Beállítani a jelenleg kiválasztott események metaadatait.
     this.events.forEach(event => {
       if (event.id === selectedValue) {
         this.currentlySelectedMetadata = event.metadata
       }
     });
 
-    // Beállítani a jelenleg kiválasztott esemény csoportok metaadatait.
     this.eventGroups.forEach(eventGroup => {
       if (eventGroup.id === selectedValue) {
         this.currentlySelectedMetadata = eventGroup.metadata
@@ -96,52 +78,33 @@ export class SheetForm implements OnInit {
     });
   }
 
-  /**
-   * Meghívja az új esemény felvételét a service-ből ha érvényes a bemenet és meghívja az oldal alap állapotába való visszaállítását.
-   */
   createSheet() {
-    // Nagyon egyszerű validáció.
     if (!this.inputInvalid()) {
 
-      // Kitörölni az üres metaadatokat a tömbből.
       this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
 
-      // Ha már meglévő eseményhez vagy esemény csoporthoz lesz hozzárendelve a jelenleg elkészült esemény akkor nem lesz elküldve a metadata.
       this.mockDataService.postEvent(this.currentEvent)
       this.resetPage()
     }
   }
 
-  /**
-   * Meghívja egy esemény frissítését a service-ből ha érvényes a bemenet majd átirányítja a felhasználót egy másik oldalra.
-   */
+
   editSheet() {
-    // Nagyon egyszerű validáció.
     if (!this.inputInvalid()) {
 
-      // Kitörölni az üres metaadatokat a tömbből.
       this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
 
-      // Felülírni az esemény csoport id-jét a kiválasztottra.
       this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
 
-      // Elküldeni a frissített esemény adatait majd átirányítrani a felhasználót egy másik oldalra.
       this.mockDataService.updateEvent(this.currentEvent)
       this.router.navigate(['/profile']);
     }
   }
 
-  /**
-   * Ellenőrzi a bemenetet, hogy ne legyen üres.
-   * @returns boolean - Igazat ad vissza ha a bemenet üres névre és/vagy a dátumra. Ha ezek teljesülnek akkor igazat ad vissza.
-   */
   inputInvalid(): boolean {
     return !(this.currentEvent.name.length > 0 && this.currentEvent.date.length > 0)
   }
 
-  /**
-   * Minden értéket alap állapotra visszaállítani és újra lekérni az adatokat.
-   */
   resetPage(): void {
     this.customFields = []
     this.selectedEventOrEventGroup = ""
@@ -158,17 +121,10 @@ export class SheetForm implements OnInit {
     this.ngOnInit()
   }
 
-  /**
-   * Opcionális adathoz egy inputmező hozzáadása.
-   */
   addCustomField(): void {
     this.customFields.push(this.customFields.length);
   }
 
-  /**
-   * Az opcionális adathoz a megadott indexű inputmező és annak tartalmának törlése.
-   * @param index - A törölni kívánt inputmező és annak tartalmának id-ja.
-   */
   removeCustomField(index: number): void {
     this.customFields.splice(index, 1);
     this.currentEvent.metadata[index] = ""

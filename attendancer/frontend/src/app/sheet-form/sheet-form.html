@@ -85,17 +85,11 @@
                                 @else {
                                 <button type="submit" class="button-primary" (click)="createSheet()"
                                     [disabled]="inputInvalid()"
-                                    style="width: 50%; align-self: center; margin-top: 1rem;">Create sheet</button>
+                                    style="width: 50%; align-self: center; margin-top: 1rem;">Create</button>
                                 }
 
-                                <button type="submit" class="button-primary" (click)="createSheet()"
-                                    [disabled]="inputInvalid()"
-                                    style="width: 50%; align-self: center; margin-top: 1rem;">Create</button>
-                                <div *ngIf="inputInvalid()" class="text-center invalid-validation-message">
-                                    <p>You need to give a name and a date to your new sheet!</p>
-                                </div>
                                 @if (inputInvalid()) {
-                                <div class="invalid-validation-message">
+                                <div class="invalid-validation-message text-center mt-2">
                                     <p>You need to give a name and a date to your sheet!</p>
                                 </div>
                                 }

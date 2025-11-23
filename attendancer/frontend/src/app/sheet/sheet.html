@@ -1,68 +1,89 @@
-<div class="background">
-  <main class="shell">
-    <div class="sheet">
-      <div class="table-title-card">
-        <div class="table-title-card-actions" *ngIf="authService.isLoggedIn()">
-          <button (click)="edit()" class="btn btn-primary">
-            <img src="assets/icons/white-edit.svg" style="width:15px; height: 15px;">
-            Edit
-          </button>
-          <button (click)="modal.open()" class="btn btn-danger">
-            <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
-            Delete
-          </button>
-          <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
-
-          <div class="table-title-card-actions-group">
-            <!--QR code cuccli-->
-            <button class="button-small button-outline">Show QR code</button>
-            <button class="button-small button-alert">
-              <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
-              Delete QR code
-            </button>
-          </div>
+<div class="d-flex flex-column align-items-stretch justify-content-start mt-4 w-75 min-vh-100 mx-auto py-4">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row" *ngIf="!authService.isLoggedIn(); else logOutSection">
+                    </div>
+                    <ng-template #logOutSection>
+                        <div class="row">
+                            <div class="col-6 d-flex justify-content-start">
+                                <button class="button-primary w-25">Edit</button>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end gap-3">
+                                <button class="button-primary">Show QR code</button>
+                                <button class="button-alert">
+                                    <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                                    Delete QR code
+                                </button>
+                            </div>
+                        </div>
+                        <button (click)="modal.open()" class="btn btn-danger">
+                            <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                            Delete
+                        </button>
+                        <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
+                    </ng-template>
+                    <div class="row">
+                        <div class="container-fluid d-flex justify-content-center align-items-center">
+                            <h1>{{ event.name }}</h1>
+                        </div>
+                    </div>
+                    <div class="row mb-3 py-4">
+                        <div class="container-fluid d-flex justify-content-center gap-4 mt-2">
+                            <div class="card d-flex justify-content-center align-items-center"
+                                style="border-radius: 0; width: 80px; height: 80px; border: 1px solid #213F9A;">
+                                <div class="card-body d-flex justify-content-center align-items-center p-0">
+                                    <h1 class="text-center m-0" style="color: green;">{{ presentCount }}</h1>
+                                </div>
+                            </div>
+                            <div class="card d-flex justify-content-center align-items-center"
+                                style="border-radius: 0; width: 80px; height: 80px; border: 1px solid #213F9A;">
+                                <div class="card-body d-flex justify-content-center align-items-center p-0">
+                                    <h1 class="text-center m-0" style="color: crimson;">{{ absentCount }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card d-flex justify-content-center align-items-center"
-        style="border-radius: 0; width: 80px; height: 80px; border: 1px solid #213F9A;">
-        <div class="card-body d-flex justify-content-center align-items-center p-0">
-          <h1 class="text-center m-0" style="color: crimson;">{{ absentCount }}</h1>
-        </div>
-      </div>
     </div>
     <div class="row">
-      <div class="container-fluid mt-4 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-striped m-0 text-center" style="border-radius: 5px; overflow: hidden;">
-                <thead style="font-size: 25px; color: #213F9A;">
-                  <tr>
-                    <th class="text-center brand-color-text">Name</th>
-                    <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data }}</th>
-                    <th class="text-center brand-color-text">Presence</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let participant of participants">
-                    <td class="sheet-table-cell text-center">{{ participant.username }}</td>
-                    <td *ngFor="let data of participant.metadata">
-                      {{ data }}
-                    </td>
-                    <td class="sheet-table-cell text-center">
-                      <span *ngIf="participant.present; else absent;"><img src="Assets/Icons/check.svg"
-                          style="width: 25px; height: 25px;"> </span>
-                      <ng-template #absent>
-                        <span><img src="Assets/Icons/cross.svg" style="height: 30px; width: 30px;"></span>
-                      </ng-template>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="container-fluid mt-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped m-0 text-center"
+                            style="border-radius: 5px; overflow: hidden;">
+                            <thead style="font-size: 25px; color: #213F9A;">
+                                <tr>
+                                    <th class="text-center brand-color-text">Name</th>
+                                    <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data
+                                        }}</th>
+                                    <th class="text-center brand-color-text">Presence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let participant of participants">
+                                    <td class="sheet-table-cell text-center">{{ participant.username }}</td>
+                                    <td *ngFor="let data of participant.metadata">
+                                        {{ data }}
+                                    </td>
+                                    <td class="sheet-table-cell text-center">
+                                        <span *ngIf="participant.present; else absent;"><img
+                                                src="Assets/Icons/check.svg" style="width: 25px; height: 25px;"> </span>
+                                        <ng-template #absent>
+                                            <span><img src="Assets/Icons/cross.svg"
+                                                    style="height: 30px; width: 30px;"></span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </main>
 </div>

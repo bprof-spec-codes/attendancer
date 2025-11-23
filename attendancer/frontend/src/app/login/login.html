@@ -20,14 +20,12 @@
                                     <h1 style="font-size: 35px;">Sign into Attendancer</h1>
                                 </div>
 
-                                <div *ngIf="errorMessage" class="error-message">
-                                    {{ errorMessage }}
-                                </div>
+                    
 
                                 <form #loginForm="ngForm" class="form" (ngSubmit)="onLogin(loginForm)">
                                     <div class="form-field p-2">
                                         <label for="email" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
+                                            style="font-size: 20px; font-weight: 700;">
                                             Email address
                                         </label>
                                         <input
@@ -47,7 +45,7 @@
 
                                     <div class="form-field p-2">
                                         <label for="password" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
+                                            style="font-size: 20px; font-weight: 700;">
                                             Password
                                         </label>
                                         <input
