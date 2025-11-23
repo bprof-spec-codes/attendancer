@@ -1,4 +1,6 @@
-﻿using AttenDancer.Entity.Dtos.User;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,7 @@ namespace AttenDancer.Controllers
 
         private readonly UserService _userService;
         private readonly AuthService _authService;
+
 
         public UserController(UserService userService, AuthService authService)
         {
