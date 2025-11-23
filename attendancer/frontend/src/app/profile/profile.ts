@@ -12,6 +12,19 @@ import { NgForm } from '@angular/forms';
 })
 export class Profile implements OnInit {
   activeSection: 'profile' | 'statistics' | 'edit' | 'sheets' = 'profile';
+  isMobile = false;
+
+  private updateIsMobile() {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      this.isMobile = window.matchMedia('(max-width: 1100px)').matches;
+    }
+  }
+
+  @HostListener('window:resize')
+  @HostListener('window:orientationchange')
+  onResize() {
+    this.updateIsMobile();
+  }
   participation: any[] = [
     // mock-olása
     {
