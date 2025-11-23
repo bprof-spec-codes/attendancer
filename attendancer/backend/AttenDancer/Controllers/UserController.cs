@@ -1,6 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using AttenDancer.Entity.Dtos.User;
+﻿using AttenDancer.Entity.Dtos.User;
+using AttenDancer.Logic.Interfaces;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +14,13 @@ namespace AttenDancer.Controllers
 
         private readonly UserService _userService;
         private readonly AuthService _authService;
+        private readonly IEmailService _emailService;
 
-
-        public UserController(UserService userService, AuthService authService)
+        public UserController(UserService userService, AuthService authService, IEmailService emailService)
         {
             _userService = userService;
             _authService = authService;
+            _emailService = emailService;
         }
 
 
@@ -36,12 +36,29 @@ namespace AttenDancer.Controllers
                     dto.Password
                 );
 
+                var confirmUrl = $"https://www.youtube.com/shorts/Ay8lynMZ4mE";
+
+                var placeholders = new Dictionary<string, string>
+                {
+                    ["USERNAME"] = $"{user.FirstName} {user.LastName}",
+                    ["EMAIL"] = user.Email,
+                    ["CONFIRM_URL"] = confirmUrl
+                };
+
+                await _emailService.SendTemplateEmailAsync(
+                    to: user.Email,
+                    subject: "Sikeres regisztráció",
+                    templateName: "registration",
+                    placeholders: placeholders
+                );
+
                 return Ok(new
                 {
                     id = user.Id,
                     firstName = user.FirstName,
                     lastName = user.LastName,
-                    email = user.Email
+                    email = user.Email,
+                    emailSent = true
                 });
             }
             catch (Exception ex)
