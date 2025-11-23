@@ -91,6 +91,11 @@ namespace AttenDancer.Logic.Services
                 throw new Exception("Hibás eseménycsoport azonosító");
             }
 
+            if (eventGroup.UserId != createDto.UserId)
+            {
+                throw new Exception("Eseménycsoportot csak a tulajdonosa tudja módosítani");
+            }
+
             var oldEvents = eventGroup.Events.ToList();
 
             foreach (var e in oldEvents)
@@ -121,6 +126,35 @@ namespace AttenDancer.Logic.Services
         public void DeleteEventGroup(string eventGroupId)
         {
             _eventGroupRepository.DeleteById(eventGroupId);
+        }
+
+        public async Task DeleteEventGroupAsync(string eventGroupId, string userId)
+        {
+            EventGroup? eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
+
+            if (eventGroup == null)
+            {
+                throw new Exception("Hibás eseménycsoport azonosító");
+            }
+
+            if (eventGroup.UserId != userId)
+            {
+                throw new Exception("Eseménycsoportot csak a tulajdonosa tudja kitörölni");
+            }
+
+            var events = eventGroup.Events.ToList();
+
+            foreach (var e in events)
+            {
+                e.EventGroupId = null;
+                await _eventRepository.Update(e);
+            }
+
+            await _eventGroupRepository.DeleteById(eventGroupId);
+
+
+
+
         }
     }
 }

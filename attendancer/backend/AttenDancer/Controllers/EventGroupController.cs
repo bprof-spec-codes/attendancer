@@ -3,6 +3,7 @@ using AttenDancer.Entity.Dtos.EventGroup;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenDancer.Controllers
@@ -65,5 +66,28 @@ namespace AttenDancer.Controllers
             }
 
         }
+
+        [Authorize]
+        [HttpDelete("{eventGroupId}")]
+        public async Task<IActionResult> DeleteEventGroupAsync(string eventGroupId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+
+            try
+            {
+                await _eventGroupService.DeleteEventGroupAsync(eventGroupId, userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
