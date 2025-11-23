@@ -12,7 +12,6 @@ namespace AttenDancer.Entity.Dtos.EventGroup
         [Required]
         public string Name { get; set; } = null!;
 
-        [Required]
         public string? UserId { get; set; }
     }
 }
