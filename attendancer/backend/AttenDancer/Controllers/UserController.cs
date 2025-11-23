@@ -225,6 +225,28 @@ namespace AttenDancer.Controllers
         }
 
 
+        [Authorize]
+        [HttpGet("me/signed-sheets")]
+        public async Task<IActionResult> GetMySignedSheets()
+        {
+            try
+            {
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "Érvénytelen token" });
+                }
+
+                var signedSheets = await _userService.GetSignedSheetsAsync(userId);
+                return Ok(signedSheets);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
     }
 }
