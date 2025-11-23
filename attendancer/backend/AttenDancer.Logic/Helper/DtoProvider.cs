@@ -3,6 +3,7 @@ using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Dtos.EventGroup;
 using AttenDancer.Entity.Dtos.Participant;
 using AttenDancer.Entity.Entity_Models;
+using AttenDancer.Entity.Dtos.User;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,23 @@ namespace AttenDancer.Logic.Helper
         public Mapper Mapper { get; }
         private readonly IRepository<User> _userRepository;
 
-        public DtoProvider()
+        public DtoProvider(IRepository<User> userRepository)
         {
+            _userRepository = userRepository;
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<EventCreateDto, Event>();
+
+                cfg.CreateMap<Participant, ParticipantViewDto>()
+                   .AfterMap((src, dest) =>
+                   {
+                       dest.UserFullName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.FirstName}" +
+                       $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.LastName}";
+                       dest.MetadataDictionary = src.Metadata != null
+                           ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(src.Metadata)
+                           : new Dictionary<string, string>();
+                       dest.Date = src.Date;
+                   });
 
                 cfg.CreateMap<Event, EventViewDto>()
                    .AfterMap((src, dest) =>
@@ -77,6 +90,13 @@ namespace AttenDancer.Logic.Helper
                             dest.Present = new Dictionary<string, DateTime>();
                         }
                     });
+                cfg.CreateMap<User, UserResponseDto>();
+                cfg.CreateMap<UserUpdateDto, User>()
+                    .ForMember(dest => dest.Id, opt => opt.Ignore())
+                    .ForMember(dest => dest.Password, opt => opt.Ignore())
+                    .ForMember(dest => dest.EventGroups, opt => opt.Ignore())
+                    .ForMember(dest => dest.Events, opt => opt.Ignore())
+                    .ForMember(dest => dest.Participants, opt => opt.Ignore());
             });
             Mapper = new Mapper(config);
         }

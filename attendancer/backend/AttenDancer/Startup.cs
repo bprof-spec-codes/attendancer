@@ -1,13 +1,15 @@
-﻿using System.Text;
 using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
+using AttenDancer.Logic.Helper;
+using AttenDancer.Logic.Interfaces;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AttenDancer;
 
@@ -65,16 +67,35 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument();
+        services.AddOpenApiDocument(config =>
+        {
+            config.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
+                Name = "Authorization",
+                In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                Description = "Írd be ide: Bearer TOKEN"
+            });
+
+            config.OperationProcessors.Add(
+                new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+        });
+
 
         services.AddTransient<IRepository<User>, Repository<User>>();
         services.AddTransient<IRepository<Event>, Repository<Event>>();
         services.AddTransient<IRepository<EventGroup>, Repository<EventGroup>>();
         services.AddTransient<IRepository<Participant>, Repository<Participant>>();
 
-
+        services.AddScoped<DtoProvider>();
         services.AddScoped<AuthService>();
         services.AddScoped<UserService>();
+        services.AddScoped<ParticipantService>();
+        services.AddScoped<EventService>();
+        services.AddScoped<EventGroupService>();
+        services.AddScoped<QrService>();
+        services.AddScoped<DtoProvider>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -89,12 +110,15 @@ public class Startup(IConfiguration configuration)
 
         app.UseRouting();
 
+        app.UseAuthentication();
+        app.UseMiddleware<ActiveUserMiddleware>();
+        app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+        
     }
 }

@@ -404,4 +404,163 @@ export class MockDataService {
     console.log("(DELETE - /api/Event/{eventid}) The following data will be sent to the backend:")
     console.log(eventId)
   }
+
+  // Egy felhasználó adatainak lekérése az felhasználó id-je alapján.
+  // A mock-ban a bejelentkezett felhasználó az id-je alapján a saját maga adatait kapja vissza (kivéve a jelszót).
+  // GET - /api/User/{userid}
+  getUserByUserId(userId: string): Observable<any> {
+    let mockData: any = {}
+
+    if (userId === "1") {
+      mockData = {
+        "lastName": "Kovács",
+        "firstName": "János",
+        "email": "janos.kovacs@example.com"
+      }
+    }
+    else if (userId === "2") {
+      mockData = {
+        "lastName": "Tóth",
+        "firstName": "Péter",
+        "email": "peter.toth@example.com"
+      }
+    }
+    else {
+      mockData = {
+        "lastName": "Nagy",
+        "firstName": "Anna",
+        "email": "anna.nagy@example.com"
+      }
+    }
+
+    return of(mockData)
+  }
+
+  // Egy jelenleg bejelentkezett felhasználó az eseményeken való részvételeinek adatait kérdezi le.
+  // A mock-ban a bejelentkezett felhasználó az id-je alapján a szükséges események csoportjait 
+  // és az azokhoz tartozó események részvételi állapotát kapja vissza.
+  // GET - /api/EventGroup/participation/{userid}
+  getSignedEventsByUserId(userId: string): Observable<any> {
+    let mockData: any[] = []
+
+    if (userId === "1") {
+      mockData = [
+        {
+          "name": "Angular",
+          "lastSigned": "2025.10.18.",
+          "signedEvents": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "DevOps",
+          "lastSigned": "2025.10.10.",
+          "signedEvents": [
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "Egyszeri esemény",
+          "lastSigned": "2025.10.04.",
+          "signedEvents": [
+            true,
+          ]
+        }
+      ]
+    }
+    else if (userId === "2") {
+      mockData = [
+        {
+          "name": "Rendszerelmélet",
+          "lastSigned": "2025.10.16.",
+          "signedEvents": [
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "name": "Beágyazott rendszerek",
+          "lastSigned": "2025.10.23.",
+          "signedEvents": [
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "Egyszeri esemény 2.0",
+          "lastSigned": "2025.10.04.",
+          "signedEvents": [
+            true,
+          ]
+        }
+      ]
+    }
+    else {
+      mockData = [
+        {
+          "name": "DIMAT",
+          "lastSigned": "2025.10.21.",
+          "signedEvents": [
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "Analízis",
+          "lastSigned": "2025.10.29.",
+          "signedEvents": [
+            true,
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "Egyszeri esemény 3.0",
+          "lastSigned": "2025.10.04.",
+          "signedEvents": [
+            false,
+          ]
+        }
+      ]
+    }
+
+    return of(mockData)
+  }
 }
