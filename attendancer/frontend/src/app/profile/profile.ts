@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
