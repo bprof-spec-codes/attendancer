@@ -39,7 +39,15 @@ namespace AttenDancer.Logic.Services
                     $" Hibás esemény azonosító: {e.Id}");
             });
             var newEventGroup = dtoProvider.Mapper.Map<EventGroup>(createDto);
-            return await _eventGroupRepository.Create(newEventGroup);
+            await _eventGroupRepository.Create(newEventGroup);
+
+            foreach (var ev in events)
+            {
+                ev.EventGroupId = newEventGroup.Id;
+                await _eventRepository.Update(ev);
+            }
+
+            return newEventGroup;
         }
 
         public async Task<EventGroupViewDto> GetEventGroupByIDAsync(string eventGroupId)
