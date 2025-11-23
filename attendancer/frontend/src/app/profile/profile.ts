@@ -1,46 +1,44 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
+import { UserService } from '../services/user-service';
+import { User } from '../models/user';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: false,
   templateUrl: './profile.html',
-  styleUrl: './profile.sass'
+  styleUrl: './profile.sass',
 })
 export class Profile implements OnInit {
   activeSection: 'profile' | 'statistics' | 'edit' | 'sheets' = 'profile';
-  participation: any[] = [ // mock-olása
+  participation: any[] = [
+    // mock-olása
     {
-      "name": "",
-      "lastSigned": "",
-      "signedEvents": []
-    }
-  ]
-  isMobile = false;
+      name: '',
+      lastSigned: '',
+      signedEvents: [],
+    },
+  ];
+  user: User = new User();
 
-  private updateIsMobile() {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      this.isMobile = window.matchMedia('(max-width: 1100px)').matches;
-    }
-  }
+  userId: string = (Math.floor(Math.random() * 3) + 1).toString(); // a bejelentkezett felhasználó id-jének mock-olása
 
-  @HostListener('window:resize')
-  @HostListener('window:orientationchange')
-  onResize() {
-    this.updateIsMobile();
-  }
+  nameErrorMessage: string = '';
+  emailErrorMessage: string = '';
+  emailConfirmErrorMessage: string = '';
+  passwordErrorMessage: string = '';
+  passwordConfirmErrorMessage: string = '';
 
-  user: any = { // egy User mock-olása - itt majd ez lesz: user: User
-    lastName: "",
-    firstName: "",
-    email: ""
-  }
-  userId: string = (Math.floor(Math.random() * 3) + 1).toString() // a bejelentkezett felhasználó id-jének mock-olása
+  constructor(private mockDataService: MockDataService, private userService: UserService) {}
 
-  constructor(private mockDataService: MockDataService) { }
+  pendingFirstName: string = '';
+  pendingLastName: string = '';
+  pendingEmail: string = '';
+  pendingEmailConfirm: string = '';
 
   ngOnInit(): void {
-    this.mockDataService.getUserByUserId(this.userId).subscribe((data) => {
+    this.userService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
 
@@ -51,5 +49,85 @@ export class Profile implements OnInit {
 
   setActiveSection(section: 'profile' | 'statistics' | 'edit' | 'sheets'): void {
     this.activeSection = section;
+  }
+
+  onChangeName(form: NgForm): void {
+    this.nameErrorMessage = '';
+    if (form.invalid) {
+      this.nameErrorMessage = 'Please fill in all required fields';
+      return;
+    }
+    this.user.firstName = this.pendingFirstName;
+    this.user.lastName = this.pendingLastName;
+    this.userService.updateUser(this.user).subscribe({
+      next: (response: User) => {
+        this.user = response;
+      },
+      error: () => {
+        this.nameErrorMessage = 'Error updating name. Please try again.';
+      },
+    });
+    form.resetForm();
+  }
+
+  onChangeEmail(form: NgForm): void {
+    this.emailErrorMessage = '';
+    this.emailConfirmErrorMessage = '';
+    if (form.invalid) {
+      this.emailErrorMessage = 'Please fill in all required fields';
+      return;
+    }
+    if (this.pendingEmail !== this.pendingEmailConfirm) {
+      this.emailConfirmErrorMessage = 'Emails do not match';
+      return;
+    }
+    this.user.email = this.pendingEmail;
+    this.userService.updateUser(this.user).subscribe({
+      next: (response: User) => {
+        this.user = response;
+      },
+      error: () => {
+        this.emailErrorMessage = 'Error updating email. Please try again.';
+      },
+    });
+    form.resetForm();
+  }
+
+  onChangePassword(form: NgForm): void {
+    this.passwordErrorMessage = '';
+    this.passwordConfirmErrorMessage = '';
+
+    if (form.invalid) {
+      this.passwordErrorMessage = 'Please fill in all required fields';
+      return;
+    }
+    const password = form.value.password;
+    const passwordConfirm = form.value.passwordConfirm;
+
+    if (password !== passwordConfirm) {
+      this.passwordConfirmErrorMessage = 'Passwords do not match';
+      return;
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(password)) {
+      this.passwordErrorMessage =
+        'Password must be at least 6 characters with uppercase, lowercase, and number';
+      return;
+    }
+    const passwordData = {
+      oldPassword: form.value.oldPassword,
+      newPassword: password,
+    };
+
+    this.userService.updatePassword(this.user.id, passwordData).subscribe({
+      next: (response: any) => {
+        console.log('Password updated successfully', response);
+        form.resetForm();
+      },
+      error: (err) => {
+        console.error('Error updating password', err);
+        this.passwordErrorMessage = 'Error updating password. Please try again.';
+      },
+    });
   }
 }

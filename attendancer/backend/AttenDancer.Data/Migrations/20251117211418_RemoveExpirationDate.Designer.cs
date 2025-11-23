@@ -4,6 +4,7 @@ using AttenDancer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttenDancer.Data.Migrations
 {
     [DbContext(typeof(AttenDancerDbContext))]
-    partial class AttenDancerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251117211418_RemoveExpirationDate")]
+    partial class RemoveExpirationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,8 +48,7 @@ namespace AttenDancer.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("QrCode")
-                        .IsRequired()
+                    b.Property<string>("QrCodeValue")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -60,7 +62,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.EventGroup", b =>
@@ -81,7 +83,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EventGroups", (string)null);
+                    b.ToTable("EventGroups");
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Participant", b =>
@@ -110,7 +112,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("UserId", "EventId")
                         .IsUnique();
 
-                    b.ToTable("Participants", (string)null);
+                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.User", b =>
@@ -149,7 +151,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Event", b =>
