@@ -50,17 +50,23 @@ namespace AttenDancer.Logic.Services
             return newEventGroup;
         }
 
-        public async Task<EventGroupViewDto> GetEventGroupByIDAsync(string eventGroupId)
+        public async Task<EventGroupViewDto> GetEventGroupByIDAsync(string eventGroupId, string userId)
         {
-            EventGroupViewDto eventGroup = dtoProvider.Mapper.Map<EventGroupViewDto>(await _eventGroupRepository.GetAll()
-                .FirstOrDefaultAsync(e => e.Id == eventGroupId));
+            EventGroup eventGroup = await _eventGroupRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventGroupId);
 
             if (eventGroup == null)
             {
                 throw new Exception("Hibás eseménycsoport azonosító");
             }
 
-            return eventGroup;
+            if (eventGroup.UserId != userId)
+            {
+                throw new Exception("Eseménycsoportot csak a tulajdonosa kérheti le");
+            }
+
+            EventGroupViewDto eventGroupview = dtoProvider.Mapper.Map<EventGroupViewDto>(eventGroup);
+
+            return eventGroupview;
         }
 
         public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByIDAsync(string eventGroupId, string userId)
@@ -123,10 +129,6 @@ namespace AttenDancer.Logic.Services
             return eventGroup;
         }
 
-        public void DeleteEventGroup(string eventGroupId)
-        {
-            _eventGroupRepository.DeleteById(eventGroupId);
-        }
 
         public async Task DeleteEventGroupAsync(string eventGroupId, string userId)
         {
