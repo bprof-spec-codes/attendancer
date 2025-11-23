@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8" />
+    <title>Registration</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        .content {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            background-color: #4CAF50;
+            color: white !important;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Sikeres regisztráció!</div>
+
+    <div class="content">
+        <p>Kedves {{USERNAME}}!</p>
+
+        <p>
+            Köszönjük, hogy regisztráltál az oldalunkra.  
+            Az email címed: <strong>{{EMAIL}}</strong>
+        </p>
+
+        <p>Kérlek kattints az alábbi gombra a regisztrációd megerősítéséhez:</p>
+
+        <p style="text-align:center;">
+            <a href="{{CONFIRM_URL}}" class="button">Regisztráció megerősítése</a>
+        </p>
+    </div>
+
+    <div class="footer">
+        Ez egy automatikus üzenet — kérjük, ne válaszolj rá.
+    </div>
+</div>
+</body>
+</html>

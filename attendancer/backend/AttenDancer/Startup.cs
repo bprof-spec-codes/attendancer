@@ -1,14 +1,15 @@
-﻿using System.Text;
 using AttenDancer.Data;
 using AttenDancer.Data.Repositories;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Helpers;
 using AttenDancer.Logic.Helper;
+using AttenDancer.Logic.Interfaces;
 using AttenDancer.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AttenDancer;
 
@@ -66,19 +67,18 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument(cfg =>
+        services.AddOpenApiDocument(config =>
         {
-            cfg.Title = "AttenDancer API";
-
-            cfg.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+            config.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme
             {
                 Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
                 Name = "Authorization",
                 In = NSwag.OpenApiSecurityApiKeyLocation.Header,
-                Description = "Írd be így: Bearer {token}"
+                Description = "Írd be ide: Bearer TOKEN"
             });
 
-            cfg.OperationProcessors.Add(new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            config.OperationProcessors.Add(
+                new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
 
 
@@ -95,6 +95,7 @@ public class Startup(IConfiguration configuration)
         services.AddScoped<EventGroupService>();
         services.AddScoped<QrService>();
         services.AddScoped<DtoProvider>();
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -6,6 +6,7 @@ import { Sheet } from './sheet/sheet';
 import { SheetForm } from './sheet-form/sheet-form';
 import { authGuard } from './auth-guard';
 import { Profile } from './profile/profile';
+import { SheetSigned } from './sheet-signed/sheet-signed';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -14,9 +15,11 @@ const routes: Routes = [
   { path: 'sheet/:id', component: Sheet },
   { path: 'sheet', component: Sheet }, //UI tesztelésre van
   { path: 'createSheet', component: SheetForm, canActivate: [authGuard] },
+  { path: 'editSheet', component: SheetForm, canActivate: [authGuard] },
   { path: 'create', component: SheetForm }, //UI tesztelésre van
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'prof', component: Profile }, //UI tesztelésre van
+  { path: 'sign/:id', component: SheetSigned},
   { path: '**', redirectTo: 'login' },
 ];
 
