@@ -152,7 +152,7 @@ namespace AttenDancer.Logic.Services
                 .Where(u => !u.IsDeleted && u.Id == id)
                 .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == null) 
             {
                 throw new Exception("Felhasználó nem található");
             }
@@ -160,13 +160,14 @@ namespace AttenDancer.Logic.Services
             bool isOldPasswordValid = BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, user.Password);
             if (!isOldPasswordValid)
             {
-                throw new Exception("A jelenlegi jelszó helytelen");
+                throw new Exception("A beírt jelenlegi jelszó helytelen.");
             }
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+           string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
 
-            await _userRepository.Update(user);
+            user.Password = newHashedPassword;
 
+            return await _userRepository.Update(user);
         }
 
 

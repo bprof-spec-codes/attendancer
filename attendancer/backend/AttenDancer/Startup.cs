@@ -67,19 +67,18 @@ public class Startup(IConfiguration configuration)
         });
 
 
-        services.AddOpenApiDocument(cfg =>
+        services.AddOpenApiDocument(config =>
         {
-            cfg.Title = "AttenDancer API";
-
-            cfg.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
+            config.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme
             {
                 Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
                 Name = "Authorization",
                 In = NSwag.OpenApiSecurityApiKeyLocation.Header,
-                Description = "Írd be így: Bearer {token}"
+                Description = "Írd be ide: Bearer TOKEN"
             });
 
-            cfg.OperationProcessors.Add(new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            config.OperationProcessors.Add(
+                new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
 
 
