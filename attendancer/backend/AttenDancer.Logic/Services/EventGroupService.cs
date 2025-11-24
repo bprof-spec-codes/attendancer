@@ -40,6 +40,16 @@ namespace AttenDancer.Logic.Services
                     $" Hibás esemény azonosító: {e.Id}");
             });
             var newEventGroup = dtoProvider.Mapper.Map<EventGroup>(createDto);
+
+            if(events.Count != 1 && (events.All(e => e.Metadata.SequenceEqual(events[0].Metadata))))
+            {
+                throw new Exception("A csoporthoz tartozó események metadata értékei nem egyeznek meg.");
+            }
+            else
+            {
+                newEventGroup.Metadata = events[0].Metadata;
+            }
+
             await _eventGroupRepository.Create(newEventGroup);
 
             foreach (var ev in events)
@@ -75,6 +85,8 @@ namespace AttenDancer.Logic.Services
 
             return eventGroupview;
         }
+
+
 
         public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByIDAsync(string eventGroupId, string userId)
         {
