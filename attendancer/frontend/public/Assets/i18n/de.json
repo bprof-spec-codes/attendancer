@@ -1,10 +1,63 @@
 {
+   "NAV": {
+    "LOGIN": "Anmelden",
+    "CREATE_SHEET": "+ Neues Sheet",
+    "PROFILE": "Profil",
+    "LOGOUT": "Abmelden"
+  },
+   "REGISTER": {
+    "HEADING_LINE1": "Attendance Tracking",
+    "HEADING_LINE2": "leicht gemacht",
+    "TITLE": "Registrieren",
+    "FIRST_NAME_LABEL": "Vorname",
+    "FIRST_NAME_PLACEHOLDER": "Gib deinen Vornamen ein",
+    "LAST_NAME_LABEL": "Nachname",
+    "LAST_NAME_PLACEHOLDER": "Gib deinen Nachnamen ein",
+    "EMAIL_LABEL": "E-Mail",
+    "EMAIL_PLACEHOLDER": "Gib deine E-Mail-Adresse ein",
+    "PASSWORD_LABEL": "Passwort",
+    "PASSWORD_PLACEHOLDER": "Gib dein Passwort ein",
+    "CONFIRM_PASSWORD_LABEL": "Passwort bestätigen",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Passwort erneut eingeben",
+    "BUTTON_SIGN_UP": "Registrieren",
+    "HAVE_ACCOUNT": "Hast du schon ein Konto?",
+    "SIGN_IN_HERE": "Hier anmelden",
+    "ERROR": {
+      "FIRST_NAME_REQUIRED": "Bitte gib deinen Vornamen ein!",
+      "FIRST_NAME_MIN": "Mindestens 2 Zeichen.",
+      "LAST_NAME_REQUIRED": "Bitte gib deinen Nachnamen ein!",
+      "EMAIL_REQUIRED": "Bitte gib deine E-Mail-Adresse ein!",
+      "EMAIL_INVALID": "Ungültige E-Mail-Adresse!",
+      "PASSWORD_REQUIRED": "Bitte gib dein Passwort ein!",
+      "PASSWORD_MIN": "Passwort muss mindestens 6 Zeichen haben.",
+      "PASSWORD_MAX": "Passwort darf maximal 18 Zeichen haben.",
+      "PASSWORD_PATTERN": "Passwort muss mindestens einen Großbuchstaben und eine Zahl enthalten.",
+      "PASSWORDS_MISMATCH": "Passwörter stimmen nicht überein."
+    }
+  },
   "LOGIN": {
     "WELCOME_BACK": "Willkommen zurück!",
-    "SIGN_IN_TITLE": "Melde dich bei Attendancer an",
-    "EMAIL": "E-Mail eingeben",
-    "PASSWORD": "Passwort eingeben",
-    "SIGN_IN_BUTTON": "Anmelden",
-    "NO_ACCOUNT": "Noch keinen Account? Registriere dich!"
+    "SIGN_IN_TITLE": "Anmelden",
+    "EMAIL_LABEL": "E-Mail",
+    "EMAIL_PLACEHOLDER": "Gib deine E-Mail-Adresse ein",
+    "PASSWORD_LABEL": "Passwort",
+    "PASSWORD_PLACEHOLDER": "Gib dein Passwort ein",
+    "BUTTON_SIGN_IN": "Anmelden",
+    "NO_ACCOUNT": "Noch kein Konto?",
+    "SIGN_UP_HERE": "Hier registrieren",
+    "ERROR": {
+      "EMAIL_REQUIRED": "Bitte gib deine E-Mail-Adresse ein!",
+      "EMAIL_INVALID": "Ungültige E-Mail-Adresse!",
+      "PASSWORD_REQUIRED": "Bitte gib dein Passwort ein!"
+    }
+  },
+   "MODAL": {
+    "WARNING_TITLE": "Warnung!",
+    "DELETE_CONFIRM_MESSAGE": "Möchten Sie dieses Ereignis wirklich löschen?",
+    "CLOSE_BUTTON": "Schließen",
+    "DELETE_BUTTON": "Löschen"
+  },
+   "FOOTER": {
+    "COPYRIGHT": "©2025 Attendancer Alle Rechte vorbehalten"
   }
 }

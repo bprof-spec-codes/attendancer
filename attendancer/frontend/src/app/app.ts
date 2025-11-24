@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslationService } from './services/tanslation/translation';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class App {
   protected readonly title = signal('frontend');
-  constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
-    const browserLang = translate.getBrowserLang() || '';
-    translate.use(browserLang.match(/en|hu|de/) ? browserLang : 'en');
-  }
+  constructor(private translationService: TranslationService) {}
 
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
+  ngOnInit(): void {
+    this.translationService.init();
   }
 }

@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -19,14 +19,9 @@ import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
 import { loggingInterceptor } from './interceptors/logging-interceptor';
 import { loadingInterceptor } from './interceptors/loading-interceptor';
 import { errorInterceptor } from './interceptors/error-interceptor';
-import { SheetSigned } from './sheet-signed/sheet-signed';
-import { MultiTranslateLoader } from './multi-translate-loader';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new MultiTranslateLoader(http);
-}
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from './services/tanslation/translation';
+import { LanguageSwitcher } from './language-switcher/language-switcher';
 
 @NgModule({
   declarations: [
@@ -41,6 +36,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SheetForm,
     LoadingSpinner,
     ModalWarning,
+    LanguageSwitcher
   ],
   imports: [
     BrowserModule,
@@ -48,12 +44,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     FormsModule,
     TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (http: HttpClient) => new MultiTranslateLoader(http, '/assets/i18n/'),
-        deps: [HttpClient]
-      }
-    })
+        defaultLanguage: 'en',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      }),
   ],
   providers: [
     provideHttpClient(

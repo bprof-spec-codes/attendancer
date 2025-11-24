@@ -1,10 +1,63 @@
 {
+   "NAV": {
+    "LOGIN": "Log in",
+    "CREATE_SHEET": "+ Create sheet",
+    "PROFILE": "Profile",
+    "LOGOUT": "Log out"
+  },
+  "REGISTER": {
+    "HEADING_LINE1": "Attendance tracking",
+    "HEADING_LINE2": "made easy",
+    "TITLE": "Sign up!",
+    "FIRST_NAME_LABEL": "First name",
+    "FIRST_NAME_PLACEHOLDER": "Enter your first name",
+    "LAST_NAME_LABEL": "Last name",
+    "LAST_NAME_PLACEHOLDER": "Enter your last name",
+    "EMAIL_LABEL": "Email address",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "CONFIRM_PASSWORD_LABEL": "Confirm password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Re-enter your password",
+    "BUTTON_SIGN_UP": "Sign up",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN_HERE": "Sign in here",
+    "ERROR": {
+      "FIRST_NAME_REQUIRED": "Please enter your first name!",
+      "FIRST_NAME_MIN": "Minimum 2 characters.",
+      "LAST_NAME_REQUIRED": "Please enter your last name!",
+      "EMAIL_REQUIRED": "Please enter your email!",
+      "EMAIL_INVALID": "Invalid email format!",
+      "PASSWORD_REQUIRED": "Please enter your password!",
+      "PASSWORD_MIN": "Password must be at least 6 characters.",
+      "PASSWORD_MAX": "Password cannot exceed 18 characters.",
+      "PASSWORD_PATTERN": "Password must contain at least one uppercase letter and one number.",
+      "PASSWORDS_MISMATCH": "Passwords do not match."
+    }
+  },
   "LOGIN": {
     "WELCOME_BACK": "Welcome back!",
-    "SIGN_IN_TITLE": "Sign into Attendancer",
-    "EMAIL": "Enter email",
-    "PASSWORD": "Enter password",
-    "SIGN_IN_BUTTON": "Sign in",
-    "NO_ACCOUNT": "Don't have an account yet? Sign up!"
+    "SIGN_IN_TITLE": "Sign In",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "BUTTON_SIGN_IN": "Sign In",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP_HERE": "Sign up here",
+    "ERROR": {
+      "EMAIL_REQUIRED": "Please enter your email!",
+      "EMAIL_INVALID": "Invalid email address!",
+      "PASSWORD_REQUIRED": "Please enter your password!"
+    }
+  },
+   "MODAL": {
+    "WARNING_TITLE": "Warning!",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",
+    "CLOSE_BUTTON": "Close",
+    "DELETE_BUTTON": "Delete"
+  },
+  "FOOTER": {
+    "COPYRIGHT": "©2025 Attendancer all rights reserved"
   }
 }
