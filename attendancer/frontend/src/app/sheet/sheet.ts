@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth-service';
 import { EventClient } from '../app.api-client.generated';
 import { EditEventService } from '../services/edit-event-service';
 import { MockDataService } from '../services/mock-data.service';
+import { EventViewDto } from '../models/event-view-dto';
 
 @Component({
   selector: 'app-sheet',
@@ -13,14 +14,7 @@ import { MockDataService } from '../services/mock-data.service';
 })
 export class Sheet implements OnInit {
   eventId: string = ""
-  event: any = {
-    name: "",
-    id: "",
-    qrCode: null,
-    isQrValid: null,
-    metadata: [],
-    participants: []
-  }
+  event: EventViewDto = new EventViewDto()
   presentCount: number = 0
   absentCount: number = 0
 
@@ -42,30 +36,38 @@ export class Sheet implements OnInit {
       this.eventId = params['id']
     })
 
-    // Lekérdezni az esemény adatait.
-    /*this.mockDataService.getEventById(this.eventId).subscribe((data) => {
-      this.event = data;
-    })*/
-
-    // Az események lekérdezése az esemény id-je alapján.
+    // Az események és azok résztvevőinek lekérdezése az esemény id-je alapján.
     this.eventClient.getEventById(this.eventId).subscribe((response) => {
       // JSON formátumba konvertálni a választ.
       const reader = new FileReader();
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string);
+
+        //console.log(jsonData)
+
+        // TODO ! Temp data convert. !
+
+        let counterParticipant = 0
         this.event = jsonData;
-        console.log(this.event);
+        for (const p of jsonData.participants) {
+
+          //console.log(p)
+
+          // TODO ! Az adatbázisban a DateTime nem lehet null vagyis kell egy dátum szóval mindenki itt volt. !
+          this.event.participants[counterParticipant].present = p.date ? true : false
+          let counterMetadata = 0
+          for (const m of jsonData.participants) {
+            this.event.participants[counterParticipant].metadata = Object.values(jsonData.participants[counterParticipant].metadataDictionary)
+            counterMetadata++
+          }
+          counterParticipant++  
+        }
+
+        // Kiszámolni a résztvevők és nem résztvevők számát.
+        this.countPresent()
       };
       reader.readAsText(response.data);
     });
-
-    // Lekérdezni az esemény résztvevőit.
-    /*this.mockDataService.getParticipantsByEventId(this.eventId).subscribe((data) => {
-      this.event.participants = data;
-    });*/
-
-    // Kiszámolni a résztvevők és nem résztvevők számát.
-    this.countPresent()
   }
 
   /**

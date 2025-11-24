@@ -66,7 +66,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let participant of event.participants">
-                                    <td class="sheet-table-cell text-center">{{ participant.username }}</td>
+                                    <td class="sheet-table-cell text-center">{{ participant.userFullName }}</td>
                                     <td *ngFor="let data of participant.metadata">
                                         {{ data }}
                                     </td>
