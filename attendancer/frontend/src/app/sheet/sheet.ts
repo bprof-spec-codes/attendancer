@@ -3,6 +3,7 @@ import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
 import { EditEventService } from '../services/edit-event-service';
+import { EventClient } from '../app.api-client.generated';
 
 @Component({
   selector: 'app-sheet',
@@ -22,7 +23,8 @@ export class Sheet implements OnInit {
     private route: ActivatedRoute, 
     private mockDataService: MockDataService, 
     private editEventService: EditEventService, 
-    public authService: AuthService
+    public authService: AuthService,
+    private eventService: EventClient
   ) {}
 
   /**
@@ -67,5 +69,24 @@ export class Sheet implements OnInit {
   edit(): void {
     this.editEventService.setEvent(this.event);
     this.router.navigate(['/editSheet']);
+  }
+
+  onValidateQr() {
+    this.eventService.validateQr(this.eventId).subscribe({
+     next: () => {
+        console.log('QR validálva!');
+      },
+      error: err => console.error('Hiba történt:', err.message)
+    });
+  }
+
+  onInvalidateQr() {
+    this.eventService.invalidateQr(this.eventId).subscribe({
+    next: () => {
+       console.log('QR invalidálva!');
+       this.event.valid = false
+    },
+    error: err => console.error('Hiba történt:', err.message)
+  });
   }
 }

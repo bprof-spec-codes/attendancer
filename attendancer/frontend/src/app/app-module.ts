@@ -22,6 +22,8 @@ import { errorInterceptor } from './interceptors/error-interceptor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './services/tanslation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
+import { SheetSigned } from './sheet-signed/sheet-signed';
+import { ModalQrcode } from './modal-qrcode/modal-qrcode';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { LanguageSwitcher } from './language-switcher/language-switcher';
     SheetForm,
     LoadingSpinner,
     ModalWarning,
-    LanguageSwitcher
+    LanguageSwitcher,
+    SheetSigned,
+    ModalQrcode
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,19 @@
+<div class="modal fade" [ngClass]="{'show': isOpen}" [style.display]="isOpen ? 'block' : 'none'" tabindex="-1"
+     role="dialog" aria-labelledby="warningModalLabel" aria-hidden="{{!isOpen}}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img class="qrImageUrl" *ngIf="qrImageUrl" [src]="qrImageUrl" alt="QR kód">
+        <h2 *ngIf="!qrImageUrl || !valid">{{'MODAL.QR_ERROR_MESSAGE' | translate}}</h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="close()">
+          {{ 'MODAL.CLOSE_BUTTON' | translate }}
+        </button>
+        <button *ngIf="qrImageUrl" type="button" class="btn btn-danger" (click)="remove()">
+          {{ 'MODAL.DELETE_BUTTON' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

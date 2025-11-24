@@ -11,8 +11,9 @@
                 <button class="button-primary w-25">{{ 'EVENT.EDIT_BUTTON' | translate }}</button>
               </div>
               <div class="col-6 d-flex justify-content-end gap-3">
-                <button class="button-primary">{{ 'EVENT.SHOW_QR_BUTTON' | translate }}</button>
-                <button class="button-alert">
+                <button (click)="modal.open()" class="button-primary">{{ 'EVENT.SHOW_QR_BUTTON' | translate }}</button>
+                <app-modal-qrcode #modal [eventId]="eventId"></app-modal-qrcode>
+                <button (click)="onInvalidateQr()" class="button-alert">
                   <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
                   {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                 </button>

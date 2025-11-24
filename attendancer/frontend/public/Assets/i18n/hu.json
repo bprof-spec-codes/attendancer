@@ -107,6 +107,7 @@
    "MODAL": {
     "WARNING_TITLE": "Figyelem!",
     "DELETE_CONFIRM_MESSAGE": "Biztosan törölni szeretnéd ezt az eseményt?",
+    "QR_ERROR_MESSAGE": "Hibás esemény azonositó",
     "CLOSE_BUTTON": "Bezárás",
     "DELETE_BUTTON": "Törlés"
   },
