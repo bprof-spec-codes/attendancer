@@ -99,7 +99,8 @@ namespace AttenDancer.Logic.Services
                     .ThenInclude(p => p.User)
                 .FirstOrDefaultAsync(eg => eg.Id == eventGroupId);
 
-            if (eventGroup == null) { 
+            if (eventGroup == null) 
+            { 
                 throw new Exception("Hibás eseménycsoport azonosító.");
             }
 
@@ -123,7 +124,7 @@ namespace AttenDancer.Logic.Services
                 };
             }
 
-            var allPartiipantUsers = events
+            var allParticipantUsers = events
                 .SelectMany(e => e.Participants)
                 .Select(p => p.User)
                 .DistinctBy( u => u.Id)
@@ -132,7 +133,7 @@ namespace AttenDancer.Logic.Services
                 .ThenBy(u => u.FirstName)
                 .ToList();
 
-            var participantRows = allPartiipantUsers.Select(user =>
+            var participantRows = allParticipantUsers.Select(user =>
             {
                 var attendances = events.ToDictionary(
                     e => e.Id,
