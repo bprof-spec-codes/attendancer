@@ -18,6 +18,9 @@ namespace AttenDancer.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -29,9 +32,6 @@ namespace AttenDancer.Data.Migrations
 
                     b.Property<string>("EventGroupId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsQrValid")
                         .HasColumnType("bit");
@@ -45,7 +45,8 @@ namespace AttenDancer.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("QrCodeValue")
+                    b.Property<string>("QrCode")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -59,7 +60,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.EventGroup", b =>
@@ -80,7 +81,7 @@ namespace AttenDancer.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EventGroups");
+                    b.ToTable("EventGroups", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Participant", b =>
@@ -109,7 +110,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("UserId", "EventId")
                         .IsUnique();
 
-                    b.ToTable("Participants");
+                    b.ToTable("Participants", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.User", b =>
@@ -148,7 +149,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AttenDancer.Entity.Entity_Models.Event", b =>

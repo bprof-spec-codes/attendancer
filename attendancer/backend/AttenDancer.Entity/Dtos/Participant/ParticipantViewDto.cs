@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AttenDancer.Entity.Dtos.Participant
@@ -19,6 +20,7 @@ namespace AttenDancer.Entity.Dtos.Participant
 
         [NotMapped]
         [Required]
+        [JsonIgnore]
         public string? Metadata { get; set; }
 
         public Dictionary<string, string>? MetadataDictionary { get; set; }

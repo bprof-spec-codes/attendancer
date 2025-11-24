@@ -47,17 +47,20 @@ namespace AttenDancer.Logic.Services
             return events;
         }
 
-        public async Task<EventViewDto> GetEventByUserIdAsync(string userId)
+        public async Task<List<EventViewDto>> GetEventByUserIdAsync(string userId)
         {
-            Event? getevent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Participants.Any(u => u.UserId == userId));
+            var events = await _eventRepository
+                .GetAll()
+                .Where(e => e.UserId == userId)
+                .ToListAsync();
 
-            if (getevent == null)
+            if (!events.Any())
             {
-                throw new Exception("Hibás esemény azonosító");
+                throw new Exception("Nincs a felhasználóhoz tartozó esemény.");
             }
 
-            EventViewDto eventView = dtoProvider.Mapper.Map<EventViewDto>(getevent);
-            return eventView;
+            List<EventViewDto> result = dtoProvider.Mapper.Map<List<EventViewDto>>(events);
+            return result;
         }
 
         public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
@@ -67,6 +70,11 @@ namespace AttenDancer.Logic.Services
             if (existingEvent == null)
             {
                 throw new Exception("Esemény nem található");
+            }
+
+            if (existingEvent.UserId != updatedto.UserId)
+            {
+                throw new Exception("Esemény nem a bejelentkezett felhasználóhoz tartozik");
             }
 
             dtoProvider.Mapper.Map(updatedto, existingEvent);
@@ -97,9 +105,22 @@ namespace AttenDancer.Logic.Services
             return await _eventRepository.Update(existingEvent);
         }
 
-        public void DeleteEvent(string eventId)
+        public async Task DeleteAsync(string userId, string eventId)
         {
-            _eventRepository.DeleteById(eventId);
+            Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventId);
+
+            if (existingEvent == null)
+            {
+                throw new Exception("Esemény nem található");
+            }
+
+            if (existingEvent.UserId != userId)
+            {
+                throw new Exception("Esemény nem a bejelentkezett felhasználóhoz tartozik");
+            }
+
+            
+            await _eventRepository.DeleteById(eventId);
         }
     }
 }

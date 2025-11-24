@@ -5,14 +5,15 @@
                 <div class="card-body">
                     <div class="row">
                         <form>
-                            <div class="row g-3 d-flex justify-content-between align-items-center" style="margin-bottom: 1rem;">
+                            <div class="row g-3 d-flex justify-content-between align-items-center"
+                                style="margin-bottom: 1rem;">
                                 <div class="col-auto">
                                     <h1>Sheet group:</h1>
                                 </div>
                                 <div class="col-auto">
                                     <div class="form-field">
                                         <select id="sheetGroup" class="form-select"
-                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
+                                            style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
                                             [(ngModel)]="selectedEventOrEventGroup"
                                             (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
                                             <option [value]="''" default>No sheet group</option>
@@ -46,40 +47,56 @@
                                     Optional data:
                                 </label>
 
-                                <div *ngIf="selectedEventOrEventGroup === ''; else alreadyExistEventGroup" class="form">
+                                <!--
+                            Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
+                            Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
+                        -->
+                                @if (selectedEventOrEventGroup === '' || ((selectedEventOrEventGroup === '' ||
+                                selectedEventOrEventGroup === currentEvent.eventGroupId) && editMode)) {
+                                <div class="form">
                                     <!-- Metadata hozzáadás. -->
                                     <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
                                         <input type="text" [attr.name]="'requiredField' + i" placeholder="Enter data"
                                             name="sheetMetadata" [(ngModel)]="currentEvent.metadata[i]"
                                             [ngModelOptions]="{ standalone: true }">
-                                        <button class="border-0 p-0" type="button" (click)="removeCustomField(i)">
-                                            <img src="Assets/Icons/cross-svgrepo-com.svg"
-                                                style="width: 25px; height: 25px;">
+                                        <button type="button" class="button-icon button-icon-danger"
+                                            (click)="removeCustomField(i)">
+                                            <img style="width: 15px; height: 15px;" src="/assets/icons/red-cross.svg">
                                         </button>
                                     </div>
                                     <button type="button" class="button-striped" (click)="addCustomField()">+</button>
                                 </div>
-
+                                }
+                                @else {
                                 <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
-                                <ng-template #alreadyExistEventGroup>
-                                    <div class="form">
-                                        <input *ngFor="let data of currentlySelectedMetadata" [placeholder]="data"
-                                            disabled type="text">
-                                    </div>
-                                </ng-template>
+                                <div class="form">
+                                    @for (data of currentlySelectedMetadata; track $index) {
+                                    <input [placeholder]="data" disabled type="text">
+                                    }
+                                </div>
+                                }
 
+                                <!-- A megfelelő gomb megjelenítése. -->
+                                @if (editMode) {
+                                <button type="submit" class="button-primary" (click)="editSheet()"
+                                    [disabled]="inputInvalid()"
+                                    style="width: 50%; align-self: center; margin-top: 1rem;">Edit sheet</button>
+                                }
+                                @else {
                                 <button type="submit" class="button-primary" (click)="createSheet()"
                                     [disabled]="inputInvalid()"
                                     style="width: 50%; align-self: center; margin-top: 1rem;">Create</button>
-                                <div *ngIf="inputInvalid()" class="invalid-validation-message">
-                                    <p>You need to give a name and a date to your new sheet!</p>
+                                }
+
+                                @if (inputInvalid()) {
+                                <div class="invalid-validation-message text-center mt-2">
+                                    <p>You need to give a name and a date to your sheet!</p>
                                 </div>
+                                }
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>

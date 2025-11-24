@@ -28,11 +28,8 @@ namespace AttenDancer.Logic.Helper
                 cfg.CreateMap<Participant, ParticipantViewDto>()
                    .AfterMap((src, dest) =>
                    {
-                       dest.UserFullName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.FirstName}" +
-                       $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.LastName}";
-                       dest.MetadataDictionary = src.Metadata != null
-                           ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(src.Metadata)
-                           : new Dictionary<string, string>();
+                       dest.UserFullName = $"{src.User?.LastName} {src.User?.FirstName}";
+                       dest.MetadataDictionary = src.MetadataDict;
                        dest.Date = src.Date;
                    });
 
@@ -40,17 +37,6 @@ namespace AttenDancer.Logic.Helper
                    .AfterMap((src, dest) =>
                    {
                        dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : "Nincs csoportja";
-                   });
-
-                cfg.CreateMap<Participant, ParticipantViewDto>()
-                   .AfterMap((src, dest) =>
-                   {
-                       dest.UserFullName = $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.FirstName}" +
-                       $"{_userRepository.GetAll().FirstOrDefault(u => u.Id == src.UserId)?.LastName}";
-                       dest.MetadataDictionary = src.Metadata != null
-                           ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(src.Metadata)
-                           : new Dictionary<string, string>();
-                       dest.Date = src.Date;
                    });
 
                 cfg.CreateMap<ParticipantCreateDto, Participant>();
