@@ -15,6 +15,7 @@ import { LoadingSpinner } from './loading-spinner/loading-spinner';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
 import { authenticationInterceptor } from './interceptors/authentication-interceptor';
+<<<<<<< HEAD
 import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
 import { loggingInterceptor } from './interceptors/logging-interceptor';
 import { loadingInterceptor } from './interceptors/loading-interceptor';
@@ -23,6 +24,12 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './services/tanslation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
+=======
+import { errorInterceptor } from './interceptors/error-interceptor';
+import { loadingInterceptor } from './interceptors/loading-interceptor';
+import { loggingInterceptor } from './interceptors/logging-interceptor';
+import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
+>>>>>>> origin/develop
 
 @NgModule({
   declarations: [
@@ -37,8 +44,11 @@ import { SheetSigned } from './sheet-signed/sheet-signed';
     SheetForm,
     LoadingSpinner,
     ModalWarning,
+<<<<<<< HEAD
     LanguageSwitcher,
     SheetSigned
+=======
+>>>>>>> origin/develop
   ],
   imports: [
     BrowserModule,
