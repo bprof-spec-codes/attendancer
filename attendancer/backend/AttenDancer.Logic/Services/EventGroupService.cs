@@ -89,5 +89,76 @@ namespace AttenDancer.Logic.Services
         {
             _eventGroupRepository.DeleteById(eventGroupId);
         }
+
+        public async Task<EventGroupMatrixViewDto> GetEventGroupMatrixAsync(string eventGroupId, string userId) 
+        {
+
+            var eventGroup = await _eventGroupRepository.GetAll()
+                .Include(eg => eg.Events)
+                    .ThenInclude(e => e.Participants)
+                    .ThenInclude(p => p.User)
+                .FirstOrDefaultAsync(eg => eg.Id == eventGroupId);
+
+            if (eventGroup == null) { 
+                throw new Exception("Hibás eseménycsoport azonosító.");
+            }
+
+            if(eventGroup.UserId != userId)
+            {
+                throw new Exception("Az eseménycsoport nem ehhez a felhasználóhoz tartozik.");
+            }
+
+            var events = eventGroup.Events
+                .OrderBy(e => e.Id)
+                .ToList();
+
+            if(!events.Any())
+            {
+                return new EventGroupMatrixViewDto
+                {
+                    EventGroupId = eventGroup.Id,
+                    EventGroupName = eventGroup.Name,
+                    Events = new List<MatrixEventColumnDto>(),
+                    Participants = new List<MatrixParticipantRowDto>()
+                };
+            }
+
+            var allPartiipantUsers = events
+                .SelectMany(e => e.Participants)
+                .Select(p => p.User)
+                .DistinctBy( u => u.Id)
+                .Where(u => !u.IsDeleted)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ToList();
+
+            var participantRows = allPartiipantUsers.Select(user =>
+            {
+                var attendances = events.ToDictionary(
+                    e => e.Id,
+                    e => e.Participants.Any(p => p.UserId == user.Id)
+                );
+
+                return new MatrixParticipantRowDto
+                {
+                    UserId = user.Id,
+                    UserName = $"{user.LastName} {user.FirstName}",
+                    UserEmail = user.Email,
+                    Attendances = attendances
+                };
+            }).ToList();
+
+            return new EventGroupMatrixViewDto
+            {
+                EventGroupId = eventGroup.Id,
+                EventGroupName = eventGroup.Name,
+                Events = events.Select(e => new MatrixEventColumnDto
+                {
+                    EventId = e.Id,
+                    EventName = e.Name
+                }).ToList(),
+                Participants = participantRows
+            };
+        }
     }
 }
