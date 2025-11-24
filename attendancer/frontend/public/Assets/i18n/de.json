@@ -76,6 +76,34 @@
     "CONFIRM_EMAIL_ADDRESS": "E-Mail-Adresse bestätigen",
     "DELETE_ACCOUNT": "Konto löschen"
   },
+   "EVENT": {
+    "EDIT_BUTTON": "Bearbeiten",
+    "SHOW_QR_BUTTON": "QR-Code anzeigen",
+    "DELETE_QR_BUTTON": "QR-Code löschen",
+    "DELETE_BUTTON": "Löschen",
+    "TABLE_HEADER_NAME": "Name",
+    "TABLE_HEADER_PRESENCE": "Anwesenheit"
+  },
+   "SHEET": {
+    "SHEET_GROUP_LABEL": "Gruppenauswahl:",
+    "NO_SHEET_GROUP": "Keine Gruppe",
+    "SHEET_NAME_LABEL": "Name des Sheets:",
+    "SHEET_NAME_PLACEHOLDER": "Sheet-Name",
+    "SHEET_DATE_LABEL": "Datum des Events:",
+    "SHEET_DATE_PLACEHOLDER": "Event-Datum",
+    "OPTIONAL_DATA_LABEL": "Optionale Daten:",
+    "ENTER_DATA_PLACEHOLDER": "Daten eingeben",
+    "EDIT_SHEET_BUTTON": "Sheet bearbeiten",
+    "CREATE_BUTTON": "Erstellen",
+    "REQUIRED_NAME_DATE_ERROR": "Du musst einen Namen und ein Datum für dein Sheet angeben!",
+    "ALREADY_SIGNED": "Sheet bereits unterschrieben",
+    "EXAMPLE_EVENT": "Beispiel-Event",
+    "NEPTUN_ID_LABEL": "Neptun-ID",
+    "NEPTUN_ID_PLACEHOLDER": "Gib deine Neptun-ID ein",
+    "EMAIL_LABEL": "E-Mail",
+    "EMAIL_PLACEHOLDER": "E-Mail-Adresse",
+    "SIGN_SHEET_BUTTON": "Sheet unterschreiben"
+  },
    "MODAL": {
     "WARNING_TITLE": "Warnung!",
     "DELETE_CONFIRM_MESSAGE": "Möchten Sie dieses Ereignis wirklich löschen?",

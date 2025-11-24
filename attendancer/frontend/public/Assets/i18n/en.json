@@ -76,6 +76,34 @@
     "CONFIRM_EMAIL_ADDRESS": "Confirm email address",
     "DELETE_ACCOUNT": "Delete account"
   },
+  "EVENT": {
+    "EDIT_BUTTON": "Edit",
+    "SHOW_QR_BUTTON": "Show QR code",
+    "DELETE_QR_BUTTON": "Delete QR code",
+    "DELETE_BUTTON": "Delete",
+    "TABLE_HEADER_NAME": "Name",
+    "TABLE_HEADER_PRESENCE": "Presence"
+  },
+  "SHEET": {
+    "SHEET_GROUP_LABEL": "Sheet group:",
+    "NO_SHEET_GROUP": "No sheet group",
+    "SHEET_NAME_LABEL": "Name your sheet:",
+    "SHEET_NAME_PLACEHOLDER": "Sheet name",
+    "SHEET_DATE_LABEL": "Date of event:",
+    "SHEET_DATE_PLACEHOLDER": "Date of event",
+    "OPTIONAL_DATA_LABEL": "Optional data:",
+    "ENTER_DATA_PLACEHOLDER": "Enter data",
+    "EDIT_SHEET_BUTTON": "Edit sheet",
+    "CREATE_BUTTON": "Create",
+    "REQUIRED_NAME_DATE_ERROR": "You need to give a name and a date to your sheet!",
+    "ALREADY_SIGNED": "Sheet already signed",
+    "EXAMPLE_EVENT": "Example event",
+    "NEPTUN_ID_LABEL": "Neptun ID",
+    "NEPTUN_ID_PLACEHOLDER": "Enter your Neptun ID",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Email address",
+    "SIGN_SHEET_BUTTON": "Sign sheet"
+  },
    "MODAL": {
     "WARNING_TITLE": "Warning!",
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",

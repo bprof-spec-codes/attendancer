@@ -76,6 +76,34 @@
     "CONFIRM_EMAIL_ADDRESS": "Email cím megerősítése",
     "DELETE_ACCOUNT": "Fiók törlése"
   },
+  "SHEET": {
+    "SHEET_GROUP_LABEL": "Csoport kiválasztása",
+    "NO_SHEET_GROUP": "Nincs csoport",
+    "SHEET_NAME_LABEL": "Név a laphoz:",
+    "SHEET_NAME_PLACEHOLDER": "A lap neve",
+    "SHEET_DATE_LABEL": "Esemény dátuma:",
+    "SHEET_DATE_PLACEHOLDER": "Válassz dátumot",
+    "OPTIONAL_DATA_LABEL": "Opcionális adatok:",
+    "ENTER_DATA_PLACEHOLDER": "Add meg az adatot",
+    "EDIT_SHEET_BUTTON": "Lap szerkesztése",
+    "CREATE_BUTTON": "Létrehozás",
+    "REQUIRED_NAME_DATE_ERROR": "Add meg a lap nevét és dátumát!",
+    "ALREADY_SIGNED": "A lap már aláírva",
+    "EXAMPLE_EVENT": "Példa esemény",
+    "NEPTUN_ID_LABEL": "Neptun kód",
+    "NEPTUN_ID_PLACEHOLDER": "Írd be a Neptun kódodat",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Írd be az email címed",
+    "SIGN_SHEET_BUTTON": "Aláírás"
+  },
+  "EVENT": {
+    "EDIT_BUTTON": "Szerkesztés",
+    "SHOW_QR_BUTTON": "QR kód megjelenítése",
+    "DELETE_QR_BUTTON": "QR kód törlése",
+    "DELETE_BUTTON": "Törlés",
+    "TABLE_HEADER_NAME": "Név",
+    "TABLE_HEADER_PRESENCE": "Jelenlét"
+  },
    "MODAL": {
     "WARNING_TITLE": "Figyelem!",
     "DELETE_CONFIRM_MESSAGE": "Biztosan törölni szeretnéd ezt az eseményt?",

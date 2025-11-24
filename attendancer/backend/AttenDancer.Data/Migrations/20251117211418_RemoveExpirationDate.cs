@@ -11,9 +11,9 @@ namespace AttenDancer.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "ExpirationDate",
-                table: "Events");
+            //migrationBuilder.DropColumn(
+            //    name: "ExpirationDate",
+            //    table: "Events");
         }
 
         /// <inheritdoc />
