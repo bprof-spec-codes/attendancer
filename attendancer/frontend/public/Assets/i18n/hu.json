@@ -51,6 +51,31 @@
       "PASSWORD_REQUIRED": "Kérlek, add meg a jelszavad!"
     }
   },
+  "PROFILE_PAGE": {
+    "PROFILE": "Profil",
+    "STATISTICS": "Statisztikák",
+    "SHEETS": "Jelenléti ívek",
+    "EDIT": "Szerkesztés",
+    "LAST_SIGNED": "Utoljára aláírva",
+    "CHOOSE": "Válassz",
+    "GROUP_A": "A csoport",
+    "GROUP_B": "B csoport",
+    "ABSENT": "Távol",
+    "PRESENT": "Jelen",
+    "DELETE": "Törlés",
+    "CREATED_AT": "Létrehozva",
+    "EDIT_USER_INFO": "Felhasználói adatok szerkesztése",
+    "CHANGE_NAME": "Név módosítása",
+    "FIRST_NAME": "Keresztnév",
+    "LAST_NAME": "Vezetéknév",
+    "CHANGE_PASSWORD": "Jelszó módosítása",
+    "PASSWORD": "Jelszó",
+    "CONFIRM_PASSWORD": "Jelszó megerősítése",
+    "CHANGE_EMAIL": "Email módosítása",
+    "EMAIL_ADDRESS": "Email cím",
+    "CONFIRM_EMAIL_ADDRESS": "Email cím megerősítése",
+    "DELETE_ACCOUNT": "Fiók törlése"
+  },
    "MODAL": {
     "WARNING_TITLE": "Figyelem!",
     "DELETE_CONFIRM_MESSAGE": "Biztosan törölni szeretnéd ezt az eseményt?",

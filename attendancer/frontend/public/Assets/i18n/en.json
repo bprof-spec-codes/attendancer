@@ -51,6 +51,31 @@
       "PASSWORD_REQUIRED": "Please enter your password!"
     }
   },
+  "PROFILE_PAGE":{
+    "PROFILE": "Profile",
+    "STATISTICS": "Statistics",
+    "SHEETS": "Sheets",
+    "EDIT": "Edit",
+    "LAST_SIGNED": "Last signed",
+    "CHOOSE": "Choose",
+    "GROUP_A": "Group A",
+    "GROUP_B": "Group B",
+    "ABSENT": "Absent",
+    "PRESENT": "Present",
+    "DELETE": "Delete",
+    "CREATED_AT": "Created at",
+    "EDIT_USER_INFO": "Edit user info",
+    "CHANGE_NAME": "Change name",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "CHANGE_PASSWORD": "Change password",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "CHANGE_EMAIL": "Change email",
+    "EMAIL_ADDRESS": "Email address",
+    "CONFIRM_EMAIL_ADDRESS": "Confirm email address",
+    "DELETE_ACCOUNT": "Delete account"
+  },
    "MODAL": {
     "WARNING_TITLE": "Warning!",
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",

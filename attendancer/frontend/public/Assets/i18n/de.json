@@ -51,6 +51,31 @@
       "PASSWORD_REQUIRED": "Bitte gib dein Passwort ein!"
     }
   },
+  "PROFILE_PAGE": {
+    "PROFILE": "Profil",
+    "STATISTICS": "Statistiken",
+    "SHEETS": "Anwesenheitslisten",
+    "EDIT": "Bearbeiten",
+    "LAST_SIGNED": "Zuletzt unterschrieben",
+    "CHOOSE": "Auswählen",
+    "GROUP_A": "Gruppe A",
+    "GROUP_B": "Gruppe B",
+    "ABSENT": "Abwesend",
+    "PRESENT": "Anwesend",
+    "DELETE": "Löschen",
+    "CREATED_AT": "Erstellt am",
+    "EDIT_USER_INFO": "Benutzerinformationen bearbeiten",
+    "CHANGE_NAME": "Namen ändern",
+    "FIRST_NAME": "Vorname",
+    "LAST_NAME": "Nachname",
+    "CHANGE_PASSWORD": "Passwort ändern",
+    "PASSWORD": "Passwort",
+    "CONFIRM_PASSWORD": "Passwort bestätigen",
+    "CHANGE_EMAIL": "E-Mail ändern",
+    "EMAIL_ADDRESS": "E-Mail-Adresse",
+    "CONFIRM_EMAIL_ADDRESS": "E-Mail-Adresse bestätigen",
+    "DELETE_ACCOUNT": "Konto löschen"
+  },
    "MODAL": {
     "WARNING_TITLE": "Warnung!",
     "DELETE_CONFIRM_MESSAGE": "Möchten Sie dieses Ereignis wirklich löschen?",
