@@ -13,13 +13,13 @@
               <div class="col-6 d-flex justify-content-end gap-3">
                 <button class="button-primary">{{ 'EVENT.SHOW_QR_BUTTON' | translate }}</button>
                 <button class="button-alert">
-                  <img src="Assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                  <img src="Assets/Icons/white-trash.svg" style="width:15px; height: 15px;">
                   {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                 </button>
               </div>
             </div>
             <button (click)="modal.open()" class="btn btn-danger">
-              <img src="Assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+              <img src="Assets/Icons/white-trash.svg" style="width:15px; height: 15px;">
               {{ 'EVENT.DELETE_BUTTON' | translate }}
             </button>
             <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
