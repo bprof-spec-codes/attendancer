@@ -1,4 +1,5 @@
 ﻿using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
@@ -17,12 +18,14 @@ namespace AttenDancer.Logic.Services
         private readonly IRepository<User> _userRepository;
         private readonly AuthService _authService;
         private readonly DtoProvider _dtoProvider;
+        private readonly IRepository<Participant> _participantRepository;
 
-        public UserService(IRepository<User> userRepository, AuthService authService, DtoProvider dtoProvider)
+        public UserService(IRepository<User> userRepository, AuthService authService, DtoProvider dtoProvider, IRepository<Participant> participantRepository)
         {
             _userRepository = userRepository;
             _authService = authService;
             _dtoProvider = dtoProvider;
+            _participantRepository = participantRepository;
         }
 
 
@@ -152,7 +155,7 @@ namespace AttenDancer.Logic.Services
                 .Where(u => !u.IsDeleted && u.Id == id)
                 .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == null) 
             {
                 throw new Exception("Felhasználó nem található");
             }
@@ -160,13 +163,14 @@ namespace AttenDancer.Logic.Services
             bool isOldPasswordValid = BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, user.Password);
             if (!isOldPasswordValid)
             {
-                throw new Exception("A jelenlegi jelszó helytelen");
+                throw new Exception("A beírt jelenlegi jelszó helytelen.");
             }
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+           string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
 
-            await _userRepository.Update(user);
+            user.Password = newHashedPassword;
 
+            return await _userRepository.Update(user);
         }
 
 
@@ -191,6 +195,35 @@ namespace AttenDancer.Logic.Services
 
 
         }
+
+
+        public async Task<List<EventSignedByUserViewDto>> GetSignedSheetsAsync(string userId)
+        {
+            var userExists = await _userRepository.GetAll()
+                .AnyAsync(u => u.Id == userId && !u.IsDeleted);
+
+            if (!userExists)
+            {
+                throw new Exception("Felhasználó nem található");
+            }
+
+            return await _participantRepository.GetAll()
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Event)
+                    .ThenInclude(e => e.EventGroup)
+                .OrderByDescending(p => p.Date)
+                .Select(p => new EventSignedByUserViewDto
+                {
+                    Id = p.Event.Id,
+                    Name = p.Event.Name,
+                    SignedAt = p.Date,
+                    EventGroupName = p.Event.EventGroup != null ? p.Event.EventGroup.Name : null,
+                    IsQrValid = p.Event.IsQrValid
+                })
+                .ToListAsync();
+        }
+
+
 
     }
 }

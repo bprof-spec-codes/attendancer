@@ -1,72 +1,460 @@
+@if (isMobile) {
+<div class="container-fluid min-vh-100">
+    <div class="row h-100 g-0">
+        <div class="d-flex justify-content-center mt-4 gap-3">
+            <button class="button-responsive" [class.active-menu]="activeSection === 'profile'"
+                (click)="setActiveSection('profile')">Profile</button>
+            <button class="button-responsive" [class.active-menu]="activeSection === 'statistics'"
+                (click)="setActiveSection('statistics')">Statistics</button>
+            <button class="button-responsive" [class.active-menu]="activeSection === 'sheets'"
+                (click)="setActiveSection('sheets')">Sheets</button>
+        </div>
+        @if (activeSection === 'profile'){
+        <div class="col mt-4">
+            <div class="card shadow" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row g-3 align-items-center">
+                        <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                        <p class="text-center mb-0">{{ user.email }}</p>
+                        <hr class="w-100 mt-4">
+                        <div class="card-body mt-2 mb-2">
+                            <div class="row justify-content-center">
+                                <button class="btn btn-primary button-primary w-50"
+                                    (click)="setActiveSection('edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="scrollable-container">
+                        @for (currentParticipation of participation; track $index) {
+                        <div class="row mb-3">
+                            <div class="card shadow" style="background-color: #EFF1F2;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            @for (signedEvent of currentParticipation.signedEvents; track
+                                            $index) {
+                                            @if (signedEvent) {
+                                            <span class="attendance-block present"></span>
+                                            } @else {
+                                            <span class="attendance-block absent"></span>
+                                            }
+                                            }
+                                        </div>
+                                        <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                                            <span>Last signed: <b>{{ currentParticipation.lastSigned
+                                                    }}</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @if (activeSection === 'statistics'){
+        <div class="col mt-4">
+            <div class="card shadow" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row g-3 d-flex justify-content-between justify-content-center">
+                        <div class="col">
+                            <h1>Statistics</h1>
+                        </div>
+                        <div class="col">
+                            <div class="form-field">
+                                <select id="sheetGroup" class="form-select" style="border: 2px solid #213F9A; background-color: transparent;
+                                    font-weight: 600; color: #213F9A;">
+                                    <option value="">Choose</option>
+                                    <option value="a">Group A</option>
+                                    <option disabled>────────────</option>
+                                    <option value="b">Groub B</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="table-responsive" style="background-color: #EFF1F2;">
+                                <table class="bg-transparent w-100 attendance-table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>1.</th>
+                                            <th>2.</th>
+                                            <th>3.</th>
+                                            <th>4.</th>
+                                            <th>5.</th>
+                                            <th>6.</th>
+                                            <th>7.</th>
+                                            <th>8.</th>
+                                            <th>9.</th>
+                                            <th>10.</th>
+                                            <th>11.</th>
+                                            <th>12.</th>
+                                            <th>13.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Steve Harrison</strong></td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Jon Snow</strong></td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Steven Universe</strong></td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/cross.svg" alt="Absent"
+                                                    style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                            <td class="text-center">
+                                                <img src="Assets/Icons/check.svg" alt="Present"
+                                                    style="width: 25px; height: 25px;">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @if (activeSection==='sheets'){
+        <div class="col mt-4">
+            <div class="card shadow mb-4" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="scrollable-container">
+                        <div class="row g-3">
+                            <div class="card shadow" style="background-color: #EFF1F2;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h1>Calculus I.</h1>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center mt-2">
+                                        <div class="col-auto d-flex justify-content-start">
+                                            <button class="btn btn-danger button-danger mt-2 w-50">Delete</button>
+                                        </div>
+                                        <div class="col d-flex justify-content-end align-items-center ms-5">
+                                            <p class="mb-0">Created at: <b>2025.11.12</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @if (activeSection === 'edit'){
+        <div class="col mt-4">
+            <div class="card shadow" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row g-3 align-items-center">
+                        <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                        <p class="text-center mb-0">{{ user.email }}</p>
+                        <hr class="w-100 mt-4">
+                        <div class="card-body mt-2 mb-2">
+                            <div class="row justify-content-center">
+                                <button class="btn btn-primary button-primary w-50"
+                                    (click)="setActiveSection('edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="row d-flex justify-content-between justify-content-center">
+                                <div class="col-auto">
+                                    <h1 class="text-center">Edit user info</h1>
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <button class="border-0 p-0 m-0" type="button"
+                                        (click)="setActiveSection('profile')">
+                                        <img src="Assets/Icons/cross.svg" style="width: 40px; height: 40px;">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-2">
+                        <div class="form" style="gap: 20px">
+                            <label for="username" class="field-label text-center"
+                                style="font-size: 20px; font-weight: 700;">
+                                Change username
+                            </label>
+                            <input type="text" class="flex-grow-1" placeholder="Username" name="username">
+                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
+                                username</button>
+                        </div>
+                        <hr class="mt-4">
+                        <div class="form" style="gap: 20px;">
+                            <label for="password" class="field-label text-center"
+                                style="font-size: 20px; font-weight: 700;">
+                                Change password
+                            </label>
+                            <input type="text" class="form-control" placeholder="Password" name="password">
+                            <input type="text" class="form-control" placeholder="Confirm password" name="passwordCheck">
+                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
+                                password</button>
+                        </div>
+                        <hr class="mt-4">
+                        <div class="form" style="gap: 20px;">
+                            <label for="email" class="field-label text-center"
+                                style="font-size: 20px; font-weight: 700;">
+                                Change email address
+                            </label>
+                            <input type="text" class="form-control" placeholder="Email" name="email">
+                            <input type="text" class="form-control" placeholder="Confirm email" name="emailCheck">
+                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
+                                email</button>
+                        </div>
+                        <hr class="mt-4">
+                        <div class="form" style="gap: 20px;">
+                            <button class="btn btn-primary button-danger align-self-center">
+                                Delete account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+} @else {
 <div class="container-fluid vh-100 p-0" style="background-color: #EFF1F2; overflow-x: hidden;">
     <div class="row h-100 g-0">
         <!--Vertikális navigáció, aktív oldal gombja kékkel ki legyen jelölve-->
-        <div class="col-2 col-sm-1 p-0 mt-5">
+        <div class="col-2 col-sm-1 p-0 mt-5" style="width: 170px;">
             <div class="d-flex flex-column">
                 <button class="button-secondary-profile" [class.active-menu]="activeSection === 'profile'"
                     (click)="setActiveSection('profile')">Profile</button>
                 <button class="button-secondary-profile" [class.active-menu]="activeSection === 'statistics'"
                     (click)="setActiveSection('statistics')">Statistics</button>
                 <button class="button-secondary-profile" [class.active-menu]="activeSection === 'sheets'"
-                    (click)="setActiveSection('sheets')">My sheets</button>
+                    (click)="setActiveSection('sheets')">Sheets</button>
             </div>
         </div>
-        <div class="col-10 col-lg-11 card border-0 ps-5"
+        <div class="col card border-0 ps-4"
             style="background-color:#213F9A; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-            <!--Profile felület, ide kell majd a példa adat helyett az aláírt jelenléti ívek nézet, illetve a profil nézete. Kérdéses, hogy fényképre szükség van-e-->
             @if (activeSection === 'profile') {
-            <div class="row g-3">
-                <div class="col-lg-2 mt-5">
-                    <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2;">
+            <div class="row g-3 mt-5 align-items-start">
+                <div class="col-auto">
+                    <div class="card justify-content-center align-items-center"
+                        style="background-color:#EFF1F2; min-width: 260px;">
                         <div class="card-body">
-                            <!--<div class="text-center mt-4">
-                                <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
-                                    src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
-                            </div>-->
-                            <h2 class="text-center mt-4">{{ user.lastName }} {{ user.firstName }}</h2>
-                            <p class="text-center">{{ user.email }}</p>
+                            <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                            <p class="text-center mb-0">{{ user.email }}</p>
                         </div>
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
-                            <button class="button-primary" style="height:50px; width: 250px; font-size: 20px;"
-                                (click)="setActiveSection('edit')">
-                                Edit
-                            </button>
+                            <button class="btn btn-primary button-primary w-100"
+                                (click)="setActiveSection('edit')">Edit</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-10 mt-5">
-                    <div class="card ms-4" style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                        <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
+                <div class="col">
+                    <div class="card w-100"
+                        style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <div class="card-body" style="max-height: 2fr; overflow-y: auto;">
                             <div class="scrollable-container">
                                 @for (currentParticipation of participation; track $index) {
-                                    <div class="row mb-3">
-                                        <div class="card shadow" style="background-color: #EFF1F2;">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-8">
-                                                        <h2>{{ currentParticipation.name }}</h2>
-                                                    </div>
+                                <div class="row mb-3">
+                                    <div class="card shadow" style="background-color: #EFF1F2;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        @for (signedEvent of currentParticipation.signedEvents; track $index) {
-                                                            @if (signedEvent) {
-                                                                <span class="attendance-block present"></span>
-                                                            }
-                                                            @else {
-                                                                <span class="attendance-block absent"></span>
-                                                            }
-                                                        }
-                                                    </div>
-                                                    <div class="col-md-6 text-end">
-                                                        <span>Last signed: <b>{{ currentParticipation.lastSigned }}</b></span>
-                                                    </div>
+                                            </div>
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6">
+                                                    @for (signedEvent of currentParticipation.signedEvents; track
+                                                    $index) {
+                                                    @if (signedEvent) {
+                                                    <span class="attendance-block present"></span>
+                                                    } @else {
+                                                    <span class="attendance-block absent"></span>
+                                                    }
+                                                    }
+                                                </div>
+                                                <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                                                    <span>Last signed: <b>{{ currentParticipation.lastSigned
+                                                            }}</b></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 }
                             </div>
                         </div>
@@ -76,8 +464,8 @@
             }
             <!--Statisztikákhoz a mátrixos megjelenítés, ide kell majd-->
             @if (activeSection === 'statistics'){
-            <div class="col-lg-11 mt-5">
-                <div class="card" style="background-color: #EFF1F2; width: 240vh;
+            <div class="col mt-5">
+                <div class="card w-100" style="background-color: #EFF1F2; width: 240vh;
                 border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <div class="card-body">
                         <div class="row g-3 d-flex justify-content-between align-items-center">
@@ -98,7 +486,7 @@
                             <hr class="mt-4 w-100" style="height: 3px; background-color: #213F9A; opacity: 1;">
                         </div>
                         <div class="row mt-4">
-                            <div class="col-12">
+                            <div class="col">
                                 <div class="table-responsive" style="background-color: #EFF1F2;">
                                     <table class="bg-transparent w-100 attendance-table table-bordered">
                                         <thead>
@@ -215,8 +603,8 @@
             }
             <!--Minden a felhasználó által létrehozott jelenléti ív csoport és egyedi listázása. Kérdéses, hogy egyáltalán ez kell-e-->
             @if (activeSection === 'sheets'){
-            <div class="col-lg-10 mt-5">
-                <div class="card" style="background-color: #EFF1F2; width: 240vh;
+            <div class="col mt-5">
+                <div class="card w-100" style="background-color: #EFF1F2; width: 240vh;
                 border-top-right-radius: 0; border-bottom-right-radius: 0;">
                     <div class="card-body" style="max-height: 93vh; overflow-y: auto;">
                         <div class="scrollable-container">
@@ -416,39 +804,38 @@
             }
 
             @if (activeSection === 'edit'){
-            <div class="row g-3">
-                <div class="col-lg-2 mt-5">
-                    <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2;">
+            <div class="row g-3 mt-5 align-items-start">
+                <div class="col-auto">
+                    <div class="card justify-content-center align-items-center"
+                        style="background-color:#EFF1F2; min-width: 260px;">
                         <div class="card-body">
                             <div class="text-center mt-4">
                                 <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
                                     src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
                             </div>
-                            <h2 class="text-center mt-4">Hannah Manson</h2>
+                            <h2 class="text-center mt-4">{{user.lastName}} {{user.firstName}}</h2>
                         </div>
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
-                            <button class="button-primary" style="height:50px; width: 250px; font-size: 20px;"
-                                (click)="setActiveSection('edit')">
-                                Edit
-                            </button>
+                            <button class="btn btn-primary button-primary w-100"
+                                (click)="setActiveSection('edit')">Edit</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-10 mt-5">
-                    <div class="card ms-4" style="background-color: #EFF1F2;
+                <div class="col">
+                    <div class="card w-100" style="background-color: #EFF1F2;
                     border-top-right-radius: 0; border-bottom-right-radius: 0;">
                         <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
                             <div class="row">
                                 <div class="row d-flex justify-content-between align-items-center mt-1">
                                     <div class="col-auto">
-                                        <h1 style="font-size: 43px;">Edit user info</h1>
+                                        <h1 style="font-size: 43px;">Edit User Information</h1>
                                     </div>
                                     <div class="col-auto">
                                         <button class="border-0 p-0" type="button"
                                             (click)="setActiveSection('profile')">
-                                            <img src="Assets/Icons/cross-svgrepo-com.svg"
+                                            <img src="Assets/Icons/cross.svg"
                                                 style="width: 50px; height: 50px; margin-bottom: 5px;">
                                         </button>
                                     </div>
@@ -456,17 +843,24 @@
                                 <hr class="mt-2">
                                 <div class="row d-flex justify-content-center align-items-center mb-4">
                                     <div class="col-8 text-center">
-                                        <div class="form mt-3" style="gap: 0.75rem;">
-                                            <label for="username" class="field-label"
+                                        <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)" class="col-8 text-center">
+                                        <div class="form " style="gap: 0.75rem;">
+                                            <label for="name" class="field-label"
                                                 style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
-                                                Change Username
+                                                Change Name
                                             </label>
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <input type="text" placeholder="Username" name="username"
-                                                    class="flex-grow-1">
-                                                <button type="submit" class="button-primary" style="width: 302px;">Change username</button>
+                                                <input type="text" id="firstName" placeholder="First Name" name="firstName"
+                                                    class="form-control flex-fill" [(ngModel)]="pendingFirstName" required>
+                                                <input type="text" id="lastName"  placeholder="Last Name" name="lastName"
+                                                    class="form-control flex-fill" [(ngModel)]="pendingLastName" required>
+                                                <button type="submit" class="button-primary flex-shrink-0 w-25">Change name</button>
                                             </div>
                                         </div>
+                                            <div *ngIf="nameErrorMessage" class="error">
+                                              <small>{{ nameErrorMessage }}</small>
+                                            </div>
+                                    </form>
                                     </div>
                                 </div>
                                 <hr class="mt-4">
@@ -480,7 +874,7 @@
                                             <div class="d-flex gap-2 justify-content-center">
                                                 <input type="text" placeholder="Password" name="password"
                                                     class="form-control flex-fill">
-                                                <input type="text" placeholder="Password again" name="passwordCheck"
+                                                <input type="text" placeholder="Confirm password" name="passwordCheck"
                                                     class="form-control flex-fill">
                                                 <button type="submit" class="button-primary flex-shrink-0 w-25">Change
                                                     password</button>
@@ -491,19 +885,25 @@
                                 <hr class="mt-3">
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
                                     <div class="col-8 text-center">
-                                        <div class="form" style="gap: 0.75rem;">
+                                        <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)" class="form" style="gap: 0.75rem;">
                                             <label for="email" class="field-label"
                                                 style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
                                                 Change Email
                                             </label>
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <input type="text" placeholder="Email" name="email"
-                                                    class="form-control flex-fill">
-                                                <input type="text" placeholder="Email again" name="emailCheck"
-                                                    class="form-control flex-fill">
+                                                <input type="email" placeholder="Email" name="email"
+                                                    class="form-control flex-fill" required [(ngModel)]="pendingEmail" id="email" email>
+                                                <input type="email" placeholder="Email again" name="emailCheck"
+                                                    class="form-control flex-fill" [(ngModel)]="pendingEmailConfirm" id="emailConfirm" required email>
                                                 <button type="submit" class="button-primary flex-shrink-0 w-25">Change email</button>
                                             </div>
-                                        </div>
+                                            <div *ngIf="emailErrorMessage" class="error mt-2">
+                                              <small>{{ emailErrorMessage }}</small>
+                                            </div>
+                                            <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                                              <small>{{ emailConfirmErrorMessage }}</small>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <hr class="mt-3">
@@ -511,7 +911,7 @@
                                     <div class="col-8 text-center">
                                         <button class="button-danger"
                                             style="height:50px; width: 300px; font-size: 20px;">
-                                            Delete Account
+                                            Delete account
                                         </button>
                                     </div>
                                 </div>
@@ -524,3 +924,4 @@
         </div>
     </div>
 </div>
+}

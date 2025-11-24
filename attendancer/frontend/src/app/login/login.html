@@ -17,40 +17,60 @@
       <div class="card-form">
         <h1>{{ 'LOGIN.SIGN_IN_TITLE' | translate }}</h1>
 
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
+                    
+
+                                <form #loginForm="ngForm" class="form" (ngSubmit)="onLogin(loginForm)">
+                                    <div class="form-field p-2">
+                                        <label for="email" class="field-label"
+                                            style="font-size: 20px; font-weight: 700;">
+                                            Email address
+                                        </label>
+                                        <input
+                                            type="email"
+                                            [(ngModel)]="loginModel.email"
+                                            name="email"
+                                            #email="ngModel"
+                                            placeholder="Enter email"
+                                            required
+                                            email
+                                        />
+                                        <div class="error" *ngIf="email.invalid && email.touched">
+                                            <small *ngIf="email.errors?.['required']">Email is required.</small>
+                                            <small *ngIf="email.errors?.['email']">Invalid email format.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-field p-2">
+                                        <label for="password" class="field-label"
+                                            style="font-size: 20px; font-weight: 700;">
+                                            Password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            [(ngModel)]="loginModel.password"
+                                            name="password"
+                                            #password="ngModel"
+                                            placeholder="Enter password"
+                                            required
+                                        />
+                                        <div class="error" *ngIf="password.invalid && password.touched">
+                                            <small *ngIf="password.errors?.['required']">Password is required.</small>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="button-primary mt-2" [disabled]="loginForm.invalid"
+                                        style="height: 55px; width: 98%; align-self: center; font-size: 20px;">
+                                        Sign in</button>
+                                    <p class="small-text d-flex align-self-center" style="font-size: 15px;">
+                                        <a routerLink="/register" class="nav-link">Don't have an account yet? <b>Sign
+                                                up!</b></a>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <form class="form" (ngSubmit)="onLogin()">
-          <div class="form-field">
-            <input
-              type="email"
-              [(ngModel)]="loginModel.email"
-              name="email"
-              [attr.placeholder]="'LOGIN.EMAIL' | translate"
-            />
-          </div>
-
-          <div class="form-field">
-            <input
-              type="password"
-              [(ngModel)]="loginModel.password"
-              name="password"
-              [attr.placeholder]="'LOGIN.PASSWORD' | translate"
-            />
-          </div>
-
-          <button type="submit" class="button-primary" [disabled]="!inputCheck()">
-            {{ 'LOGIN.SIGN_IN_BUTTON' | translate }}
-          </button>
-
-          <p class="small-text">
-            <a routerLink="/register" class="nav-link">
-              {{ 'LOGIN.NO_ACCOUNT' | translate }}
-            </a>
-          </p>
-        </form>
-      </div>
-    </section>
-  </main>
+    </div>
 </div>

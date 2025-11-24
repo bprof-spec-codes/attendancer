@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -8,6 +8,7 @@ import { Registration } from './registration/registration';
 import { Nav } from './nav/nav';
 import { Footer } from './footer/footer';
 import { Popup } from './popup/popup';
+import { Profile } from './profile/profile';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -17,8 +18,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { authenticationInterceptor } from './interceptors/authentication-interceptor';
+import { SheetSigned } from './sheet-signed/sheet-signed';
 import { MultiTranslateLoader } from './multi-translate-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,11 +35,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     Registration,
     Nav,
     Footer,
+    Profile,
     Sheet,
     Popup,
     SheetForm,
     LoadingSpinner,
-    ModalWarning
+    ModalWarning,
+    SheetSigned
   ],
   imports: [
     BrowserModule,
@@ -52,13 +57,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-    provideHttpClient(),
-    provideBrowserGlobalErrorListeners(),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true }
-  ],
+  provideHttpClient(
+    withInterceptors([
+      authenticationInterceptor
+    ])
+  ),
+  provideBrowserGlobalErrorListeners()
+],
   bootstrap: [App]
 })
 export class AppModule { }

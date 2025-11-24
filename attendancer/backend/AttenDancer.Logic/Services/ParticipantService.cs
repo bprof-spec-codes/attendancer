@@ -1,7 +1,9 @@
 ﻿using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Dtos.Event;
 using AttenDancer.Entity.Dtos.Participant;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,5 +55,8 @@ namespace AttenDancer.Logic.Services
             List<ParticipantViewDto> participants = dtoProvider.Mapper.Map<List<ParticipantViewDto>>(getevent.Participants.ToList());
             return participants;
         }
+
+
+       
     }
 }
