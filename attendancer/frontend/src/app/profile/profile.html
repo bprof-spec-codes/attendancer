@@ -345,13 +345,22 @@
                         </div>
                         <hr class="mt-2">
                         <div class="form" style="gap: 20px">
-                            <label for="username" class="field-label text-center"
-                                style="font-size: 20px; font-weight: 700;">
-                                Change username
-                            </label>
-                            <input type="text" class="flex-grow-1" placeholder="Username" name="username">
-                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
-                                username</button>
+                            <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)">
+                                <div class="row d-flex justify-content-center ms-1 mx-1" style="gap: 20px;">
+                                    <label for="username" class="field-label text-center"
+                                        style="font-size: 20px; font-weight: 700;">
+                                        Change name
+                                    </label>
+                                    <input type="text" class="flex-grow-1" placeholder="First Name" id="firstName"
+                                        name="firstName" [(ngModel)]="pendingFirstName" required>
+                                    <input type="text" class="flex-grow-1" [(ngModel)]="pendingLastName" placeholder="Last Name" id="lastName"
+                                        name="lastName" required>
+                                    <button type="submit" class="btn btn-primary button-primary align-self-center"
+                                        style="width: 290px;">Change
+                                        name</button>
+                                </div>
+
+                            </form>
                         </div>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
@@ -366,14 +375,22 @@
                         </div>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
-                            <label for="email" class="field-label text-center"
-                                style="font-size: 20px; font-weight: 700;">
-                                Change email address
-                            </label>
-                            <input type="text" class="form-control" placeholder="Email" name="email">
-                            <input type="text" class="form-control" placeholder="Confirm email" name="emailCheck">
-                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
-                                email</button>
+                            <form #emailForm="ngForm" (ngSubmit)="onChangeName(emailForm)">
+                                <div class="row d-flex justify-content-center ms-1 mx-1" style="gap: 20px;">
+                                    <label for="email" class="field-label text-center"
+                                        style="font-size: 20px; font-weight: 700;">
+                                        Change Email
+                                    </label>
+                                    <input type="email" class="flex-grow-1" placeholder="Email address" id="email"
+                                        name="email" [(ngModel)]="pendingEmail" required>
+                                    <input type="text" class="flex-grow-1" placeholder="Confirm Email address" id="emailCheck"
+                                        name="emailConfirm" [(ngModel)]="pendingEmailConfirm" required>
+                                    <button type="submit" class="btn btn-primary button-primary align-self-center"
+                                        style="width: 290px;">Change
+                                        email</button>
+                                </div>
+
+                            </form>
                         </div>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
@@ -809,11 +826,8 @@
                     <div class="card justify-content-center align-items-center"
                         style="background-color:#EFF1F2; min-width: 260px;">
                         <div class="card-body">
-                            <div class="text-center mt-4">
-                                <img class="img-fluid rounded" style="object-fit: cover; width: 20rem; height: 20rem;"
-                                    src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687">
-                            </div>
-                            <h2 class="text-center mt-4">{{user.lastName}} {{user.firstName}}</h2>
+                            <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                            <p class="text-center mb-0">{{ user.email }}</p>
                         </div>
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
@@ -843,24 +857,27 @@
                                 <hr class="mt-2">
                                 <div class="row d-flex justify-content-center align-items-center mb-4">
                                     <div class="col-8 text-center">
-                                        <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)" class="col-8 text-center">
-                                        <div class="form " style="gap: 0.75rem;">
-                                            <label for="name" class="field-label"
-                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
-                                                Change Name
-                                            </label>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <input type="text" id="firstName" placeholder="First Name" name="firstName"
-                                                    class="form-control flex-fill" [(ngModel)]="pendingFirstName" required>
-                                                <input type="text" id="lastName"  placeholder="Last Name" name="lastName"
-                                                    class="form-control flex-fill" [(ngModel)]="pendingLastName" required>
-                                                <button type="submit" class="button-primary flex-shrink-0 w-25">Change name</button>
+                                        <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)">
+                                            <div class="form mt-3" style="gap: 0.75rem;">
+                                                <label for="name" class="field-label"
+                                                    style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                                    Change Name
+                                                </label>
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <input type="text" id="firstName" placeholder="First Name"
+                                                        name="firstName" class="form-control flex-fill"
+                                                        [(ngModel)]="pendingFirstName" required>
+                                                    <input type="text" id="lastName" placeholder="Last Name"
+                                                        name="lastName" class="form-control flex-fill"
+                                                        [(ngModel)]="pendingLastName" required>
+                                                    <button type="submit" class="button-primary flex-shrink-0 w-25"
+                                                        style="width: 302px;">Change username</button>
+                                                </div>
                                             </div>
-                                        </div>
                                             <div *ngIf="nameErrorMessage" class="error">
-                                              <small>{{ nameErrorMessage }}</small>
+                                                <small>{{ nameErrorMessage }}</small>
                                             </div>
-                                    </form>
+                                        </form>
                                     </div>
                                 </div>
                                 <hr class="mt-4">
@@ -885,23 +902,29 @@
                                 <hr class="mt-3">
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
                                     <div class="col-8 text-center">
-                                        <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)" class="form" style="gap: 0.75rem;">
-                                            <label for="email" class="field-label"
-                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
-                                                Change Email
-                                            </label>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <input type="email" placeholder="Email" name="email"
-                                                    class="form-control flex-fill" required [(ngModel)]="pendingEmail" id="email" email>
-                                                <input type="email" placeholder="Email again" name="emailCheck"
-                                                    class="form-control flex-fill" [(ngModel)]="pendingEmailConfirm" id="emailConfirm" required email>
-                                                <button type="submit" class="button-primary flex-shrink-0 w-25">Change email</button>
-                                            </div>
-                                            <div *ngIf="emailErrorMessage" class="error mt-2">
-                                              <small>{{ emailErrorMessage }}</small>
-                                            </div>
-                                            <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
-                                              <small>{{ emailConfirmErrorMessage }}</small>
+                                        <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
+                                            <div class="form" style="gap: 0.75rem;">
+                                                <label for="email" class="field-label"
+                                                    style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                                    Change Email
+                                                </label>
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <input type="email" placeholder="Email" name="email"
+                                                        class="form-control flex-fill" required
+                                                        [(ngModel)]="pendingEmail" id="email" email>
+                                                    <input type="email" placeholder="Email again" name="emailCheck"
+                                                        class="form-control flex-fill" [(ngModel)]="pendingEmailConfirm"
+                                                        id="emailConfirm" required email>
+                                                    <button type="submit"
+                                                        class="button-primary flex-shrink-0 w-25">Change
+                                                        email</button>
+                                                </div>
+                                                <div *ngIf="emailErrorMessage" class="error mt-2">
+                                                    <small>{{ emailErrorMessage }}</small>
+                                                </div>
+                                                <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                                                    <small>{{ emailConfirmErrorMessage }}</small>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
