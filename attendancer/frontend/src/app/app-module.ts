@@ -11,14 +11,14 @@ import { Popup } from './popup/popup';
 import { Profile } from './profile/profile';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Sheet } from './sheet/sheet';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingSpinner } from './loading-spinner/loading-spinner';
-import { LoadingInterceptor } from './interceptors/loading.interceptor';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
 import { authenticationInterceptor } from './interceptors/authentication-interceptor';
+import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
+import { loggingInterceptor } from './interceptors/logging-interceptor';
+import { loadingInterceptor } from './interceptors/loading-interceptor';
+import { errorInterceptor } from './interceptors/error-interceptor';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { MultiTranslateLoader } from './multi-translate-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -41,7 +41,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     SheetForm,
     LoadingSpinner,
     ModalWarning,
-    SheetSigned
   ],
   imports: [
     BrowserModule,
@@ -57,13 +56,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-  provideHttpClient(
-    withInterceptors([
-      authenticationInterceptor
-    ])
-  ),
-  provideBrowserGlobalErrorListeners()
-],
+    provideHttpClient(
+      withInterceptors([
+        errorInterceptor,
+        authenticationInterceptor,
+        loadingInterceptor,
+        loggingInterceptor,
+        mockDataInterceptor
+      ])
+    ),
+    provideBrowserGlobalErrorListeners()
+  ],
   bootstrap: [App]
 })
 export class AppModule { }

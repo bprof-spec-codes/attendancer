@@ -170,7 +170,8 @@ namespace AttenDancer.Logic.Services
 
             user.Password = newHashedPassword;
 
-            return await _userRepository.Update(user);
+            
+            await _userRepository.Update(user);
         }
 
 
