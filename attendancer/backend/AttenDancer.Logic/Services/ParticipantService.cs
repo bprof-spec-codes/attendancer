@@ -38,21 +38,30 @@ namespace AttenDancer.Logic.Services
             {
                 throw new Exception("A felhasználó már résztvevőként van regisztrálva ezen az eseményen.");
             }
-
+            if(!(createDto.Metadata.ToList().Count() == Getevent.Metadata.ToList().Count()))
+            {
+                throw new Exception("A metaadatok hibásan vannak megadva.");
+            }
             var participant = dtoProvider.Mapper.Map<Participant>(createDto);
             return await _participantRepository.Create(participant);
         }
 
         public async Task<List<ParticipantViewDto>> GetParticipantsAsync(string eventid)
         {
-            Event getevent = _eventRepository.GetAll().FirstOrDefault(e => e.Id == eventid);
+            Event getevent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == eventid);
 
             if (getevent == null)
             {
                 throw new Exception("Hibás esemény azonosító");
             }
 
-            List<ParticipantViewDto> participants = dtoProvider.Mapper.Map<List<ParticipantViewDto>>(getevent.Participants.ToList());
+            List<ParticipantViewDto> participants = new List<ParticipantViewDto>();
+            foreach (var participant in getevent.Participants)
+            {
+                ParticipantViewDto participantView = dtoProvider.Mapper.Map<ParticipantViewDto>(participant);
+                participants.Add(participantView);
+            }
+            
             return participants;
         }
 
