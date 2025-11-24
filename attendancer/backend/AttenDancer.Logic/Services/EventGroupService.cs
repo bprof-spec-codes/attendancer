@@ -86,6 +86,20 @@ namespace AttenDancer.Logic.Services
             return eventGroupview;
         }
 
+        public async Task<List<EventGroupViewDto>> GetEventGroupsByUserIdAsync(string userId)
+        {
+            var eventGroups = await _eventGroupRepository
+                .GetAll()
+                .Where(eg => eg.UserId == userId)
+                .ToListAsync();
+
+            if (!eventGroups.Any())
+            {
+                throw new Exception("A felhasználónak nincsenek eseménycsoportjai.");
+            }
+
+            return dtoProvider.Mapper.Map<List<EventGroupViewDto>>(eventGroups);
+        }
 
 
         public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByIDAsync(string eventGroupId, string userId)
