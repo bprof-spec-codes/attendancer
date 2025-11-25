@@ -33,8 +33,8 @@ namespace AttenDancer.Data.Migrations
                 columns: new[] { "Id", "EventGroupId", "Metadata", "Name", "QrCode", "UserId" },
                 values: new object[,]
                 {
-                    { "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "18f2745f-652e-4817-b7e1-ea7787fc71c8", null, "Adatbázisok - 2. előadás", "QR_CODE_EVENT_2_DEF456", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
-                    { "abcf9f45-d59d-4229-b13a-28e9a35718ca", "18f2745f-652e-4817-b7e1-ea7787fc71c8", null, "Adatbázisok - 1. előadás", "QR_CODE_EVENT_1_ABC123", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
+                    { "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "18f2745f-652e-4817-b7e1-ea7787fc71c8", "neptun,seat", "Adatbázisok - 2. előadás", "QR_CODE_EVENT_2_DEF456", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "abcf9f45-d59d-4229-b13a-28e9a35718ca", "18f2745f-652e-4817-b7e1-ea7787fc71c8", "neptun,seat", "Adatbázisok - 1. előadás", "QR_CODE_EVENT_1_ABC123", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
                 });
 
             migrationBuilder.InsertData(
