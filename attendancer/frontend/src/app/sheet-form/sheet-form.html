@@ -48,16 +48,16 @@
                                 </label>
 
                                 <!--
-                            Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
-                            Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
-                        -->
+                                Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
+                                Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
+                                -->
                                 @if (selectedEventOrEventGroup === '' || ((selectedEventOrEventGroup === '' ||
                                 selectedEventOrEventGroup === currentEvent.eventGroupId) && editMode)) {
                                 <div class="form">
                                     <!-- Metadata hozzáadás. -->
                                     <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
                                         <input type="text" [attr.name]="'requiredField' + i" placeholder="Enter data"
-                                            name="sheetMetadata" [(ngModel)]="currentEvent.metadata[i]"
+                                            name="sheetMetadata" [(ngModel)]="currentEvent.metadata![i]"
                                             [ngModelOptions]="{ standalone: true }">
                                         <button type="button" class="button-icon button-icon-danger"
                                             (click)="removeCustomField(i)">
