@@ -1713,6 +1713,8 @@ export class EventCreateDto implements IEventCreateDto {
     userId?: string | undefined;
     eventGroupId?: string | undefined;
     metadata?: string[] | undefined;
+    date: string | undefined; // TODO TEMP
+    id: string | undefined; // TODO TEMP
 
     constructor(data?: IEventCreateDto) {
         if (data) {

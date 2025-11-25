@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
 import { EventClient } from '../app.api-client.generated';
 import { EditEventService } from '../services/edit-event-service';
-import { MockDataService } from '../services/mock-data.service';
 import { EventViewDto } from '../models/event-view-dto';
 
 @Component({
@@ -20,9 +19,8 @@ export class Sheet implements OnInit {
 
   constructor(
     private router: Router, 
-    private eventClient: EventClient, 
     private route: ActivatedRoute, 
-    private mockDataService: MockDataService, 
+    private eventClient: EventClient, 
     private editEventService: EditEventService, 
     public authService: AuthService
   ) {}

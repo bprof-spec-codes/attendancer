@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { mergeMap, of } from 'rxjs';
 
 export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
