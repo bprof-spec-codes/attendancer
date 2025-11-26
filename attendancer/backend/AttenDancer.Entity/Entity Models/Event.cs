@@ -16,7 +16,7 @@ namespace AttenDancer.Entity.Entity_Models
         public string? QrCodeValue { get; set; } = null!;
         public bool IsQrValid { get; set; } = true;
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; } = null!;
 
         //public string? Metadata { get; set; }
         public List<string> Metadata { get; set; } = new List<string>();
