@@ -11,7 +11,7 @@
                                     {{ 'EVENT.EDIT_BUTTON' | translate }}
                                 </button>
                                 <button (click)="modal.open()" class="btn btn-danger">
-                                  <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                                  <img src="./assets/icons/white-trash.svg" class="icons">
                                   {{ 'EVENT.DELETE_BUTTON' | translate }}
                                 </button>
                             </div>
@@ -19,7 +19,7 @@
                                 <button (click)="modalQR.open()" class="button-primary">{{ 'EVENT.SHOW_QR_BUTTON' | translate }}</button>
                                 <app-modal-qrcode #modalQR [eventId]="eventId"></app-modal-qrcode>
                                 <button (click)="onInvalidateQr()" class="button-alert">
-                                    <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                                    <img src="./assets/icons/white-trash.svg" class="icons">
                                     <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
                                     {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                 </button>

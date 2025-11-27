@@ -101,11 +101,11 @@ export class Sheet implements OnInit {
 
   onInvalidateQr() {
     this.eventService.invalidateQr(this.eventId).subscribe({
-    next: () => {
+      next: () => {
        console.log('QR invalidálva!');
        this.event.isQrValid = false
-    },
-    error: err => console.error('Hiba történt:', err.message)
-  });
+      },
+      error: err => console.error('Hiba történt:', err.message)
+    });
   }
 }

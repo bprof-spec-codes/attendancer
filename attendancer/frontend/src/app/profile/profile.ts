@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MockDataService } from '../services/mock-data.service';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
+import { UserClient } from '../app.api-client.generated';
 
 @Component({
   selector: 'app-profile',
@@ -25,14 +25,7 @@ export class Profile implements OnInit {
   onResize() {
     this.updateIsMobile();
   }
-  participation: any[] = [
-    // mock-olása
-    {
-      name: '',
-      lastSigned: '',
-      signedEvents: [],
-    },
-  ];
+  participation: any[] = []
   user: User = new User();
 
   userId: string = (Math.floor(Math.random() * 3) + 1).toString(); // a bejelentkezett felhasználó id-jének mock-olása
@@ -43,7 +36,10 @@ export class Profile implements OnInit {
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
 
-  constructor(private mockDataService: MockDataService, private userService: UserService) {}
+  constructor(
+    private userService: UserClient,
+    private customUserService: UserService
+  ) {}
 
   pendingFirstName: string = '';
   pendingLastName: string = '';
@@ -51,12 +47,21 @@ export class Profile implements OnInit {
   pendingEmailConfirm: string = '';
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe((data) => {
+    this.customUserService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
 
-    this.mockDataService.getSignedEventsByUserId(this.userId).subscribe((data) => {
-      this.participation = data;
+    this.userService.getMySignedSheets().subscribe((response) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string);
+        console.log(jsonData)
+
+        // TODO, más adat kell
+
+        this.participation = jsonData;
+      };
+      reader.readAsText(response.data);
     });
   }
 
@@ -72,7 +77,7 @@ export class Profile implements OnInit {
     }
     this.user.firstName = this.pendingFirstName;
     this.user.lastName = this.pendingLastName;
-    this.userService.updateUser(this.user).subscribe({
+    this.customUserService.updateUser(this.user).subscribe({
       next: (response: User) => {
         this.user = response;
       },
@@ -95,7 +100,7 @@ export class Profile implements OnInit {
       return;
     }
     this.user.email = this.pendingEmail;
-    this.userService.updateUser(this.user).subscribe({
+    this.customUserService.updateUser(this.user).subscribe({
       next: (response: User) => {
         this.user = response;
       },
@@ -132,7 +137,7 @@ export class Profile implements OnInit {
       newPassword: password,
     };
 
-    this.userService.updatePassword(this.user.id, passwordData).subscribe({
+    this.customUserService.updatePassword(this.user.id, passwordData).subscribe({
       next: (response: any) => {
         console.log('Password updated successfully', response);
         form.resetForm();
