@@ -1,51 +1,47 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100 mt-2 mb-2">
-    <div class="container p-4">
-        <div class="row justify-content-center">
-            <div class="card shadow shadow-sm" style="background-color: #EFF1F2;">
-                <div class="card-body">
-                    <div class="row">
-                        <form>
-                            <div class="row g-3 d-flex justify-content-between align-items-center"
-                                style="margin-bottom: 1rem;">
-                                <div class="col-auto">
-                                    <h1>Sheet group:</h1>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-field">
-                                        <select id="sheetGroup" class="form-select"
-                                            style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
-                                            [(ngModel)]="selectedEventOrEventGroup"
-                                            (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
-                                            <option [value]="''" default>No sheet group</option>
-                                            <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{
-                                                eventGroup.name }}</option>
-                                            <option disabled>────────────</option>
-                                            <option *ngFor="let event of events" [value]="event.id">{{ event.name }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+  <div class="container p-4">
+    <div class="row justify-content-center">
+      <div class="card shadow shadow-sm" style="background-color: #EFF1F2;">
+        <div class="card-body">
+          <div class="row">
+            <form>
+              <div class="row g-3 d-flex justify-content-between align-items-center" style="margin-bottom: 1rem;">
+                <div class="col-auto">
+                  <h1>{{ 'SHEET.SHEET_GROUP_LABEL' | translate }}</h1>
+                </div>
+                <div class="col-auto">
+                  <div class="form-field">
+                    <select id="sheetGroup" class="form-select"
+                            style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
+                            [(ngModel)]="selectedEventOrEventGroup"
+                            (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
+                      <option [value]="''" default>{{ 'SHEET.NO_SHEET_GROUP' | translate }}</option>
+                      <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{ eventGroup.name }}</option>
+                      <option disabled>────────────</option>
+                      <option *ngFor="let event of events" [value]="event.id">{{ event.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
-                            <div class="form" style="gap: 0.75rem; margin-top: 4rem;">
-                                <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                                    Name your sheet:
-                                </label>
-                                <input type="text" placeholder="Sheet name" name="sheetName"
-                                    [(ngModel)]="currentEvent.name">
+              <div class="form" style="gap: 0.75rem; margin-top: 4rem;">
+                <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                  {{ 'SHEET.SHEET_NAME_LABEL' | translate }}
+                </label>
+                <input type="text" placeholder="{{ 'SHEET.SHEET_NAME_PLACEHOLDER' | translate }}" name="sheetName"
+                       [(ngModel)]="currentEvent.name">
 
-                                <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                                    Date of event:
-                                </label>
-                                <input type="datetime-local" placeholder="Date of event" name="sheetDate"
-                                    [(ngModel)]="currentEvent.date">
+                <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                  {{ 'SHEET.SHEET_DATE_LABEL' | translate }}
+                </label>
+                <input type="datetime-local" placeholder="{{ 'SHEET.SHEET_DATE_PLACEHOLDER' | translate }}" name="sheetDate"
+                       [(ngModel)]="currentEvent.date">
 
-                                <hr>
+                <hr>
 
-                                <label for="sheetMetadata" class="field-label"
-                                    style="font-size: 1.3rem; font-weight: 700;">
-                                    Optional data:
-                                </label>
+                <label for="sheetMetadata" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                  {{ 'SHEET.OPTIONAL_DATA_LABEL' | translate }}
+                </label>
 
                                 <!--
                                 Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
@@ -56,12 +52,11 @@
                                 <div class="form">
                                     <!-- Metadata hozzáadás. -->
                                     <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
-                                        <input type="text" [attr.name]="'requiredField' + i" placeholder="Enter data"
+                                        <input type="text" [attr.name]="'requiredField' + i" placeholder="{{ 'SHEET.ENTER_DATA_PLACEHOLDER' | translate }}"
                                             name="sheetMetadata" [(ngModel)]="currentEvent.metadata![i]"
                                             [ngModelOptions]="{ standalone: true }">
-                                        <button type="button" class="button-icon button-icon-danger"
-                                            (click)="removeCustomField(i)">
-                                            <img style="width: 15px; height: 15px;" src="/assets/icons/red-cross.svg">
+                                        <button (click)="removeCustomField(i)" type="button" class="button-icon button-icon-danger">
+                                            <img style="width: 15px; height: 15px;" src="./assets/icons/red-cross.svg">
                                         </button>
                                     </div>
                                     <button type="button" class="button-striped" (click)="addCustomField()">+</button>
@@ -77,22 +72,15 @@
                                 }
 
                                 <!-- A megfelelő gomb megjelenítése. -->
-                                @if (editMode) {
-                                <button type="submit" class="button-primary" (click)="editSheet()"
+                                <button type="submit" class="button-primary" (click)="editMode ? editSheet() : createSheet()"
                                     [disabled]="inputInvalid()"
-                                    style="width: 50%; align-self: center; margin-top: 1rem;">Edit sheet</button>
-                                }
-                                @else {
-                                <button type="submit" class="button-primary" (click)="createSheet()"
-                                    [disabled]="inputInvalid()"
-                                    style="width: 50%; align-self: center; margin-top: 1rem;">Create</button>
-                                }
+                                    style="width: 50%; align-self: center; margin-top: 1rem;">
+                                    {{ editMode ? ('SHEET.EDIT_SHEET_BUTTON' | translate) : ('SHEET.CREATE_BUTTON' | translate) }}
+                                </button>
 
-                                @if (inputInvalid()) {
-                                <div class="invalid-validation-message text-center mt-2">
-                                    <p>You need to give a name and a date to your sheet!</p>
+                                <div *ngIf="inputInvalid()" class="invalid-validation-message text-center mt-2">
+                                  <p>{{ 'SHEET.REQUIRED_NAME_DATE_ERROR' | translate }}</p>
                                 </div>
-                                }
                             </div>
                         </form>
                     </div>

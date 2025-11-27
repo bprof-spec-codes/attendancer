@@ -1,0 +1,117 @@
+{
+   "NAV": {
+    "LOGIN": "Bejelentkezés",
+    "CREATE_SHEET": "+ Új sheet",
+    "PROFILE": "Profil",
+    "LOGOUT": "Kijelentkezés"
+  },
+   "REGISTER": {
+    "HEADING_LINE1": "Attendance tracking",
+    "HEADING_LINE2": "made easy",
+    "TITLE": "Regisztráció",
+    "FIRST_NAME_LABEL": "Keresztnév",
+    "FIRST_NAME_PLACEHOLDER": "Írd be a keresztneved",
+    "LAST_NAME_LABEL": "Vezetéknév",
+    "LAST_NAME_PLACEHOLDER": "Írd be a vezetékneved",
+    "EMAIL_LABEL": "Email cím",
+    "EMAIL_PLACEHOLDER": "Írd be az email címed",
+    "PASSWORD_LABEL": "Jelszó",
+    "PASSWORD_PLACEHOLDER": "Írd be a jelszavad",
+    "CONFIRM_PASSWORD_LABEL": "Jelszó megerősítése",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Írd be újra a jelszavad",
+    "BUTTON_SIGN_UP": "Regisztráció",
+    "HAVE_ACCOUNT": "Már van fiókod?",
+    "SIGN_IN_HERE": "Jelentkezz be itt",
+    "ERROR": {
+      "FIRST_NAME_REQUIRED": "Kérlek, add meg a keresztneved!",
+      "FIRST_NAME_MIN": "Minimum 2 karakter.",
+      "LAST_NAME_REQUIRED": "Kérlek, add meg a vezetékneved!",
+      "EMAIL_REQUIRED": "Kérlek, add meg az email címed!",
+      "EMAIL_INVALID": "Érvénytelen email cím!",
+      "PASSWORD_REQUIRED": "Kérlek, add meg a jelszavad!",
+      "PASSWORD_MIN": "A jelszó minimum 6 karakter legyen.",
+      "PASSWORD_MAX": "A jelszó maximum 18 karakter lehet.",
+      "PASSWORD_PATTERN": "A jelszónak tartalmaznia kell legalább egy nagybetűt és egy számot.",
+      "PASSWORDS_MISMATCH": "A jelszavak nem egyeznek."
+    }
+  },
+  "LOGIN": {
+    "WELCOME_BACK": "Üdv újra!",
+    "SIGN_IN_TITLE": "Bejelentkezés",
+    "EMAIL_LABEL": "Email cím",
+    "EMAIL_PLACEHOLDER": "Írd be az email címed",
+    "PASSWORD_LABEL": "Jelszó",
+    "PASSWORD_PLACEHOLDER": "Írd be a jelszavad",
+    "BUTTON_SIGN_IN": "Bejelentkezés",
+    "NO_ACCOUNT": "Nincs fiókod?",
+    "SIGN_UP_HERE": "Regisztrálj itt",
+    "ERROR": {
+      "EMAIL_REQUIRED": "Kérlek, add meg az email címed!",
+      "EMAIL_INVALID": "Érvénytelen email cím!",
+      "PASSWORD_REQUIRED": "Kérlek, add meg a jelszavad!"
+    }
+  },
+  "PROFILE_PAGE": {
+    "PROFILE": "Profil",
+    "STATISTICS": "Statisztikák",
+    "SHEETS": "Jelenléti ívek",
+    "EDIT": "Szerkesztés",
+    "LAST_SIGNED": "Utoljára aláírva",
+    "CHOOSE": "Válassz",
+    "GROUP_A": "A csoport",
+    "GROUP_B": "B csoport",
+    "ABSENT": "Távol",
+    "PRESENT": "Jelen",
+    "DELETE": "Törlés",
+    "CREATED_AT": "Létrehozva",
+    "EDIT_USER_INFO": "Felhasználói adatok szerkesztése",
+    "CHANGE_NAME": "Név módosítása",
+    "FIRST_NAME": "Keresztnév",
+    "LAST_NAME": "Vezetéknév",
+    "CHANGE_PASSWORD": "Jelszó módosítása",
+    "PASSWORD": "Jelszó",
+    "CONFIRM_PASSWORD": "Jelszó megerősítése",
+    "CHANGE_EMAIL": "Email módosítása",
+    "EMAIL_ADDRESS": "Email cím",
+    "CONFIRM_EMAIL_ADDRESS": "Email cím megerősítése",
+    "DELETE_ACCOUNT": "Fiók törlése"
+  },
+  "SHEET": {
+    "SHEET_GROUP_LABEL": "Csoport kiválasztása",
+    "NO_SHEET_GROUP": "Nincs csoport",
+    "SHEET_NAME_LABEL": "Név a laphoz:",
+    "SHEET_NAME_PLACEHOLDER": "A lap neve",
+    "SHEET_DATE_LABEL": "Esemény dátuma:",
+    "SHEET_DATE_PLACEHOLDER": "Válassz dátumot",
+    "OPTIONAL_DATA_LABEL": "Opcionális adatok:",
+    "ENTER_DATA_PLACEHOLDER": "Add meg az adatot",
+    "EDIT_SHEET_BUTTON": "Lap szerkesztése",
+    "CREATE_BUTTON": "Létrehozás",
+    "REQUIRED_NAME_DATE_ERROR": "Add meg a lap nevét és dátumát!",
+    "ALREADY_SIGNED": "A lap már aláírva",
+    "EXAMPLE_EVENT": "Példa esemény",
+    "NEPTUN_ID_LABEL": "Neptun kód",
+    "NEPTUN_ID_PLACEHOLDER": "Írd be a Neptun kódodat",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Írd be az email címed",
+    "SIGN_SHEET_BUTTON": "Aláírás"
+  },
+  "EVENT": {
+    "EDIT_BUTTON": "Szerkesztés",
+    "SHOW_QR_BUTTON": "QR kód megjelenítése",
+    "DELETE_QR_BUTTON": "QR kód törlése",
+    "DELETE_BUTTON": "Törlés",
+    "TABLE_HEADER_NAME": "Név",
+    "TABLE_HEADER_PRESENCE": "Jelenlét"
+  },
+   "MODAL": {
+    "WARNING_TITLE": "Figyelem!",
+    "DELETE_CONFIRM_MESSAGE": "Biztosan törölni szeretnéd ezt az eseményt?",
+    "QR_ERROR_MESSAGE": "Hibás esemény azonositó",
+    "CLOSE_BUTTON": "Bezárás",
+    "DELETE_BUTTON": "Törlés"
+  },
+  "FOOTER": {
+    "COPYRIGHT": "©2025 Attendancer minden jog fenntartva"
+  }
+}

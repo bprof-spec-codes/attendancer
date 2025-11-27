@@ -22,7 +22,8 @@ export class Sheet implements OnInit {
     private route: ActivatedRoute, 
     private eventClient: EventClient, 
     private editEventService: EditEventService, 
-    public authService: AuthService
+    public authService: AuthService,
+    private eventService: EventClient
   ) {}
 
   /**
@@ -87,5 +88,24 @@ export class Sheet implements OnInit {
   edit(): void {
     this.editEventService.setEvent(this.event);
     this.router.navigate(['/editSheet']);
+  }
+
+  onValidateQr() {
+    this.eventService.validateQr(this.eventId).subscribe({
+     next: () => {
+        console.log('QR validálva!');
+      },
+      error: err => console.error('Hiba történt:', err.message)
+    });
+  }
+
+  onInvalidateQr() {
+    this.eventService.invalidateQr(this.eventId).subscribe({
+    next: () => {
+       console.log('QR invalidálva!');
+       this.event.isQrValid = false
+    },
+    error: err => console.error('Hiba történt:', err.message)
+  });
   }
 }

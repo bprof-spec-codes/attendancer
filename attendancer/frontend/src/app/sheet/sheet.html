@@ -8,21 +8,24 @@
                             <div class="col-6 d-flex justify-content-start">
                                 <button (click)="edit()" class="button-primary w-25 me-2">
                                     <img src="./assets/icons/white-edit.svg" class="icons">
-                                    Edit
+                                    {{ 'EVENT.EDIT_BUTTON' | translate }}
                                 </button>
                                 <button (click)="modal.open()" class="btn btn-danger">
-                                    <img src="./assets/icons/white-trash.svg" class="icons">
-                                    Delete
+                                  <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
+                                  {{ 'EVENT.DELETE_BUTTON' | translate }}
                                 </button>
                             </div>
                             <div class="col-6 d-flex justify-content-end gap-3">
-                                <button class="button-primary">Show QR code</button>
-                                <button class="button-alert">
+                                <button (click)="modalQR.open()" class="button-primary">{{ 'EVENT.SHOW_QR_BUTTON' | translate }}</button>
+                                <app-modal-qrcode #modalQR [eventId]="eventId"></app-modal-qrcode>
+                                <button (click)="onInvalidateQr()" class="button-alert">
+                                    <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
                                     <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
-                                    Delete QR code
+                                    {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                 </button>
                             </div>
                         </div>
+                        
                         <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
                     </div>
                     <div class="row mt-3">
@@ -56,11 +59,11 @@
                         <table class="table table-striped m-0 text-center table-border">
                             <thead class="text-thead">
                                 <tr>
-                                    <th class="text-center">Name</th>
+                                    <th class="text-center brand-color-text">{{ 'EVENT.TABLE_HEADER_NAME' | translate }}</th>
                                     <th *ngFor="let data of event.metadata" class="text-center">
                                         {{ data }}
                                     </th>
-                                    <th class="text-center">Presence</th>
+                                    <th class="text-center">{{ 'EVENT.TABLE_HEADER_PRESENCE' | translate }}</th>
                                 </tr>
                             </thead>
                             <tbody>

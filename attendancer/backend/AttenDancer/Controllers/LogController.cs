@@ -23,7 +23,8 @@ public class LogController : ControllerBase
         }
 
         // A log fájlba írása.
-        await System.IO.File.AppendAllTextAsync(LogFilePath, logMessage.Message + "\n");
+        // TODO TEMP
+        //await System.IO.File.AppendAllTextAsync(LogFilePath, logMessage.Message + "\n");
         return Ok("Log saved.");
     }
 }
