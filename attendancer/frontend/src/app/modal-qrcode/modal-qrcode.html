@@ -1,6 +1,6 @@
 <div class="modal fade" [ngClass]="{'show': isOpen}" [style.display]="isOpen ? 'block' : 'none'" tabindex="-1"
      role="dialog" aria-labelledby="warningModalLabel" aria-hidden="{{!isOpen}}">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <img class="qrImageUrl" *ngIf="qrImageUrl" [src]="qrImageUrl" alt="QR kód">
