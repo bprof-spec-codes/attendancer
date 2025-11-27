@@ -141,7 +141,6 @@ export class SheetForm implements OnInit {
     this.events = []
     this.eventGroups = []
     this.currentlySelectedMetadata = []
-    this.userId = (Math.floor(Math.random() * 3) + 1).toString()
     this.ngOnInit()
   }
 
