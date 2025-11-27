@@ -20,7 +20,7 @@ import { loggingInterceptor } from './interceptors/logging-interceptor';
 import { loadingInterceptor } from './interceptors/loading-interceptor';
 import { errorInterceptor } from './interceptors/error-interceptor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from './services/tanslation/translation';
+import { HttpLoaderFactory } from './services/translation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';

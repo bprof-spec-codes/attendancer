@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslationService } from '../services/tanslation/translation';
+import { TranslationService } from '../services/translation/translation';
 
 interface Language {
   code: string;

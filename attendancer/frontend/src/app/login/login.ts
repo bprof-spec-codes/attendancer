@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth-service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgForm } from '@angular/forms';
-import { TranslationService } from '../services/tanslation/translation';
+import { TranslationService } from '../services/translation/translation';
 
 @Component({
   selector: 'app-login',
