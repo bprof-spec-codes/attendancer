@@ -1,4 +1,5 @@
 ﻿using AttenDancer.Data.Repositories;
+using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
 using AttenDancer.Logic.Services;
@@ -12,8 +13,7 @@ namespace AttenDancer.Tests.Services
     {
         private Mock<IRepository<User>> _mockUserRepository;
         private Mock<IRepository<Participant>> _mockParticipantRepository;
-        private Mock<AuthService> _mockAuthService;
-        private Mock<DtoProvider> _mockDtoProvider;
+        
         private UserService _userService;
 
 
@@ -24,14 +24,13 @@ namespace AttenDancer.Tests.Services
         {
             _mockUserRepository = new Mock<IRepository<User>>();
             _mockParticipantRepository = new Mock<IRepository<Participant>>();
-            _mockAuthService = new Mock<AuthService>();
-            _mockDtoProvider = new Mock<DtoProvider>();
+            
 
             _userService = new UserService(
 
                 _mockUserRepository.Object,
-                null,
-                null,
+                null!,
+                null!,
                 _mockParticipantRepository.Object
 
             );
@@ -69,7 +68,7 @@ namespace AttenDancer.Tests.Services
 
 
         [Test]
-        public async Task RegisterAsyncDuplicateEmailShouldThrowException()
+        public void RegisterAsyncDuplicateEmailShouldThrowException()
         {
 
             var email = "existing@example.com";
@@ -164,7 +163,7 @@ namespace AttenDancer.Tests.Services
 
 
         [Test]
-        public async Task LoginAsyncInvalidPasswordShouldThrowException()
+        public void LoginAsyncInvalidPasswordShouldThrowException()
         {
 
             var email = "user@example.com";
@@ -195,7 +194,7 @@ namespace AttenDancer.Tests.Services
 
 
         [Test]
-        public async Task LoginAsyncNonExistentUserShouldThrowException()
+        public void LoginAsyncNonExistentUserShouldThrowException()
         {
 
             var email = "nonexistent@example.com";
@@ -211,5 +210,114 @@ namespace AttenDancer.Tests.Services
 
             Assert.That(ex.Message, Is.EqualTo("Hibás email vagy jelszó"));
         }
+
+
+        [Test]
+        public async Task ChangePasswordAsyncValidOldPasswordShouldUpdatePassword()
+        {
+            
+
+            var userId = "1";
+            var oldPassword = "oldpassword123";
+            var newPassword = "newpassword456";
+            var hashedOldPassword = BCrypt.Net.BCrypt.HashPassword(oldPassword);
+
+            var existingUser = new User
+            {
+                Id = userId,
+                Email = "user@example.com",
+                Password = hashedOldPassword,
+                FirstName = "Test",
+                LastName = "User",
+                IsDeleted = false
+            };
+
+
+            var userList = new List<User> { existingUser };
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(userList.BuildMock());
+
+            _mockUserRepository.Setup(r => r.Update(It.IsAny<User>()))
+                .ReturnsAsync((User u) => u);
+
+            var changePasswordDto = new UserChangePassword
+            {
+                OldPassword = oldPassword,
+                NewPassword = newPassword
+            };
+
+            
+            await _userService.ChangePasswordAsync(userId, changePasswordDto);
+
+
+            _mockUserRepository.Verify(r => r.Update(It.Is<User>(u => u.Id == userId)), Times.Once);
+
+        }
+
+
+
+        [Test]
+        public void ChangePasswordAsyncInvalidOldPasswordShouldThrowException()
+        {
+            
+            var userId = "1";
+            var correctOldPassword = "correctpassword";
+            var wrongOldPassword = "wrongpassword";
+            var newPassword = "newpassword456";
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(correctOldPassword);
+
+            var existingUser = new User
+            {
+                Id = userId,
+                Email = "user@example.com",
+                Password = hashedPassword,
+                IsDeleted = false
+            };
+
+            var userList = new List<User> { existingUser };
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(userList.BuildMock());
+
+            var changePasswordDto = new UserChangePassword
+            {
+                OldPassword = wrongOldPassword,
+                NewPassword = newPassword
+            };
+
+            
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _userService.ChangePasswordAsync(userId, changePasswordDto));
+
+            Assert.That(ex.Message, Is.EqualTo("A beírt jelenlegi jelszó helytelen."));
+        }
+
+
+
+        [Test]
+        public void ChangePasswordAsyncNonExistentUserShouldThrowException()
+        {
+           
+            var userId = "999";
+            var emptyUserList = new List<User>();
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(emptyUserList.BuildMock());
+
+            var changePasswordDto = new UserChangePassword
+            {
+                OldPassword = "anypassword",
+                NewPassword = "newpassword"
+
+            };
+
+            
+
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _userService.ChangePasswordAsync(userId, changePasswordDto));
+
+            Assert.That(ex.Message, Is.EqualTo("Felhasználó nem található"));
+        }
+
     }
 }
