@@ -779,20 +779,48 @@
                                 <hr class="mt-4">
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
                                     <div class="col-8 text-center">
-                                        <div class="form" style="gap: 0.75rem;">
-                                            <label for="password" class="field-label"
-                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
-                                                Change Password
-                                            </label>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <input type="text" placeholder="Password" name="password"
-                                                    class="form-control flex-fill">
-                                                <input type="text" placeholder="Confirm password" name="passwordCheck"
-                                                    class="form-control flex-fill">
-                                                <button type="submit" class="button-primary flex-shrink-0 w-25">Change
-                                                    password</button>
-                                            </div>
-                                        </div>
+                                      <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 0.75rem;">
+                                          <label for="oldPassword" class="field-label" style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                            Change Password
+                                          </label>
+                                          <div class="d-flex gap-2 justify-content-center">
+                                            <input
+                                              type="password"
+                                              id="oldPassword"
+                                              name="oldPassword"
+                                              placeholder="Current Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="password"
+                                              name="password"
+                                              placeholder="New Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="passwordConfirm"
+                                              name="passwordConfirm"
+                                              placeholder="Confirm Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <button type="submit" class="button-primary flex-shrink-0 w-25">Change password</button>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                            <small>{{ passwordErrorMessage }}</small>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                            <small>{{ passwordConfirmErrorMessage }}</small>
+                                          </div>
+                                        </form>
+
                                     </div>
                                 </div>
                                 <hr class="mt-3">
