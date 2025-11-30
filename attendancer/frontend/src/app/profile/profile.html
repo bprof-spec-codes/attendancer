@@ -392,16 +392,47 @@
                             </form>
                         </div>
                         <hr class="mt-4">
-                        <div class="form" style="gap: 20px;">
+                        <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 20px;">
                             <label for="password" class="field-label text-center"
                                 style="font-size: 20px; font-weight: 700;">
                                 Change password
                             </label>
-                            <input type="text" class="form-control" placeholder="Password" name="password">
-                            <input type="text" class="form-control" placeholder="Confirm password" name="passwordCheck">
+                            <input
+                              type="password"
+                              id="oldPassword"
+                              name="oldPassword"
+                              placeholder="Current Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                              >
+                            <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              placeholder="New Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
+                            <input
+                              type="password"
+                              id="passwordConfirm"
+                              name="passwordConfirm"
+                              placeholder="Confirm Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
                             <button type="submit" class="btn btn-primary button-primary align-self-center">Change
                                 password</button>
-                        </div>
+                              <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                <small>{{ passwordErrorMessage }}</small>
+                              </div>
+                              <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                <small>{{ passwordConfirmErrorMessage }}</small>
+                            </div>
+                        </form>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
                             <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
