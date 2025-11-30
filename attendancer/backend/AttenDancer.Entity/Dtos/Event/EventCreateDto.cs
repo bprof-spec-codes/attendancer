@@ -15,6 +15,9 @@ namespace AttenDancer.Entity.Dtos.Event
         public string? UserId { get; set; }
         public string? EventGroupId { get; set; }
 
+        [Required]
+        public string Date { get; set; } = null!;
+
         public List<string>? Metadata { get; set; } = new List<string>();
 
     }
