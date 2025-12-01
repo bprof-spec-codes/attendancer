@@ -19,6 +19,9 @@ namespace AttenDancer.Entity.Dtos.Event
         public string Id { get; set; } = null!;
 
         [Required]
+        public string Date { get; set; } = null!;
+
+        [Required]
         public string? QrCode { get; set; } = null!;
 
         [Required]

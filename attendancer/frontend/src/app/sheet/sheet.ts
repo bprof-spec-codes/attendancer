@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
@@ -24,6 +24,20 @@ export class Sheet implements OnInit {
     private editEventService: EditEventService, 
     public authService: AuthService
   ) {}
+
+  isMobile = false;
+
+  private updateIsMobile() {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      this.isMobile = window.matchMedia('(max-width: 1100px)').matches;
+    }
+  }
+
+  @HostListener('window:resize')
+  @HostListener('window:orientationchange')
+  onResize() {
+    this.updateIsMobile();
+  }
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.

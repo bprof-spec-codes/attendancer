@@ -12,7 +12,8 @@ namespace AttenDancer.Entity.Entity_Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = null!;
 
-        
+        public List<string> Metadata { get; set; } = new List<string>();
+
         public string UserId { get; set; } = null!;
         public virtual User User { get; set; } = null!;
 

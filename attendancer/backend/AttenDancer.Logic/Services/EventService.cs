@@ -51,7 +51,7 @@ namespace AttenDancer.Logic.Services
         {
             var events = await _eventRepository
                 .GetAll()
-                .Where(e => e.UserId == userId)
+                .Where(e => e.UserId == userId && e.EventGroupId == null)
                 .ToListAsync();
 
             if (!events.Any())
