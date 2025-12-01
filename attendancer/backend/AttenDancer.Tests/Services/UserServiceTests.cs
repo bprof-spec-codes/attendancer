@@ -3,8 +3,10 @@ using AttenDancer.Entity.Dtos.User;
 using AttenDancer.Entity.Entity_Models;
 using AttenDancer.Logic.Helper;
 using AttenDancer.Logic.Services;
+using AutoMapper;
 using MockQueryable;
 using Moq;
+
 
 namespace AttenDancer.Tests.Services
 {
@@ -24,13 +26,18 @@ namespace AttenDancer.Tests.Services
         {
             _mockUserRepository = new Mock<IRepository<User>>();
             _mockParticipantRepository = new Mock<IRepository<Participant>>();
+
             
+
+
+            var dtoProvider = new DtoProvider(_mockUserRepository.Object);
+
 
             _userService = new UserService(
 
                 _mockUserRepository.Object,
                 null!,
-                null!,
+                dtoProvider,
                 _mockParticipantRepository.Object
 
             );
@@ -370,6 +377,96 @@ namespace AttenDancer.Tests.Services
                 await _userService.DeleteAsync(userId));
 
             Assert.That(ex.Message, Is.EqualTo("Felhasználó nem található"));
+        }
+
+
+        [Test]
+        public async Task UpdateEmailAsyncValidEmailShouldUpdateEmail()
+        {
+            
+            var userId = "1";
+            var oldEmail = "old@example.com";
+            var newEmail = "new@example.com";
+
+            var existingUser = new User
+            {
+                Id = userId,
+                Email = oldEmail,
+                FirstName = "Test",
+                LastName = "User",
+                IsDeleted = false
+            };
+
+            var userList = new List<User> { existingUser };
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(userList.BuildMock());
+
+            _mockUserRepository.Setup(r => r.Update(It.IsAny<User>()))
+                .ReturnsAsync((User u) => u);
+
+            var updateDto = new UserUpdateEmailDto
+            {
+                Email = newEmail
+            };
+
+            
+
+
+            var result = await _userService.UpdateEmailAsync(userId, updateDto);
+
+           
+
+
+            Assert.That(result, Is.Not.Null);
+            _mockUserRepository.Verify(r => r.Update(It.Is<User>(u =>
+                u.Id == userId && u.Email == newEmail.ToLower())),Times.Once);
+        }
+
+
+
+
+        [Test]
+        public void UpdateEmailAsyncDuplicateEmailShouldThrowException()
+        {
+            
+            var userId = "1";
+            var user1Email = "user1@example.com";
+            var user2Email = "user2@example.com";
+
+            var user1 = new User
+            {
+                Id = userId,
+                Email = user1Email,
+                FirstName = "User",
+                LastName = "One",
+                IsDeleted = false
+            };
+
+            var user2 = new User
+            {
+                Id = "2",
+                Email = user2Email,
+                FirstName = "User",
+                LastName = "Two",
+                IsDeleted = false
+            };
+
+            var userList = new List<User> { user1, user2 };
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(userList.BuildMock());
+
+            var updateDto = new UserUpdateEmailDto
+            {
+                Email = user2Email
+            };
+
+            
+
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _userService.UpdateEmailAsync(userId, updateDto));
+
+            Assert.That(ex.Message, Is.EqualTo("Ez az email cím már használatban van"));
         }
     }
 }
