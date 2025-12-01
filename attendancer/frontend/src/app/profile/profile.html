@@ -388,6 +388,9 @@
                                         style="width: 290px;">Change
                                         name</button>
                                 </div>
+                                <div *ngIf="nameErrorMessage" class="error">
+                                  <small>{{ nameErrorMessage }}</small>
+                                </div>
 
                             </form>
                         </div>
@@ -449,7 +452,12 @@
                                         style="width: 290px;">Change
                                         email</button>
                                 </div>
-
+                                <div *ngIf="emailErrorMessage" class="error mt-2">
+                                  <small>{{ emailErrorMessage }}</small>
+                                </div>
+                                <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                                  <small>{{ emailConfirmErrorMessage }}</small>
+                                </div>
                             </form>
                         </div>
                         <hr class="mt-4">
