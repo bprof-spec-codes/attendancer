@@ -3,6 +3,7 @@ import { MockDataService } from '../services/mock-data.service';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -43,7 +44,7 @@ export class Profile implements OnInit {
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
 
-  constructor(private mockDataService: MockDataService, private userService: UserService) {}
+  constructor(private mockDataService: MockDataService, private userService: UserService, private router: Router) {}
 
   pendingFirstName: string = '';
   pendingLastName: string = '';
@@ -141,6 +142,18 @@ export class Profile implements OnInit {
         console.error('Error updating password', err);
         this.passwordErrorMessage = 'Error updating password. Please try again.';
       },
+    });
+  }
+  onDeleteAccount(): void {
+    this.userService.deleteAccount().subscribe({
+      next: () => {
+        localStorage.removeItem('attendancer-jwt-token');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Hiba történt a fiók törlése során.');
+      }
     });
   }
 }

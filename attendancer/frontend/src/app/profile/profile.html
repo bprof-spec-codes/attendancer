@@ -423,9 +423,15 @@
                         </div>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
-                            <button class="btn btn-primary button-danger align-self-center">
+                            <button class="btn btn-primary button-danger align-self-center" (click)="userDeleteModal.open()">
                                 Delete account
                             </button>
+                            <app-modal-warning
+                              #userDeleteModal
+                              [title]="'Warning!'"
+                              [message]="'Are you sure you want to delete your account?'"
+                              (confirmed)="onDeleteAccount()">
+                            </app-modal-warning>
                         </div>
                     </div>
                 </div>
@@ -829,10 +835,16 @@
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-4">
                                     <div class="col-8 text-center">
                                         <button class="button-danger"
-                                            style="height:50px; width: 300px; font-size: 20px;">
+                                            style="height:50px; width: 300px; font-size: 20px;" (click)="userDeleteModal.open()">
                                             Delete account
                                         </button>
                                     </div>
+                                    <app-modal-warning
+                                      [title]="'Warning!'"
+                                      [message]="'Are you sure you want to delete your account?'"
+                                      #userDeleteModal
+                                      (confirmed)="onDeleteAccount()">
+                                    </app-modal-warning>
                                 </div>
                             </div>
                         </div>

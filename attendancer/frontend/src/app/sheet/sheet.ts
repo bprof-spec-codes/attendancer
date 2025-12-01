@@ -18,10 +18,10 @@ export class Sheet implements OnInit {
   absentCount: number = 0
 
   constructor(
-    private router: Router, 
-    private route: ActivatedRoute, 
-    private mockDataService: MockDataService, 
-    private editEventService: EditEventService, 
+    private router: Router,
+    private route: ActivatedRoute,
+    private mockDataService: MockDataService,
+    private editEventService: EditEventService,
     public authService: AuthService
   ) {}
 
@@ -82,4 +82,9 @@ export class Sheet implements OnInit {
     this.editEventService.setEvent(this.event);
     this.router.navigate(['/editSheet']);
   }
+
+  onDeleteEvent(): void {
+  this.mockDataService.deleteEvent(this.eventId);
+  this.router.navigate(['/createSheet']);
+}
 }
