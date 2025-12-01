@@ -74,11 +74,11 @@
                         <div class="col">
                             <div class="form-field">
                                 <select id="sheetGroup" class="form-select" style="border: 2px solid #213F9A; background-color: transparent;
-                                    font-weight: 600; color: #213F9A;">
+                                    font-weight: 600; color: #213F9A;" [(ngModel)]="selectedEventGroupId" (change)="onEventGroupChange()">
                                     <option value="">Choose</option>
-                                    <option value="a">Group A</option>
-                                    <option disabled>────────────</option>
-                                    <option value="b">Groub B</option>
+                                    <option *ngFor="let group of eventGroups" [value]="group.id">
+                                      {{ group.name }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -88,191 +88,34 @@
                         <div class="col">
                             <div class="table-responsive" style="background-color: #EFF1F2;">
                                 <table class="bg-transparent w-100 attendance-table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>1.</th>
-                                            <th>2.</th>
-                                            <th>3.</th>
-                                            <th>4.</th>
-                                            <th>5.</th>
-                                            <th>6.</th>
-                                            <th>7.</th>
-                                            <th>8.</th>
-                                            <th>9.</th>
-                                            <th>10.</th>
-                                            <th>11.</th>
-                                            <th>12.</th>
-                                            <th>13.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Steve Harrison</strong></td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Jon Snow</strong></td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Steven Universe</strong></td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/cross.svg" alt="Absent"
-                                                    style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                            <td class="text-center">
-                                                <img src="Assets/Icons/check.svg" alt="Present"
-                                                    style="width: 25px; height: 25px;">
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th *ngFor="let event of matrix?.events">{{ event.eventName }}</th>
+                                    </tr>
+                                  </thead>
+                                   <tbody>
+                                    <tr *ngFor="let participant of matrix?.participants">
+                                      <td><strong>{{ participant.userName }}</strong></td>
+                                      <td
+                                        class="text-center"
+                                        *ngFor="let event of matrix?.events"
+                                      >
+                                        <img
+                                          [src]="
+                                            participant.attendances[event.eventId]
+                                              ? 'Assets/Icons/check.svg'
+                                              : 'Assets/Icons/cross.svg'
+                                          "
+                                          [alt]="
+                                            participant.attendances[event.eventId] ? 'Present' : 'Absent'
+                                          "
+                                          [style.width.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                          [style.height.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                        />
+                                      </td>
+                                    </tr>
+                                  </tbody>
                                 </table>
                             </div>
                         </div>
@@ -521,11 +364,11 @@
                             <div class="col-auto">
                                 <div class="form-field">
                                     <select id="sheetGroup" class="form-select"
-                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;">
+                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;" (change)="onEventGroupChange()">
                                         <option value="">Choose</option>
-                                        <option value="a">Group A</option>
-                                        <option disabled>────────────</option>
-                                        <option value="b">Group B</option>
+                                        <option *ngFor="let group of eventGroups" [value]="group.id">
+                                          {{ group.name }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -535,110 +378,34 @@
                             <div class="col">
                                 <div class="table-responsive" style="background-color: #EFF1F2;">
                                     <table class="bg-transparent w-100 attendance-table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>1.</th>
-                                                <th>2.</th>
-                                                <th>3.</th>
-                                                <th>4.</th>
-                                                <th>5.</th>
-                                                <th>6.</th>
-                                                <th>7.</th>
-                                                <th>8.</th>
-                                                <th>9.</th>
-                                                <th>10.</th>
-                                                <th>11.</th>
-                                                <th>12.</th>
-                                                <th>13.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><strong>Steve Harrison</strong></td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Jon Snow</strong></td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-x-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                                <td class="text-center"><i
-                                                        class="attendance-icon bi bi-check-lg text-white bg-primary p-2 rounded"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                      <thead>
+                                        <tr>
+                                          <th></th>
+                                          <th *ngFor="let event of matrix?.events">{{ event.eventName }}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let participant of matrix?.participants">
+                                          <td><strong>{{ participant.userName }}</strong></td>
+                                          <td
+                                            class="text-center"
+                                            *ngFor="let event of matrix?.events"
+                                          >
+                                            <img
+                                              [src]="
+                                                participant.attendances[event.eventId]
+                                                  ? 'Assets/Icons/check.svg'
+                                                  : 'Assets/Icons/cross.svg'
+                                              "
+                                              [alt]="
+                                                participant.attendances[event.eventId] ? 'Present' : 'Absent'
+                                              "
+                                              [style.width.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                              [style.height.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                            />
+                                          </td>
+                                        </tr>
+                                      </tbody>
                                     </table>
                                 </div>
                             </div>

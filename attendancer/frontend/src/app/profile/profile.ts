@@ -3,6 +3,7 @@ import { MockDataService } from '../services/mock-data.service';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
+import { EventGroupDto, EventGroupMatrixViewDto, StatisticsService } from '../services/statistics-service';
 
 @Component({
   selector: 'app-profile',
@@ -35,6 +36,10 @@ export class Profile implements OnInit {
   ];
   user: User = new User();
 
+  eventGroups: EventGroupDto[] = [];
+  selectedEventGroupId: string = '';
+  matrix: EventGroupMatrixViewDto | null = null;
+
   userId: string = (Math.floor(Math.random() * 3) + 1).toString(); // a bejelentkezett felhasználó id-jének mock-olása
 
   nameErrorMessage: string = '';
@@ -43,7 +48,7 @@ export class Profile implements OnInit {
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
 
-  constructor(private mockDataService: MockDataService, private userService: UserService) {}
+  constructor(private mockDataService: MockDataService, private userService: UserService,private statisticsService: StatisticsService) {}
 
   pendingFirstName: string = '';
   pendingLastName: string = '';
@@ -55,8 +60,22 @@ export class Profile implements OnInit {
       this.user = data;
     });
 
+    this.loadEventGroups();
+
     this.mockDataService.getSignedEventsByUserId(this.userId).subscribe((data) => {
       this.participation = data;
+    });
+  }
+
+  loadEventGroups(): void {
+    this.statisticsService.getMyEventGroups().subscribe({
+      next: (data: EventGroupDto[]) => {
+        this.eventGroups = data || [];
+      },
+      error: (err) => {
+        console.error('Hiba az eseménycsoportok betöltésekor', err);
+        this.eventGroups = [];
+      }
     });
   }
 
@@ -140,6 +159,21 @@ export class Profile implements OnInit {
       error: (err) => {
         console.error('Error updating password', err);
         this.passwordErrorMessage = 'Error updating password. Please try again.';
+      },
+    });
+  }
+  onEventGroupChange(): void {
+    if (!this.selectedEventGroupId) {
+      this.matrix = null;
+      return;
+    }
+
+    this.statisticsService.getEventGroupMatrix(this.selectedEventGroupId).subscribe({
+      next: (matrix) => {
+        this.matrix = matrix;
+      },
+      error: (err) => {
+        console.error('Hiba a mátrix betöltésekor', err);
       },
     });
   }

@@ -5,7 +5,9 @@ export const environment = {
     getUser: 'https://localhost:7198/api/User',
     getUserMe: 'https://localhost:7198/api/User/me',
     updateUser: "https://localhost:7198/api/User/{id}",
-    changePassword: "https://localhost:7198/api/User/{id}/password"
+    changePassword: "https://localhost:7198/api/User/{id}/password",
+    eventGroupView: "https://localhost:7198/api/EventGroup/{eventGroupId}/matrix",
+    eventGroupByUserId: "https://localhost:7198/api/EventGroup/ByUserId"
   },
   tokenKey: "attendancer-jwt-token"
 };
