@@ -319,5 +319,57 @@ namespace AttenDancer.Tests.Services
             Assert.That(ex.Message, Is.EqualTo("Felhasználó nem található"));
         }
 
+
+        [Test]
+        public async Task DeleteAsyncExistingUserShouldSoftDeleteUser()
+        {
+            
+            var userId = "1";
+            var existingUser = new User
+            {
+                Id = userId,
+                Email = "user@example.com",
+                FirstName = "Test",
+                LastName = "User",
+                IsDeleted = false,
+                DeletedAt = null
+            };
+
+            var userList = new List<User> { existingUser };
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(userList.BuildMock());
+
+            _mockUserRepository.Setup(r => r.Update(It.IsAny<User>()))
+                .ReturnsAsync((User u) => u);
+
+            
+
+            await _userService.DeleteAsync(userId);
+
+            
+
+            _mockUserRepository.Verify(r => r.Update(It.Is<User>(u =>
+                u.Id == userId && u.IsDeleted == true && u.DeletedAt != null)),Times.Once);
+
+
+
+        }
+
+        [Test]
+        public void DeleteAsyncNonExistentUserShouldThrowException()
+        {
+           
+            var userId = "999";
+            var emptyUserList = new List<User>();
+            _mockUserRepository.Setup(r => r.GetAll())
+                .Returns(emptyUserList.BuildMock());
+
+           
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _userService.DeleteAsync(userId));
+
+            Assert.That(ex.Message, Is.EqualTo("Felhasználó nem található"));
+        }
     }
 }
