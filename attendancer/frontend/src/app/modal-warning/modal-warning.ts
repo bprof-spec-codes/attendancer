@@ -11,19 +11,23 @@ import { UserService } from '../services/user-service';
 })
 export class ModalWarning {
   @Input() eventId: string = ""
+  @Input() title: string = '';
+  @Input() message: string = '';
+
+  @Output() confirmed = new EventEmitter<void>();
+
   isOpen = false;
 
   constructor(private router: Router, private mockDataService: MockDataService, private userService: UserService) {}
 
-  @Output() confirmed = new EventEmitter<void>();
+
 
   confirmGeneric(): void {
     this.confirmed.emit();
     this.isOpen = false;
   }
 
-  @Input() title: string = 'Warning!';
-  @Input() message: string = 'Are you sure you want to delete this event?';
+
 
   /**
    * Open warning modal.
