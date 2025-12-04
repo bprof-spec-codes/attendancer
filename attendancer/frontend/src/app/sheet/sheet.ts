@@ -12,7 +12,6 @@ import { EventViewDto } from '../models/event-view-dto';
   styleUrl: './sheet.sass'
 })
 export class Sheet implements OnInit {
-  eventId: string = ""
   event: EventViewDto = new EventViewDto()
   presentCount: number = 0
   absentCount: number = 0
@@ -46,17 +45,22 @@ export class Sheet implements OnInit {
   ngOnInit(): void {
     // Az id lekérdezése a route-ból.
     this.route.params.subscribe(params => {
-      this.eventId = params['id']
+      this.event.id = params['id']
     })
 
+    // Ha nincsen id megadva akkor irányítson át a profile oldalra.
+    if (this.event.id === undefined) {
+      this.router.navigate(['/profile']);
+    }
+
     // Az események és azok résztvevőinek lekérdezése az esemény id-je alapján.
-    this.eventClient.getEventById(this.eventId).subscribe((response) => {
+    this.eventClient.getEventById(this.event.id).subscribe((response) => {
       // JSON formátumba konvertálni a választ.
       const reader = new FileReader();
       reader.onload = () => {
-        const jsonData = JSON.parse(reader.result as string);
+        const jsonData = JSON.parse(reader.result as string)
 
-        //console.log(jsonData)
+        console.log(jsonData)
 
         // TODO ! Temp data convert. !
 
@@ -79,7 +83,7 @@ export class Sheet implements OnInit {
         // Kiszámolni a résztvevők és nem résztvevők számát.
         this.countPresent()
       };
-      reader.readAsText(response.data);
+      reader.readAsText(response.data)
     });
   }
 
@@ -105,21 +109,22 @@ export class Sheet implements OnInit {
   }
 
   onValidateQr() {
-    this.eventService.validateQr(this.eventId).subscribe({
-     next: () => {
-        console.log('QR validálva!');
+    this.eventService.validateQr(this.event.id).subscribe({
+      next: () => {
+        console.log('QR validálva!')
+        this.event.isQrValid = true
       },
       error: err => console.error('Hiba történt:', err.message)
-    });
+    })
   }
 
   onInvalidateQr() {
-    this.eventService.invalidateQr(this.eventId).subscribe({
+    this.eventService.invalidateQr(this.event.id).subscribe({
       next: () => {
-       console.log('QR invalidálva!');
+       console.log('QR invalidálva!')
        this.event.isQrValid = false
       },
       error: err => console.error('Hiba történt:', err.message)
-    });
+    })
   }
 }

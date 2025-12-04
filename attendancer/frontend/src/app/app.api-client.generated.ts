@@ -92,7 +92,7 @@ export interface IEventClient {
     createEvent(createDto: EventCreateDto): Observable<FileResponse>;
     getAllEvents(): Observable<FileResponse>;
     getEventById(eventId: string): Observable<FileResponse>;
-    updateEvent(eventId: string, dto: EventCreateDto): Observable<FileResponse>;
+    updateEvent(eventId: string, dto: EventUpdateDto): Observable<FileResponse>;
     deleteEvent(eventId: string): Observable<FileResponse>;
     getEventByUserId(): Observable<FileResponse>;
     generateQrForEvent(eventId: string): Observable<FileResponse>;
@@ -277,7 +277,7 @@ export class EventClient implements IEventClient {
         return _observableOf(null as any);
     }
 
-    updateEvent(eventId: string, dto: EventCreateDto): Observable<FileResponse> {
+    updateEvent(eventId: string, dto: EventUpdateDto): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Event/{eventId}";
         if (eventId === undefined || eventId === null)
             throw new globalThis.Error("The parameter 'eventId' must be defined.");
@@ -667,10 +667,12 @@ export class EventClient implements IEventClient {
 export interface IEventGroupClient {
     createEventGroup(createDto: EventGroupCreateDto): Observable<FileResponse>;
     getAllEventGroup(): Observable<FileResponse>;
+    getEventGroupsByUserId(): Observable<FileResponse>;
     updateEventGroup(eventGroupId: string, createDto: EventGroupCreateDto): Observable<FileResponse>;
     deleteEventGroup(eventGroupId: string): Observable<FileResponse>;
     getEventGroupById(eventGroupId: string): Observable<FileResponse>;
     getEventGGetParticipantFromEventGroupByIDAsyncroupById(eventGroupId: string, userId: string): Observable<FileResponse>;
+    getEventGroupMatrix(eventGroupId: string): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -769,6 +771,58 @@ export class EventGroupClient implements IEventGroupClient {
     }
 
     protected processGetAllEventGroup(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getEventGroupsByUserId(): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/EventGroup/ByUserId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEventGroupsByUserId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEventGroupsByUserId(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processGetEventGroupsByUserId(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1020,6 +1074,61 @@ export class EventGroupClient implements IEventGroupClient {
         }
         return _observableOf(null as any);
     }
+
+    getEventGroupMatrix(eventGroupId: string): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/EventGroup/{eventGroupId}/matrix";
+        if (eventGroupId === undefined || eventGroupId === null)
+            throw new globalThis.Error("The parameter 'eventGroupId' must be defined.");
+        url_ = url_.replace("{eventGroupId}", encodeURIComponent("" + eventGroupId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEventGroupMatrix(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEventGroupMatrix(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processGetEventGroupMatrix(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IParticipantClient {
@@ -1164,8 +1273,9 @@ export interface IUserClient {
     login(dto: UserLoginDto): Observable<FileResponse>;
     getUserById(id: string): Observable<FileResponse>;
     getAllUsers(): Observable<FileResponse>;
-    updateUser(dto: UserUpdateDto): Observable<FileResponse>;
     deleteUser(): Observable<FileResponse>;
+    updateUserName(dto: UserUpdateNameDto): Observable<FileResponse>;
+    updateUseremail(dto: UserUpdateEmailDto): Observable<FileResponse>;
     changePassword(dto: UserChangePassword): Observable<FileResponse>;
     getCurrentUser(): Observable<FileResponse>;
     getMySignedSheets(): Observable<FileResponse>;
@@ -1403,62 +1513,6 @@ export class UserClient implements IUserClient {
         return _observableOf(null as any);
     }
 
-    updateUser(dto: UserUpdateDto): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/User";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(dto);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateUser(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateUser(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<FileResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<FileResponse>;
-        }));
-    }
-
-    protected processUpdateUser(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
     deleteUser(): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
@@ -1486,6 +1540,118 @@ export class UserClient implements IUserClient {
     }
 
     protected processDeleteUser(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    updateUserName(dto: UserUpdateNameDto): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/name";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserName(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserName(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processUpdateUserName(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    updateUseremail(dto: UserUpdateEmailDto): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/email";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUseremail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUseremail(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processUpdateUseremail(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1712,9 +1878,8 @@ export class EventCreateDto implements IEventCreateDto {
     name!: string;
     userId?: string | undefined;
     eventGroupId?: string | undefined;
+    date!: string;
     metadata?: string[] | undefined;
-    date: string | undefined; // TODO TEMP
-    id: string | undefined; // TODO TEMP
 
     constructor(data?: IEventCreateDto) {
         if (data) {
@@ -1730,6 +1895,7 @@ export class EventCreateDto implements IEventCreateDto {
             this.name = _data["name"];
             this.userId = _data["userId"];
             this.eventGroupId = _data["eventGroupId"];
+            this.date = _data["date"];
             if (Array.isArray(_data["metadata"])) {
                 this.metadata = [] as any;
                 for (let item of _data["metadata"])
@@ -1750,6 +1916,7 @@ export class EventCreateDto implements IEventCreateDto {
         data["name"] = this.name;
         data["userId"] = this.userId;
         data["eventGroupId"] = this.eventGroupId;
+        data["date"] = this.date;
         if (Array.isArray(this.metadata)) {
             data["metadata"] = [];
             for (let item of this.metadata)
@@ -1763,6 +1930,71 @@ export interface IEventCreateDto {
     name: string;
     userId?: string | undefined;
     eventGroupId?: string | undefined;
+    date: string;
+    metadata?: string[] | undefined;
+}
+
+export class EventUpdateDto implements IEventUpdateDto {
+    id?: string;
+    name!: string;
+    userId?: string | undefined;
+    eventGroupId?: string | undefined;
+    date!: string;
+    metadata?: string[] | undefined;
+
+    constructor(data?: IEventUpdateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.userId = _data["userId"];
+            this.eventGroupId = _data["eventGroupId"];
+            this.date = _data["date"];
+            if (Array.isArray(_data["metadata"])) {
+                this.metadata = [] as any;
+                for (let item of _data["metadata"])
+                    this.metadata!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): EventUpdateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EventUpdateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["userId"] = this.userId;
+        data["eventGroupId"] = this.eventGroupId;
+        data["date"] = this.date;
+        if (Array.isArray(this.metadata)) {
+            data["metadata"] = [];
+            for (let item of this.metadata)
+                data["metadata"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IEventUpdateDto {
+    id?: string;
+    name: string;
+    userId?: string | undefined;
+    eventGroupId?: string | undefined;
+    date: string;
     metadata?: string[] | undefined;
 }
 
@@ -1770,6 +2002,7 @@ export class EventGroupCreateDto implements IEventGroupCreateDto {
     eventIds!: string[];
     name!: string;
     userId?: string | undefined;
+    metadata?: string[] | undefined;
 
     constructor(data?: IEventGroupCreateDto) {
         if (data) {
@@ -1792,6 +2025,11 @@ export class EventGroupCreateDto implements IEventGroupCreateDto {
             }
             this.name = _data["name"];
             this.userId = _data["userId"];
+            if (Array.isArray(_data["metadata"])) {
+                this.metadata = [] as any;
+                for (let item of _data["metadata"])
+                    this.metadata!.push(item);
+            }
         }
     }
 
@@ -1811,6 +2049,11 @@ export class EventGroupCreateDto implements IEventGroupCreateDto {
         }
         data["name"] = this.name;
         data["userId"] = this.userId;
+        if (Array.isArray(this.metadata)) {
+            data["metadata"] = [];
+            for (let item of this.metadata)
+                data["metadata"].push(item);
+        }
         return data;
     }
 }
@@ -1819,6 +2062,7 @@ export interface IEventGroupCreateDto {
     eventIds: string[];
     name: string;
     userId?: string | undefined;
+    metadata?: string[] | undefined;
 }
 
 export class ParticipantCreateDto implements IParticipantCreateDto {
@@ -2009,12 +2253,11 @@ export interface IUserLoginDto {
     password: string;
 }
 
-export class UserUpdateDto implements IUserUpdateDto {
+export class UserUpdateNameDto implements IUserUpdateNameDto {
     firstName!: string;
     lastName!: string;
-    email!: string;
 
-    constructor(data?: IUserUpdateDto) {
+    constructor(data?: IUserUpdateNameDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2027,13 +2270,12 @@ export class UserUpdateDto implements IUserUpdateDto {
         if (_data) {
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
-            this.email = _data["email"];
         }
     }
 
-    static fromJS(data: any): UserUpdateDto {
+    static fromJS(data: any): UserUpdateNameDto {
         data = typeof data === 'object' ? data : {};
-        let result = new UserUpdateDto();
+        let result = new UserUpdateNameDto();
         result.init(data);
         return result;
     }
@@ -2042,14 +2284,48 @@ export class UserUpdateDto implements IUserUpdateDto {
         data = typeof data === 'object' ? data : {};
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        return data;
+    }
+}
+
+export interface IUserUpdateNameDto {
+    firstName: string;
+    lastName: string;
+}
+
+export class UserUpdateEmailDto implements IUserUpdateEmailDto {
+    email!: string;
+
+    constructor(data?: IUserUpdateEmailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.email = _data["email"];
+        }
+    }
+
+    static fromJS(data: any): UserUpdateEmailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserUpdateEmailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
         data["email"] = this.email;
         return data;
     }
 }
 
-export interface IUserUpdateDto {
-    firstName: string;
-    lastName: string;
+export interface IUserUpdateEmailDto {
     email: string;
 }
 

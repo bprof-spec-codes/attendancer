@@ -19,9 +19,17 @@
                                 </button>
                             </div>
                             <div class="col-auto">
-                                <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
-                                    {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
-                                </button>
+                                @if (this.event.isQrValid) {
+                                    <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                        {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                    </button>
+                                    <app-modal-qrcode #modalQR [eventId]="this.event.id"></app-modal-qrcode>
+                                }
+                                @else {
+                                    <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3">
+                                        Validate QR Code
+                                    </button>
+                                }
                             </div>
                             <div class="col-auto">
                                 <button (click)="onInvalidateQr()" class="btn button-danger py-2 me-3">
@@ -30,11 +38,8 @@
                                     {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                 </button>
                             </div>
-                            <div class="col-auto">
-                                <app-modal-qrcode #modalQR [eventId]="eventId"></app-modal-qrcode>
-                            </div>
                         </div>
-                        <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
+                        <app-modal-warning #modal [eventId]="this.event.id"></app-modal-warning>
                     </div>
                     <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">
@@ -122,9 +127,17 @@
                                 </button>
                             </div>
                             <div class="col-auto">
-                                <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
-                                    {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
-                                </button>
+                                @if (this.event.isQrValid) {
+                                    <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                        {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                    </button>
+                                    <app-modal-qrcode #modalQR [eventId]="this.event.id"></app-modal-qrcode>
+                                }
+                                @else {
+                                    <button (click)="onValidateQr()" class="btn button-success py-2 ms-3">
+                                        Create QR Code
+                                    </button>
+                                }
                             </div>
                             <div class="col-auto">
                                 <button (click)="onInvalidateQr()" class="btn button-danger py-2 me-3">
@@ -133,11 +146,8 @@
                                     {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                 </button>
                             </div>
-                            <div class="col-auto">
-                                <app-modal-qrcode #modalQR [eventId]="eventId"></app-modal-qrcode>
-                            </div>
                         </div>
-                        <app-modal-warning #modal [eventId]="eventId"></app-modal-warning>
+                        <app-modal-warning #modal [eventId]="this.event.id"></app-modal-warning>
                     </div>
                     <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">

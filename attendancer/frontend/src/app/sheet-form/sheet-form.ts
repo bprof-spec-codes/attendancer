@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditEventService } from '../services/edit-event-service';
-import { EventClient, EventCreateDto } from '../app.api-client.generated';
+import { EventClient, EventCreateDto, EventUpdateDto } from '../app.api-client.generated';
 import { EventViewDto } from '../models/event-view-dto';
 import { JwtDecodeService } from '../services/jwt-decode.service';
 
@@ -15,7 +15,7 @@ import { JwtDecodeService } from '../services/jwt-decode.service';
 export class SheetForm implements OnInit {
   customFields: number[] = []
   selectedEventOrEventGroup: string | undefined = ""
-  currentEvent: EventCreateDto = new EventCreateDto()
+  currentEvent: EventUpdateDto = new EventUpdateDto()
   events: EventViewDto[] = []
   eventGroups: any[] = []
   currentlySelectedMetadata: string[] = []

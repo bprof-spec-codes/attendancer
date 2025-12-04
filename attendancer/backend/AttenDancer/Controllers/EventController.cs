@@ -82,7 +82,7 @@ namespace AttenDancer.Controllers
 
         [Authorize]
         [HttpPut("{eventId}")]
-        public async Task<IActionResult> UpdateEventAsync([FromBody] EventCreateDto dto, string eventId)
+        public async Task<IActionResult> UpdateEventAsync([FromBody] EventUpdateDto dto, string eventId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

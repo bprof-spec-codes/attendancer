@@ -63,7 +63,7 @@ namespace AttenDancer.Logic.Services
             return result;
         }
 
-        public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
+        public async Task<Event> UpdateEventAsync(EventUpdateDto updatedto, string id)
         {
             Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == id);
 
