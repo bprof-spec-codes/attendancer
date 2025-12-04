@@ -44,6 +44,29 @@ namespace AttenDancer.Controllers
         }
 
         [Authorize]
+        [HttpGet("ByUserId")]
+        public async Task<IActionResult> GetEventGroupsByUserIdAsync()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+            try
+            {   
+                return Ok(await _eventGroupService.GetEventGroupsByUserIdAsync(userId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+
+
+
+        [Authorize]
         [HttpPut("{eventGroupId}")]
         public async Task<IActionResult> UpdateEventGroupAsync(string eventGroupId, [FromBody] EventGroupCreateDto createDto)
         {
@@ -155,5 +178,27 @@ namespace AttenDancer.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("{eventGroupId}/matrix")]
+        public async Task<IActionResult> GetEventGroupMatrix(string eventGroupId) 
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "Érvénytelen token" });
+            }
+            try
+            {
+                var matrix = await _eventGroupService.GetEventGroupMatrixAsync(eventGroupId, userId);
+                return Ok(matrix);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+
+        }
     }
 }

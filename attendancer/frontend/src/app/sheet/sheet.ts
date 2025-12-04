@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
 import { EventClient } from '../app.api-client.generated';
@@ -25,6 +25,20 @@ export class Sheet implements OnInit {
     public authService: AuthService,
     private eventService: EventClient
   ) {}
+
+  isMobile = false;
+
+  private updateIsMobile() {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      this.isMobile = window.matchMedia('(max-width: 1100px)').matches;
+    }
+  }
+
+  @HostListener('window:resize')
+  @HostListener('window:orientationchange')
+  onResize() {
+    this.updateIsMobile();
+  }
 
   /**
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.

@@ -40,6 +40,16 @@ namespace AttenDancer.Logic.Services
                     $" Hibás esemény azonosító: {e.Id}");
             });
             var newEventGroup = dtoProvider.Mapper.Map<EventGroup>(createDto);
+
+            if(events.Count != 1 && (events.All(e => e.Metadata.SequenceEqual(events[0].Metadata))))
+            {
+                throw new Exception("A csoporthoz tartozó események metadata értékei nem egyeznek meg.");
+            }
+            else
+            {
+                newEventGroup.Metadata = events[0].Metadata;
+            }
+
             await _eventGroupRepository.Create(newEventGroup);
 
             foreach (var ev in events)
@@ -75,6 +85,22 @@ namespace AttenDancer.Logic.Services
 
             return eventGroupview;
         }
+
+        public async Task<List<EventGroupViewDto>> GetEventGroupsByUserIdAsync(string userId)
+        {
+            var eventGroups = await _eventGroupRepository
+                .GetAll()
+                .Where(eg => eg.UserId == userId)
+                .ToListAsync();
+
+            if (!eventGroups.Any())
+            {
+                throw new Exception("A felhasználónak nincsenek eseménycsoportjai.");
+            }
+
+            return dtoProvider.Mapper.Map<List<EventGroupViewDto>>(eventGroups);
+        }
+
 
         public async Task<EventGroupParticipantInfoDto> GetParticipantFromEventGroupByIDAsync(string eventGroupId, string userId)
         {
@@ -164,6 +190,78 @@ namespace AttenDancer.Logic.Services
 
 
 
+        }
+
+        public async Task<EventGroupMatrixViewDto> GetEventGroupMatrixAsync(string eventGroupId, string userId) 
+        {
+
+            var eventGroup = await _eventGroupRepository.GetAll()
+                .Include(eg => eg.Events)
+                    .ThenInclude(e => e.Participants)
+                    .ThenInclude(p => p.User)
+                .FirstOrDefaultAsync(eg => eg.Id == eventGroupId);
+
+            if (eventGroup == null) 
+            { 
+                throw new Exception("Hibás eseménycsoport azonosító.");
+            }
+
+            if(eventGroup.UserId != userId)
+            {
+                throw new Exception("Az eseménycsoport nem ehhez a felhasználóhoz tartozik.");
+            }
+
+            var events = eventGroup.Events
+                .OrderBy(e => e.Id)
+                .ToList();
+
+            if(!events.Any())
+            {
+                return new EventGroupMatrixViewDto
+                {
+                    EventGroupId = eventGroup.Id,
+                    EventGroupName = eventGroup.Name,
+                    Events = new List<MatrixEventColumnDto>(),
+                    Participants = new List<MatrixParticipantRowDto>()
+                };
+            }
+
+            var allParticipantUsers = events
+                .SelectMany(e => e.Participants)
+                .Select(p => p.User)
+                .DistinctBy( u => u.Id)
+                .Where(u => !u.IsDeleted)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ToList();
+
+            var participantRows = allParticipantUsers.Select(user =>
+            {
+                var attendances = events.ToDictionary(
+                    e => e.Id,
+                    e => e.Participants.Any(p => p.UserId == user.Id)
+                );
+
+                return new MatrixParticipantRowDto
+                {
+                    UserId = user.Id,
+                    UserName = $"{user.LastName} {user.FirstName}",
+                    UserEmail = user.Email,
+                    Attendances = attendances
+                };
+            }).ToList();
+
+            return new EventGroupMatrixViewDto
+            {
+                EventGroupId = eventGroup.Id,
+                EventGroupName = eventGroup.Name,
+                Events = events.Select(e => new MatrixEventColumnDto
+                {
+                    EventId = e.Id,
+                    EventName = e.Name
+                }).ToList(),
+                Participants = participantRows
+            };
         }
     }
 }
