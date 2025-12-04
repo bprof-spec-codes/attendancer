@@ -49,7 +49,7 @@ export class Login {
   onLogin(form: NgForm): void {
     this.authService.login(this.loginModel).subscribe({
       next: () => {
-        this.router.navigate(['/sheet/abcf9f45-d59d-4229-b13a-28e9a35718ca']);
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
         console.error('Login failed:', err);

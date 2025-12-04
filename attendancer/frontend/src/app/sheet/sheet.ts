@@ -21,8 +21,7 @@ export class Sheet implements OnInit {
     private route: ActivatedRoute, 
     private eventClient: EventClient, 
     private editEventService: EditEventService, 
-    public authService: AuthService,
-    private eventService: EventClient
+    public authService: AuthService
   ) {}
 
   isMobile = false;
@@ -60,9 +59,7 @@ export class Sheet implements OnInit {
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string)
 
-        console.log(jsonData)
-
-        // TODO ! Temp data convert. !
+        //console.log(jsonData)
 
         let counterParticipant = 0
         this.event = jsonData;
@@ -82,9 +79,9 @@ export class Sheet implements OnInit {
 
         // Kiszámolni a résztvevők és nem résztvevők számát.
         this.countPresent()
-      };
+      }
       reader.readAsText(response.data)
-    });
+    })
   }
 
   /**
@@ -109,7 +106,7 @@ export class Sheet implements OnInit {
   }
 
   onValidateQr() {
-    this.eventService.validateQr(this.event.id).subscribe({
+    this.eventClient.validateQr(this.event.id).subscribe({
       next: () => {
         console.log('QR validálva!')
         this.event.isQrValid = true
@@ -119,12 +116,16 @@ export class Sheet implements OnInit {
   }
 
   onInvalidateQr() {
-    this.eventService.invalidateQr(this.event.id).subscribe({
+    this.eventClient.invalidateQr(this.event.id).subscribe({
       next: () => {
        console.log('QR invalidálva!')
        this.event.isQrValid = false
       },
       error: err => console.error('Hiba történt:', err.message)
     })
+  }
+
+  setIsQrValid(isValid: boolean) {
+    this.event.isQrValid = isValid
   }
 }
