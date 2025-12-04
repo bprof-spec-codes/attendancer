@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditEventService } from '../services/edit-event-service';
-import { EventClient, EventCreateDto, EventUpdateDto } from '../app.api-client.generated';
+import { EventClient, EventCreateDto, EventGroupClient, EventUpdateDto } from '../app.api-client.generated';
 import { EventViewDto } from '../models/event-view-dto';
 import { JwtDecodeService } from '../services/jwt-decode.service';
+import { EventGroupViewDto } from '../models/event-group-view-dto';
 
 @Component({
   selector: 'app-sheet-form',
@@ -14,10 +14,10 @@ import { JwtDecodeService } from '../services/jwt-decode.service';
 })
 export class SheetForm implements OnInit {
   customFields: number[] = []
-  selectedEventOrEventGroup: string | undefined = ""
+  selectedEventOrEventGroup: string = ""
   currentEvent: EventUpdateDto = new EventUpdateDto()
   events: EventViewDto[] = []
-  eventGroups: any[] = []
+  eventGroups: EventGroupViewDto[] = []
   currentlySelectedMetadata: string[] = []
   editMode: boolean = false
   public userId: string | null = null;
@@ -26,7 +26,7 @@ export class SheetForm implements OnInit {
     private router: Router, 
     private route: ActivatedRoute, 
     private eventClient: EventClient, 
-    private mockDataService: MockDataService, 
+    private eventGroupClient: EventGroupClient, 
     private editEventService: EditEventService, 
     private jwtDecodeService: JwtDecodeService
   ) {}
@@ -42,10 +42,6 @@ export class SheetForm implements OnInit {
 
       this.currentEvent = this.editEventService.getEvent();
 
-      // TODO TEMP
-      this.currentEvent.date = new Date("2025-11-25T10:00").toISOString().slice(0, 16)
-      // TODO TEMP
-
       if (this.currentEvent === undefined) {
         this.router.navigate(['/createSheet']);
       }
@@ -54,7 +50,7 @@ export class SheetForm implements OnInit {
         this.addCustomField()
       });
 
-      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId
+      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? ""
       this.onSelectionChange(this.currentEvent.eventGroupId!)
     }
 
@@ -63,23 +59,36 @@ export class SheetForm implements OnInit {
       this.currentEvent.metadata = []
     }
 
-    // Event -> Events ?
-    // Mindet visszaadja nem csak a csoport nélkülieket!
-    this.eventClient.getEventByUserId().subscribe((response) => {
-      const reader = new FileReader();
+    // Események melyek nincsenek eseménycsoportba.
+    this.eventClient.getEventsByUserId().subscribe((response) => {
+      const reader = new FileReader()
       reader.onload = () => {
-        const jsonData = JSON.parse(reader.result as string);
-        //console.log(jsonData)
+        const jsonData = JSON.parse(reader.result as string)
+        console.log(jsonData)
 
-        this.events = jsonData;
+        this.events = jsonData
       };
-      reader.readAsText(response.data);
+      reader.readAsText(response.data)
     });
 
-    // TODO
-    this.mockDataService.getEventGroupsWithMetadataByUserId(this.userId!).subscribe((data) => {
-      this.eventGroups = data;
-    });
+    // Eseménycsoportok a metaadataikkal.
+    this.eventGroupClient.getEventGroupsByUserId().subscribe((response) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string)
+        console.log(jsonData)
+
+        this.eventGroups = jsonData
+
+        // Beállítani a metadata-t.
+        for (let i = 0; i < this.eventGroups.length; i++) {
+          for (let j = 0; j < this.eventGroups[i].events[0].metadata.length; j++) {
+            this.eventGroups[i].metadata.push(this.eventGroups[i].events[0].metadata[j])
+          }
+        }
+      }
+      reader.readAsText(response.data)
+    })
   }
 
   onSelectionChange(selectedValue: string) {

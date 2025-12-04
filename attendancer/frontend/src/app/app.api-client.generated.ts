@@ -94,7 +94,7 @@ export interface IEventClient {
     getEventById(eventId: string): Observable<FileResponse>;
     updateEvent(eventId: string, dto: EventUpdateDto): Observable<FileResponse>;
     deleteEvent(eventId: string): Observable<FileResponse>;
-    getEventByUserId(): Observable<FileResponse>;
+    getEventsByUserId(): Observable<FileResponse>;
     generateQrForEvent(eventId: string): Observable<FileResponse>;
     getEventQrCode(eventId: string): Observable<FileResponse>;
     invalidateQr(eventId: string): Observable<FileResponse>;
@@ -391,8 +391,8 @@ export class EventClient implements IEventClient {
         return _observableOf(null as any);
     }
 
-    getEventByUserId(): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/GetEventByUserId";
+    getEventsByUserId(): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/GetEventsByUserId";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -404,11 +404,11 @@ export class EventClient implements IEventClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetEventByUserId(response_);
+            return this.processGetEventsByUserId(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetEventByUserId(response_ as any);
+                    return this.processGetEventsByUserId(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -417,7 +417,7 @@ export class EventClient implements IEventClient {
         }));
     }
 
-    protected processGetEventByUserId(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGetEventsByUserId(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

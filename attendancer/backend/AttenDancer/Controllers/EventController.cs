@@ -65,8 +65,8 @@ namespace AttenDancer.Controllers
         }
 
         [Authorize]
-        [HttpGet("/GetEventByUserId")]
-        public async Task<IActionResult> GetEventByUserIdAsync()
+        [HttpGet("/GetEventsByUserId")]
+        public async Task<IActionResult> GetEventsByUserIdAsync()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
