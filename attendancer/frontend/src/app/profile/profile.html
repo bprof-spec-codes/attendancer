@@ -29,24 +29,19 @@
             <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
                 <div class="card-body">
                     <div class="scrollable-container">
-                        @for (currentParticipation of participation; track $index) {
+                        @for (event of signedEvents; track $index) {
                         <div class="row mb-3">
                             <div class="card shadow" style="background-color: #EFF1F2;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
+                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName }}</h2>
                                         </div>
                                     </div>
                                     <div class="row align-items-center">
                                         <div class="col-md-6">
-                                            @for (signedEvent of currentParticipation.signedEvents; track
-                                            $index) {
-                                            @if (signedEvent) {
-                                            <span class="attendance-block present"></span>
-                                            } @else {
-                                            <span class="attendance-block absent"></span>
-                                            }
+                                            @for (isSigned of signedEvents[$index]; track $index) {
+                                                <span class="attendance-block" [ngClass]="isSigned.signedAt ? 'present' : 'absent'"></span>
                                             }
                                         </div>
                                     </div>
@@ -472,24 +467,19 @@
                         style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                         <div class="card-body" style="max-height: 2fr; overflow-y: auto;">
                             <div class="scrollable-container">
-                                @for (currentParticipation of participation; track $index) {
+                                @for (event of signedEvents; track $index) {
                                 <div class="row mb-3">
                                     <div class="card shadow" style="background-color: #EFF1F2;">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-8">
-                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
+                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName }}</h2>
                                                 </div>
                                             </div>
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
-                                                    @for (signedEvent of currentParticipation.signedEvents; track
-                                                    $index) {
-                                                    @if (signedEvent) {
-                                                    <span class="attendance-block present"></span>
-                                                    } @else {
-                                                    <span class="attendance-block absent"></span>
-                                                    }
+                                                    @for (isSigned of signedEvents[$index]; track $index) {
+                                                        <span class="attendance-block" [ngClass]="isSigned.signedAt ? 'present' : 'absent'"></span>
                                                     }
                                                 </div>
                                             </div>

@@ -6,6 +6,7 @@ import { UserClient } from '../app.api-client.generated';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { SignedEvents } from '../models/signed-events';
 
 @Component({
   selector: 'app-profile',
@@ -28,23 +29,15 @@ export class Profile implements OnInit {
   onResize() {
     this.updateIsMobile();
   }
-  participation: any[] = []
+  signedEvents: SignedEvents[][] = []
+  signedEventGroupName: string = ""
   user: User = new User();
-
-  userId: string = (Math.floor(Math.random() * 3) + 1).toString(); // a bejelentkezett felhasználó id-jének mock-olása
 
   nameErrorMessage: string = '';
   emailErrorMessage: string = '';
   emailConfirmErrorMessage: string = '';
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
-
-  constructor(
-    private router: Router,
-    private userService: UserClient,
-    private customUserService: UserService,
-    private translate: TranslateService
-  ) {}
 
   pendingFirstName: string = '';
   pendingLastName: string = '';
@@ -55,30 +48,55 @@ export class Profile implements OnInit {
   modalMessage: string = ""
   private unsubscribe$ = new Subject<void>();
 
+  constructor(
+    private router: Router,
+    private userService: UserClient,
+    private customUserService: UserService,
+    private translate: TranslateService
+  ) {}
+
   ngOnInit(): void {
-    // A modal fordítás.
+    // A modal fordítása.
     this.translate.onLangChange
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.updateTranslations();
-      });
+        this.updateTranslations()
+      })
 
     this.customUserService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
 
     this.userService.getMySignedSheets().subscribe((response) => {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onload = () => {
-        const jsonData = JSON.parse(reader.result as string);
+        const jsonData = JSON.parse(reader.result as string) as any[]
         console.log(jsonData)
 
-        // TODO, más adat kell
+        const groupedEvents = jsonData.reduce((acc, event) => {
+          const groupId = event.eventGroupId;
+          if (!acc[groupId]) {
+            acc[groupId] = []
+          }
+          acc[groupId].push(event)
+          return acc
+        }, {})
 
-        this.participation = jsonData;
-      };
-      reader.readAsText(response.data);
-    });
+        this.signedEvents = Object.values(groupedEvents)
+
+        // TODO signedAt
+
+        //console.log(this.signedEvents);
+
+        /*for (let i = 0; i < this.signedEvents.length; i++) {
+          //console.log(this.signedEvents[i][0].eventGroupName)
+          for (let j = 0; j < this.signedEvents[i].length; j++) {
+            console.log(this.signedEvents[i][j])
+          }
+        }*/
+      }
+      reader.readAsText(response.data)
+    })
   }
 
   setActiveSection(section: 'profile' | 'statistics' | 'edit' | 'sheets'): void {

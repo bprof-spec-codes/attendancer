@@ -237,6 +237,7 @@ namespace AttenDancer.Logic.Services
                     Name = p.Event.Name,
                     SignedAt = p.Date,
                     EventGroupName = p.Event.EventGroup != null ? p.Event.EventGroup.Name : null,
+                    EventGroupId = p.Event.EventGroup != null ? p.Event.EventGroup.Id : null,
                     IsQrValid = p.Event.IsQrValid
                 })
                 .ToListAsync();
