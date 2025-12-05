@@ -30,6 +30,7 @@ namespace AttenDancer.Data.Migrations
                     { "18f2745f-652e-4817-b7e1-ea7787fc71c8", "Adatbázisok 2024/25 őszi félév", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
                     { "fd3f3srf-d3rs-x3sd-dffe-jdud8du8kd89", "Devops Órák", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
                 });
+            // Metadata -> [neptun, seat]
 
             migrationBuilder.InsertData(
                 table: "Events",

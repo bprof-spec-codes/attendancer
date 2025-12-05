@@ -15,7 +15,7 @@
                             style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
                             [(ngModel)]="selectedEventOrEventGroup"
                             (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
-                      <option [value]="''" default>{{ 'SHEET.NO_SHEET_GROUP' | translate }}</option>
+                      <option [value]="undefined" default>{{ 'SHEET.NO_SHEET_GROUP' | translate }}</option>
                       <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{ eventGroup.name }}</option>
                       <option disabled>────────────</option>
                       <option *ngFor="let event of events" [value]="event.id">{{ event.name }}</option>
@@ -55,7 +55,7 @@
                 Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
                 Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
                 -->
-                @if (selectedEventOrEventGroup === '' || ((selectedEventOrEventGroup === '' ||
+                @if (selectedEventOrEventGroup === undefined || ((selectedEventOrEventGroup === undefined ||
                 selectedEventOrEventGroup === currentEvent.eventGroupId) && editMode)) {
                 <div class="form">
                     <!-- Metadata hozzáadás. -->
