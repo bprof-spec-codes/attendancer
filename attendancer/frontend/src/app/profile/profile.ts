@@ -3,6 +3,9 @@ import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
 import { UserClient } from '../app.api-client.generated';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -37,8 +40,10 @@ export class Profile implements OnInit {
   passwordConfirmErrorMessage: string = '';
 
   constructor(
+    private router: Router,
     private userService: UserClient,
-    private customUserService: UserService
+    private customUserService: UserService,
+    private translate: TranslateService
   ) {}
 
   pendingFirstName: string = '';
@@ -46,7 +51,18 @@ export class Profile implements OnInit {
   pendingEmail: string = '';
   pendingEmailConfirm: string = '';
 
+  modalTitle: string = ""
+  modalMessage: string = ""
+  private unsubscribe$ = new Subject<void>();
+
   ngOnInit(): void {
+    // A modal fordítás.
+    this.translate.onLangChange
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.updateTranslations();
+      });
+
     this.customUserService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
@@ -146,6 +162,28 @@ export class Profile implements OnInit {
         console.error('Error updating password', err);
         this.passwordErrorMessage = 'Error updating password. Please try again.';
       },
+    });
+  }
+  onDeleteAccount(): void {
+    this.userService.deleteUser().subscribe({
+      next: () => {
+        localStorage.removeItem('attendancer-jwt-token');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Hiba történt a fiók törlése során.');
+      }
+    });
+  }
+
+  updateTranslations() {
+    this.translate.get('MODAL.WARNING_TITLE').subscribe((res: string) => {
+      this.modalTitle = res;
+    });
+
+    this.translate.get('MODAL.ACCOUNT_DELETE_CONFIRM_MESSAGE').subscribe((res: string) => {
+      this.modalMessage = res;
     });
   }
 }

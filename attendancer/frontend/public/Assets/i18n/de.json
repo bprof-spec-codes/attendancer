@@ -108,7 +108,8 @@
   },
    "MODAL": {
     "WARNING_TITLE": "Warnung!",
-    "DELETE_CONFIRM_MESSAGE": "Möchten Sie dieses Ereignis wirklich löschen?",
+    "EVENT_DELETE_CONFIRM_MESSAGE": "Möchten Sie dieses Ereignis wirklich löschen?",
+    "ACCOUNT_DELETE_CONFIRM_MESSAGE": "Bist du sicher, dass du dein Konto löschen möchtest?",
     "QR_ERROR_MESSAGE": "Ungültige Ereignis-ID",
     "CLOSE_BUTTON": "Schließen",
     "DELETE_BUTTON": "Löschen"

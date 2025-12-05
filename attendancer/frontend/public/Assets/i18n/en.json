@@ -108,7 +108,8 @@
   },
    "MODAL": {
     "WARNING_TITLE": "Warning!",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",
+    "EVENT_DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",
+    "ACCOUNT_DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete your account?",
     "QR_ERROR_MESSAGE": "Invalid event ID",
     "CLOSE_BUTTON": "Close",
     "DELETE_BUTTON": "Delete"

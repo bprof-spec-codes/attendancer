@@ -6,6 +6,7 @@ export const environment = {
     getUserMe: 'https://localhost:7198/api/User/me',
     updateUser: "https://localhost:7198/api/User/{id}",
     changePassword: "https://localhost:7198/api/User/{id}/password",
+    deleteAccount: 'https://localhost:7198/api/User',
     postEvent: "https://localhost:7198/api/Event",
     postEventGroup: "https://localhost:7198/api/EventGroup",
     updateEvent: "https://localhost:7198/api/Event/{id}",

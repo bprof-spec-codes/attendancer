@@ -4,6 +4,8 @@ import { AuthService } from '../services/auth-service';
 import { EventClient } from '../app.api-client.generated';
 import { EditEventService } from '../services/edit-event-service';
 import { EventViewDto } from '../models/event-view-dto';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sheet',
@@ -15,13 +17,17 @@ export class Sheet implements OnInit {
   event: EventViewDto = new EventViewDto()
   presentCount: number = 0
   absentCount: number = 0
+  modalTitle: string = ""
+  modalMessage: string = ""
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
     private eventClient: EventClient, 
     private editEventService: EditEventService, 
-    public authService: AuthService
+    public authService: AuthService,
+    private translate: TranslateService
   ) {}
 
   isMobile = false;
@@ -51,6 +57,13 @@ export class Sheet implements OnInit {
     if (this.event.id === undefined) {
       this.router.navigate(['/profile']);
     }
+
+    // A modal fordítása.
+    this.translate.onLangChange
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.updateTranslations();
+      });
 
     // Az események és azok résztvevőinek lekérdezése az esemény id-je alapján.
     this.eventClient.getEventById(this.event.id).subscribe((response) => {
@@ -127,5 +140,20 @@ export class Sheet implements OnInit {
 
   setIsQrValid(isValid: boolean) {
     this.event.isQrValid = isValid
+  }
+
+  onDeleteEvent(): void {
+    //this.mockDataService.deleteEvent(this.eventId);
+    this.router.navigate(['/createSheet']);
+  }
+
+  updateTranslations() {
+    this.translate.get('MODAL.WARNING_TITLE').subscribe((res: string) => {
+      this.modalTitle = res;
+    });
+
+    this.translate.get('MODAL.EVENT_DELETE_CONFIRM_MESSAGE').subscribe((res: string) => {
+      this.modalMessage = res;
+    });
   }
 }
