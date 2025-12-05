@@ -25,7 +25,7 @@ export class Login {
     private translationService: TranslationService,
   ) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/sheet/abcf9f45-d59d-4229-b13a-28e9a35718ca']);
+      this.router.navigate(['/profile']);
     }
   }
 

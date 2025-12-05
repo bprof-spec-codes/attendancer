@@ -102,6 +102,7 @@
   "EVENT": {
     "EDIT_BUTTON": "Szerkesztés",
     "SHOW_QR_BUTTON": "QR kód megjelenítése",
+    "VALIDATE_QR_BUTTON": "QR kód validálása",
     "DELETE_QR_BUTTON": "QR kód törlése",
     "DELETE_BUTTON": "Törlés",
     "TABLE_HEADER_NAME": "Név",

@@ -1,46 +1,48 @@
-@if(isMobile){
+@if(isMobile) {
 <div class="container-fluid min-vh-100 mt-4">
     <div class="row">
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="authService.isLoggedIn()">
-                        <div class="row d-flex justify-content-between align-items-center g-2">
-                            <div class="col-auto">
-                                <button (click)="edit()" class="btn button-primary ms-3">
-                                    <img src="./assets/icons/white-edit.svg" class="icons">
-                                    {{ 'EVENT.EDIT_BUTTON' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <button (click)="modal.open()" class="btn button-danger me-3">
-                                  <img src="./assets/icons/white-trash.svg" class="icons">
-                                  {{ 'EVENT.DELETE_BUTTON' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                @if (this.event.isQrValid) {
-                                    <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
-                                        {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                    @if (authService.isLoggedIn() && this.userId === this.event.userId) {
+                        <div class="row">
+                            <div class="row d-flex justify-content-between align-items-center g-2">
+                                <div class="col-auto">
+                                    <button (click)="edit()" class="btn button-primary ms-3">
+                                        <img src="./assets/icons/white-edit.svg" class="icons">
+                                        {{ 'EVENT.EDIT_BUTTON' | translate }}
                                     </button>
-                                    <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="this.event.isQrValid"></app-modal-qrcode>
-                                }
-                                @else {
-                                    <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3">
-                                        Validate QR Code
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="modal.open()" class="btn button-danger me-3">
+                                      <img src="./assets/icons/white-trash.svg" class="icons">
+                                      {{ 'EVENT.DELETE_BUTTON' | translate }}
                                     </button>
-                                }
+                                </div>
+                                <div class="col-auto">
+                                    @if (this.event.isQrValid) {
+                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                        </button>
+                                        <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="this.event.isQrValid"></app-modal-qrcode>
+                                    }
+                                    @else {
+                                        <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
+                                        <img src="./assets/icons/white-trash.svg" class="icons">
+                                        <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
+                                        {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
-                                    <img src="./assets/icons/white-trash.svg" class="icons">
-                                    <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
-                                    {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
-                                </button>
-                            </div>
+                            <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
                         </div>
-                        <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
-                    </div>
+                    }
                     <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">
                             <h1>{{ event.name }}</h1>
@@ -106,49 +108,52 @@
         </div>
     </div>
 </div>
-} @else {
+}
+@else {
 <div class="d-flex flex-column align-items-stretch justify-content-start mt-4 w-75 min-vh-100 mx-auto py-4">
     <div class="row">
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="authService.isLoggedIn()">
-                        <div class="row d-flex justify-content-between align-items-center g-2">
-                            <div class="col-auto">
-                                <button (click)="edit()" class="btn button-primary ms-3">
-                                    <img src="./assets/icons/white-edit.svg" class="icons">
-                                    {{ 'EVENT.EDIT_BUTTON' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <button (click)="modal.open()" class="btn button-danger me-3">
-                                  <img src="./assets/icons/white-trash.svg" class="icons">
-                                  {{ 'EVENT.DELETE_BUTTON' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                @if (this.event.isQrValid) {
-                                    <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
-                                        {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                    @if (authService.isLoggedIn() && this.userId === this.event.userId) {
+                        <div class="row">
+                            <div class="row d-flex justify-content-between align-items-center g-2">
+                                <div class="col-auto">
+                                    <button (click)="edit()" class="btn button-primary ms-3">
+                                        <img src="./assets/icons/white-edit.svg" class="icons">
+                                        {{ 'EVENT.EDIT_BUTTON' | translate }}
                                     </button>
-                                    <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="setIsQrValid($event)"></app-modal-qrcode>
-                                }
-                                @else {
-                                    <button (click)="onValidateQr()" class="btn button-success py-2 ms-3">
-                                        Create QR Code
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="modal.open()" class="btn button-danger me-3">
+                                      <img src="./assets/icons/white-trash.svg" class="icons">
+                                      {{ 'EVENT.DELETE_BUTTON' | translate }}
                                     </button>
-                                }
+                                </div>
+                                <div class="col-auto">
+                                    @if (this.event.isQrValid) {
+                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                        </button>
+                                        <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="setIsQrValid($event)"></app-modal-qrcode>
+                                    }
+                                    @else {
+                                        <button (click)="onValidateQr()" class="btn button-success py-2 ms-3">
+                                            {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
+                                        <img src="./assets/icons/white-trash.svg" class="icons">
+                                        <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
+                                        {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
-                                    <img src="./assets/icons/white-trash.svg" class="icons">
-                                    <!--<img src="./assets/icons/red-trash.svg" class="icons">-->
-                                    {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
-                                </button>
-                            </div>
+                            <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
                         </div>
-                        <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
-                    </div>
+                    }
                     <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">
                             <h1>{{ event.name }}</h1>

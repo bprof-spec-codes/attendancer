@@ -15,7 +15,7 @@ import { SheetService } from '../services/sheet.service';
 })
 export class SheetForm implements OnInit {
   customFields: number[] = []
-  selectedEventOrEventGroup: string |undefined = undefined
+  selectedEventOrEventGroup: string | undefined = undefined
   currentEvent: EventUpdateDto = new EventUpdateDto()
   events: EventViewDto[] = []
   eventGroups: EventGroupViewDto[] = []
@@ -37,11 +37,12 @@ export class SheetForm implements OnInit {
 
   ngOnInit(): void {
     // A bejelentkezett felhasználó userId-jének megszerzése.
-    this.userId = this.jwtDecodeService.getUserId();
+    this.userId = this.jwtDecodeService.getUserId()
     this.currentEvent.userId = this.userId ?? ""
 
     this.selectedEventOrEventGroup = undefined
 
+    // Ha szerkesztő oldal.
     if (this.route.snapshot.routeConfig?.path === "editSheet") {
 
       this.editMode = true
@@ -49,12 +50,12 @@ export class SheetForm implements OnInit {
       this.currentEvent = this.editEventService.getEvent()
 
       if (this.currentEvent === undefined) {
-        this.router.navigate(['/createSheet']);
+        this.router.navigate(['/createSheet'])
       }
 
       this.currentEvent.metadata!.forEach(() => {
         this.addCustomField()
-      });
+      })
 
       this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? undefined
       this.onSelectionChange(this.currentEvent.eventGroupId!)
@@ -73,9 +74,9 @@ export class SheetForm implements OnInit {
         //console.log(jsonData)
 
         this.events = jsonData
-      };
+      }
       reader.readAsText(response.data)
-    });
+    })
 
     // Eseménycsoportok a metaadataikkal.
     this.eventGroupClient.getEventGroupsByUserId().subscribe((response) => {
@@ -128,32 +129,34 @@ export class SheetForm implements OnInit {
       // Elkészíteni az esemény is visszakapni annak id-jét.
       this.sheetService.postEvent(this.currentEvent).subscribe({
         next: (response: string) => {
-          console.log("The created event's id: ", Object.values(response)[0]);
+          //console.log("The created event's id: ", Object.values(response)[0])
           this.createEventGroup.eventIds[0] = Object.values(response)[0]
 
           // Ha egy esemény lett kiválasztva akkor hozza létre a hozzá tartozó esemény csoportot is.
-          console.log(this.isSelectedEvent)
           if (this.isSelectedEvent) {
             this.createEventGroup.userId = this.userId ?? undefined
 
-            this.createEventGroup.metadata = this.currentEvent.metadata!.slice();
+            this.createEventGroup.metadata = this.currentEvent.metadata!.slice()
             this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup!
           
-            console.log(this.createEventGroup)
+            //console.log(this.createEventGroup)
             this.sheetService.postEventGroup(this.createEventGroup).subscribe({
-              next: (response: any) => {},
+              next: (response: any) => {
+                this.resetPage()
+              },
               error: (err) => {
                 console.error("Error occurred: ", err)
               },
-            });
+            })
+          }
+          else {
             this.resetPage()
           }
-
         },
         error: (err) => {
           console.error("Error occurred: ", err)
         },
-      });
+      })
     }
   }
 
@@ -168,11 +171,11 @@ export class SheetForm implements OnInit {
       this.sheetService.updateEvent(this.currentEvent).subscribe({
         next: (response: any) => {},
         error: (err) => {
-          console.error("Error occurred: ", err);
+          console.error("Error occurred: ", err)
         },
-      });
+      })
 
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/profile'])
     }
   }
 

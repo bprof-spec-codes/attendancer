@@ -93,10 +93,10 @@ namespace AttenDancer.Logic.Services
                 .Where(eg => eg.UserId == userId)
                 .ToListAsync();
 
-            if (!eventGroups.Any())
+            /*if (!eventGroups.Any())
             {
                 throw new Exception("A felhasználónak nincsenek eseménycsoportjai.");
-            }
+            }*/
 
             return dtoProvider.Mapper.Map<List<EventGroupViewDto>>(eventGroups);
         }

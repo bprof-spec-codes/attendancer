@@ -38,12 +38,4 @@ export class ModalWarning {
   public close(): void {
     this.isOpen = false;
   }
-
-  /**
-   * Delete event by id and navigate to the create sheet page.
-   */
-  /*remove(): void {
-    this.mockDataService.deleteEvent(this.eventId)
-    this.router.navigate(['/createSheet']);
-  }*/
 }

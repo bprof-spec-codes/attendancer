@@ -4,6 +4,7 @@ export class EventViewDto {
     id: string = ""
     name: string = ""
     date: string = ""
+    userId: string = ""
     qrCode: any = null
     isQrValid: boolean = false
     metadata: string[] = []

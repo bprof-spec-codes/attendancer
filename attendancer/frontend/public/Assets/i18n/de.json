@@ -79,6 +79,7 @@
    "EVENT": {
     "EDIT_BUTTON": "Bearbeiten",
     "SHOW_QR_BUTTON": "QR-Code anzeigen",
+    "VALIDATE_QR_BUTTON": "QR-Code validieren",
     "DELETE_QR_BUTTON": "QR-Code löschen",
     "DELETE_BUTTON": "Löschen",
     "TABLE_HEADER_NAME": "Name",

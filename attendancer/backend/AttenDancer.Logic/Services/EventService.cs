@@ -54,10 +54,10 @@ namespace AttenDancer.Logic.Services
                 .Where(e => e.UserId == userId && e.EventGroupId == null)
                 .ToListAsync();
 
-            if (!events.Any())
+            /*if (!events.Any())
             {
                 throw new Exception("Nincs a felhasználóhoz tartozó esemény.");
-            }
+            }*/
 
             List<EventViewDto> result = dtoProvider.Mapper.Map<List<EventViewDto>>(events);
             return result;
