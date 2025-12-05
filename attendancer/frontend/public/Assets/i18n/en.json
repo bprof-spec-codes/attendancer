@@ -98,6 +98,7 @@
     "EDIT_SHEET_BUTTON": "Edit sheet",
     "CREATE_BUTTON": "Create",
     "REQUIRED_NAME_DATE_ERROR": "You need to give a name and a date to your sheet!",
+    "REQUIRED_NAME_DATE_EVENT_GROUP_ERROR": "You need to give a name, a date and an event group name to your sheet!",
     "ALREADY_SIGNED": "Sheet already signed",
     "EXAMPLE_EVENT": "Example event",
     "NEPTUN_ID_LABEL": "Neptun ID",

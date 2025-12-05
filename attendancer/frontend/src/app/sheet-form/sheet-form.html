@@ -87,7 +87,12 @@
                 </button>
 
                 <div *ngIf="inputInvalid()" class="invalid-validation-message text-center mt-2">
-                  <p>{{ 'SHEET.REQUIRED_NAME_DATE_ERROR' | translate }}</p>
+                  @if (!this.isSelectedEvent) {
+                    <p>{{ 'SHEET.REQUIRED_NAME_DATE_ERROR' | translate }}</p>
+                  }
+                  @else {
+                    <p>{{ 'SHEET.REQUIRED_NAME_DATE_EVENT_GROUP_ERROR' | translate }}</p>
+                  }
                 </div>
               </div>
             </form>

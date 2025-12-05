@@ -40,6 +40,8 @@ export class SheetForm implements OnInit {
     this.userId = this.jwtDecodeService.getUserId();
     this.currentEvent.userId = this.userId ?? ""
 
+    this.selectedEventOrEventGroup = ""
+
     if (this.route.snapshot.routeConfig?.path === "editSheet") {
 
       this.editMode = true
