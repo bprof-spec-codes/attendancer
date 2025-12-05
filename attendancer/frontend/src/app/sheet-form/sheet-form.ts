@@ -5,6 +5,7 @@ import { EventClient, EventCreateDto, EventGroupClient, EventUpdateDto } from '.
 import { EventViewDto } from '../models/event-view-dto';
 import { JwtDecodeService } from '../services/jwt-decode.service';
 import { EventGroupViewDto } from '../models/event-group-view-dto';
+import { SheetService } from '../services/sheet.service';
 
 @Component({
   selector: 'app-sheet-form',
@@ -28,7 +29,8 @@ export class SheetForm implements OnInit {
     private eventClient: EventClient, 
     private eventGroupClient: EventGroupClient, 
     private editEventService: EditEventService, 
-    private jwtDecodeService: JwtDecodeService
+    private jwtDecodeService: JwtDecodeService,
+    private sheetService: SheetService
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class SheetForm implements OnInit {
       const reader = new FileReader()
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string)
-        console.log(jsonData)
+        //console.log(jsonData)
 
         this.events = jsonData
       };
@@ -76,7 +78,7 @@ export class SheetForm implements OnInit {
       const reader = new FileReader()
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string)
-        console.log(jsonData)
+        //console.log(jsonData)
 
         this.eventGroups = jsonData
 
@@ -114,13 +116,19 @@ export class SheetForm implements OnInit {
 
       this.currentEvent.metadata = this.currentEvent.metadata!.filter(data => data !== undefined && data !== '')
 
-      if (this.currentEvent.eventGroupId === undefined) {
-        this.currentEvent.eventGroupId = ""
-      }
+      //console.log(this.currentEvent)
 
-      //this.mockDataService.postEvent(this.currentEvent)
-      console.log(this.currentEvent)
-      this.eventClient.createEvent(this.currentEvent)
+      //this.eventClient.createEvent(this.currentEvent)
+
+      // Elkészíteni az esemény is visszakapni annak id-jét.
+      this.sheetService.postSheet(this.currentEvent).subscribe({
+        next: (response: string) => {
+          console.log("The created event's id: ", Object.values(response)[0]);
+        },
+        error: (err) => {
+          console.error("Error occurred: ", err);
+        },
+      });
 
       this.resetPage()
     }
@@ -133,8 +141,7 @@ export class SheetForm implements OnInit {
 
       this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
 
-      //this.mockDataService.updateEvent(this.currentEvent)
-      this.eventClient.updateEvent(this.currentEvent.id!, this.currentEvent)
+      //this.eventClient.updateEvent(this.currentEvent.id!, this.currentEvent)
       this.router.navigate(['/profile']);
     }
   }

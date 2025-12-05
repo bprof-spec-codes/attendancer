@@ -50,13 +50,13 @@ export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
 
-  if (method === 'POST' && url.endsWith('/api/Event')) {
+  /*if (method === 'POST' && url.endsWith('/api/Event')) {
     mockDataService.postEvent(req.body);
     return of(new HttpResponse({
       status: 201,
       body: { message: 'Event created (mock)' }
     }));
-  }
+  }*/
 
   return next(modifiedReq);
 };
