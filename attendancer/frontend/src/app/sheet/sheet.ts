@@ -143,8 +143,14 @@ export class Sheet implements OnInit {
   }
 
   onDeleteEvent(): void {
-    //this.mockDataService.deleteEvent(this.eventId);
-    this.router.navigate(['/createSheet']);
+    this.eventClient.deleteEvent(this.event.id).subscribe({
+      next: () => {
+        console.log('Esemény törölve!')
+      },
+      error: err => console.error('Hiba történt:', err.message)
+    })
+
+    this.router.navigate(['/profile']);
   }
 
   updateTranslations() {
