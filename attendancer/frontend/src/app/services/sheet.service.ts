@@ -18,7 +18,8 @@ export class SheetService {
     return this.http.post<any>(environment.apis.postEventGroup, eventGroupCreateDto)
   }
 
-  /*updateSheet(eventUpdateDto: EventUpdateDto): Observable<string> {
-    return this.http.put<string>(environment.apis.postEvent, eventUpdateDto)
-  }*/
+  updateEvent(eventUpdateDto: EventUpdateDto): Observable<any> {
+    const url = environment.apis.updateEvent.replace('{id}', eventUpdateDto.id!);
+    return this.http.put<any>(url, eventUpdateDto)
+  }
 }

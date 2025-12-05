@@ -5,15 +5,15 @@ import { environment } from '../../environments/environment';
 import { mergeMap, of } from 'rxjs';
 
 export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
-  const mockDataService = inject(MockDataService);
+  /*const mockDataService = inject(MockDataService);
 
     if (req.url.endsWith('/api/User/login')) {
     return next(req);
   }
 
-  const token = localStorage.getItem(environment.tokenKey);
+  const token = localStorage.getItem(environment.tokenKey);*/
   let modifiedReq = req;
-
+/*
   if (token) {
     modifiedReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
@@ -50,7 +50,7 @@ export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
 
-  /*if (method === 'POST' && url.endsWith('/api/Event')) {
+  if (method === 'POST' && url.endsWith('/api/Event')) {
     mockDataService.postEvent(req.body);
     return of(new HttpResponse({
       status: 201,

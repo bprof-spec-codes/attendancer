@@ -15,7 +15,7 @@ import { SheetService } from '../services/sheet.service';
 })
 export class SheetForm implements OnInit {
   customFields: number[] = []
-  selectedEventOrEventGroup: string = ""
+  selectedEventOrEventGroup: string |undefined = undefined
   currentEvent: EventUpdateDto = new EventUpdateDto()
   events: EventViewDto[] = []
   eventGroups: EventGroupViewDto[] = []
@@ -44,7 +44,7 @@ export class SheetForm implements OnInit {
 
       this.editMode = true
 
-      this.currentEvent = this.editEventService.getEvent();
+      this.currentEvent = this.editEventService.getEvent()
 
       if (this.currentEvent === undefined) {
         this.router.navigate(['/createSheet']);
@@ -54,7 +54,7 @@ export class SheetForm implements OnInit {
         this.addCustomField()
       });
 
-      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? ""
+      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? undefined
       this.onSelectionChange(this.currentEvent.eventGroupId!)
     }
 
@@ -110,7 +110,7 @@ export class SheetForm implements OnInit {
         this.currentEvent.metadata = this.currentlySelectedMetadata
         this.isSelectedEvent = true
       }
-    });
+    })
 
     this.eventGroups.forEach(eventGroup => {
       if (eventGroup.id === selectedValue) {
@@ -118,7 +118,7 @@ export class SheetForm implements OnInit {
         this.currentEvent.metadata = this.currentlySelectedMetadata
         this.isSelectedEvent = false
       }
-    });
+    })
 
     if (this.isSelectedEvent) {
       this.currentEvent.eventGroupId = undefined
@@ -130,10 +130,6 @@ export class SheetForm implements OnInit {
 
       this.currentEvent.metadata = this.currentEvent.metadata!.filter(data => data !== undefined && data !== '')
 
-      console.log(this.currentEvent)
-
-      //this.eventClient.createEvent(this.currentEvent)
-
       // Elkészíteni az esemény is visszakapni annak id-jét.
       this.sheetService.postEvent(this.currentEvent).subscribe({
         next: (response: string) => {
@@ -141,27 +137,24 @@ export class SheetForm implements OnInit {
           this.createEventGroup.eventIds[0] = Object.values(response)[0]
         },
         error: (err) => {
-          console.error("Error occurred: ", err);
+          console.error("Error occurred: ", err)
         },
       });
 
+      // Ha egy esemény lett kiválasztva akkor hozza létre a hozzá tartozó esemény csoportot is.
       if (this.isSelectedEvent) {
         this.createEventGroup.userId = this.userId ?? undefined
         this.createEventGroup.metadata = []
         for (let i = 0; i < this.currentEvent.metadata.length; i++) {
           this.createEventGroup.metadata[i] = this.currentEvent.metadata[i]
         }
-        this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup
+        this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup!
       }
 
-      console.log(this.createEventGroup)
-
       this.sheetService.postEventGroup(this.createEventGroup).subscribe({
-        next: (response: any) => {
-          console.log(response);
-        },
+        next: (response: any) => {},
         error: (err) => {
-          console.error("Error occurred: ", err);
+          console.error("Error occurred: ", err)
         },
       });
 
@@ -176,7 +169,14 @@ export class SheetForm implements OnInit {
 
       this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
 
-      //this.eventClient.updateEvent(this.currentEvent.id!, this.currentEvent)
+      // Egy esemény frissítése.
+      this.sheetService.updateEvent(this.currentEvent).subscribe({
+        next: (response: any) => {},
+        error: (err) => {
+          console.error("Error occurred: ", err);
+        },
+      });
+
       this.router.navigate(['/profile']);
     }
   }
@@ -201,11 +201,11 @@ export class SheetForm implements OnInit {
   }
 
   addCustomField(): void {
-    this.customFields.push(this.customFields.length);
+    this.customFields.push(this.customFields.length)
   }
 
   removeCustomField(index: number): void {
-    this.customFields.splice(index, 1);
+    this.customFields.splice(index, 1)
     this.currentEvent.metadata![index] = ""
   }
 }

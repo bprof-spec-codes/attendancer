@@ -24,6 +24,7 @@ namespace AttenDancer.Logic.Helper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<EventCreateDto, Event>();
+                cfg.CreateMap<EventUpdateDto, Event>();
 
                 cfg.CreateMap<Participant, ParticipantViewDto>()
                    .AfterMap((src, dest) =>
