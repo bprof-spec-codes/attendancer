@@ -46,7 +46,7 @@ export class Profile implements OnInit {
 
   modalTitle: string = ""
   modalMessage: string = ""
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new Subject<void>()
 
   constructor(
     private router: Router,
@@ -71,29 +71,37 @@ export class Profile implements OnInit {
       const reader = new FileReader()
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string) as any[]
-        console.log(jsonData)
+        //console.log(jsonData)
 
+        // Az eventGroupId szerint csoportosítani az eseményeket ami lehet null érték is.
         const groupedEvents = jsonData.reduce((acc, event) => {
-          const groupId = event.eventGroupId;
+          const groupId = event.eventGroupId || ""
           if (!acc[groupId]) {
             acc[groupId] = []
           }
           acc[groupId].push(event)
-          return acc
+          return acc;
         }, {})
 
         this.signedEvents = Object.values(groupedEvents)
 
-        // TODO signedAt
+        //console.log(this.signedEvents)
 
-        //console.log(this.signedEvents);
-
-        /*for (let i = 0; i < this.signedEvents.length; i++) {
-          //console.log(this.signedEvents[i][0].eventGroupName)
+        for (let i = 0; i < this.signedEvents.length; i++) {
           for (let j = 0; j < this.signedEvents[i].length; j++) {
-            console.log(this.signedEvents[i][j])
+            let eventDate = new Date(this.signedEvents[i][j].eventDate).getTime()
+            let signedAtDate = new Date(this.signedEvents[i][j].signedAt).getTime()
+            const diffMilliseconds = eventDate - signedAtDate
+
+            // Ha 24 órán belül van akkor igaz (86400000 milliseconds).
+            if (diffMilliseconds >= 0 && diffMilliseconds <= 86400000) {
+              this.signedEvents[i][j].inTime = true
+            }
+            else {
+              this.signedEvents[i][j].inTime = false
+            }
           }
-        }*/
+        }
       }
       reader.readAsText(response.data)
     })
@@ -195,6 +203,9 @@ export class Profile implements OnInit {
     });
   }
 
+  /**
+   * A modal-hoz átadni a megfelelő nyelvű üzeneteket.
+   */
   updateTranslations() {
     this.translate.get('MODAL.WARNING_TITLE').subscribe((res: string) => {
       this.modalTitle = res;

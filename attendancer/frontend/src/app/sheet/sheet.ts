@@ -82,12 +82,31 @@ export class Sheet implements OnInit {
         //console.log(jsonData)
 
         let counterParticipant = 0
-        this.event = jsonData
-        for (const p of jsonData.participants) {
-          //console.log(p)
 
-          // TODO ! Az adatbázisban a DateTime nem lehet null vagyis kell egy dátum szóval mindenki itt volt. !
-          this.event.participants[counterParticipant].present = p.date ? true : false
+        this.event = jsonData
+
+        const eventDate = new Date(this.event.date).getTime()
+
+        for (const p of jsonData.participants) {
+          const participantDate = new Date(p.date).getTime()
+
+          if (p.date) {
+            // Az idő különbsége.
+            const diffMilliseconds = eventDate - participantDate;
+
+            // Ha 24 órán belül van akkor igaz (86400000 milliseconds).
+            if (diffMilliseconds >= 0 && diffMilliseconds <= 86400000) {
+              this.event.participants[counterParticipant].present = true;
+            }
+            else {
+              this.event.participants[counterParticipant].present = false;
+            }
+          }
+          else {
+            this.event.participants[counterParticipant].present = false;
+          }
+
+          // Metadata hozzáadása.
           let counterMetadata = 0
           for (const m of jsonData.participants) {
             this.event.participants[counterParticipant].metadata = Object.values(jsonData.participants[counterParticipant].metadataDictionary)
@@ -124,6 +143,9 @@ export class Sheet implements OnInit {
     this.router.navigate(['/editSheet'])
   }
 
+  /**
+   * A QR kód validálása.
+   */
   onValidateQr() {
     this.eventClient.validateQr(this.event.id).subscribe({
       next: () => {
@@ -134,6 +156,9 @@ export class Sheet implements OnInit {
     })
   }
 
+  /**
+   * A QR kód invalidálása.
+   */
   onInvalidateQr() {
     this.eventClient.invalidateQr(this.event.id).subscribe({
       next: () => {
@@ -144,6 +169,10 @@ export class Sheet implements OnInit {
     })
   }
 
+  /**
+   * A QR modal ezt emit-eli ki, hogy érvényes-e a QR kód.
+   * @param isValid - boolean - Valid-e a QR kód.
+   */
   setIsQrValid(isValid: boolean) {
     this.event.isQrValid = isValid
   }
@@ -162,6 +191,9 @@ export class Sheet implements OnInit {
     this.router.navigate(['/profile'])
   }
 
+  /**
+   * A modal-hoz átadni a megfelelő nyelvű üzeneteket.
+   */
   updateTranslations() {
     this.translate.get('MODAL.WARNING_TITLE').subscribe((res: string) => {
       this.modalTitle = res

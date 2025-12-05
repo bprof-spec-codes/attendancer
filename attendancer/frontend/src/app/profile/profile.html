@@ -35,13 +35,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName }}</h2>
+                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ?? event[0].name }}</h2>
                                         </div>
                                     </div>
                                     <div class="row align-items-center">
                                         <div class="col-md-6">
                                             @for (isSigned of signedEvents[$index]; track $index) {
-                                                <span class="attendance-block" [ngClass]="isSigned.signedAt ? 'present' : 'absent'"></span>
+                                                <span class="attendance-block" [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
                                             }
                                         </div>
                                     </div>
@@ -473,13 +473,13 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-8">
-                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName }}</h2>
+                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ?? event[0].name }}</h2>
                                                 </div>
                                             </div>
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
                                                     @for (isSigned of signedEvents[$index]; track $index) {
-                                                        <span class="attendance-block" [ngClass]="isSigned.signedAt ? 'present' : 'absent'"></span>
+                                                        <span class="attendance-block" [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
                                                     }
                                                 </div>
                                             </div>

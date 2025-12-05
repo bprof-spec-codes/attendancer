@@ -3,6 +3,8 @@ export class SignedEvents {
     name: string = ""
     signedAt: string = ""
     isQrValid: boolean = false
-    eventGroupId: string = ""
-    eventGroupName: string = ""
+    eventGroupId: string | null = ""
+    eventGroupName: string | null = ""
+    eventDate: string = ""
+    inTime: boolean = false
 }
