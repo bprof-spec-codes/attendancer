@@ -91,6 +91,8 @@
     "SHEET_NAME_PLACEHOLDER": "Sheet-Name",
     "SHEET_DATE_LABEL": "Datum des Events:",
     "SHEET_DATE_PLACEHOLDER": "Event-Datum",
+    "SHEET_EVENT_GROUP_LABEL": "Name der Veranstaltungsgruppe:",
+    "SHEET_EVENT_GROUP_PLACEHOLDER": "Name der Veranstaltungsgruppe",
     "OPTIONAL_DATA_LABEL": "Optionale Daten:",
     "ENTER_DATA_PLACEHOLDER": "Daten eingeben",
     "EDIT_SHEET_BUTTON": "Sheet bearbeiten",
