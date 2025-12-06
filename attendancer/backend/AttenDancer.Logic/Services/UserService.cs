@@ -114,6 +114,37 @@ namespace AttenDancer.Logic.Services
             return _dtoProvider.Mapper.Map<List<UserResponseDto>>(users);
         }
 
+        public async Task<UserResponseDto> UpdateAsync(string id, UserUpdateDto updateDto)
+        {
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
+
+            if (user == null)
+            {
+                throw new Exception("Felhasználó nem található");
+            }
+
+            if (user.Email != updateDto.Email.ToLower())
+            {
+                var emailExists = await _userRepository.GetAll()
+                    .Where(u => !u.IsDeleted)
+                    .AnyAsync(u => u.Email == updateDto.Email.ToLower() && u.Id != id);
+                if (emailExists)
+                {
+                    throw new Exception("Ez az email cím már használatban van");
+                }
+            }
+
+            user.FirstName = updateDto.FirstName;
+            user.LastName = updateDto.LastName;
+            user.Email = updateDto.Email.ToLower();
+
+            var updatedUser = await _userRepository.Update(user);
+            return _dtoProvider.Mapper.Map<UserResponseDto>(updatedUser);
+        }
+
 
 
 
