@@ -9,5 +9,6 @@ export class EventViewDto {
     isQrValid: boolean = false
     metadata: string[] = []
     eventGroupName: string = ""
+    eventGroupId: string = ""
     participants: ParticipantsViewDto[] = []
 }

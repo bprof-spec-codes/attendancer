@@ -35,6 +35,8 @@ namespace AttenDancer.Entity.Dtos.Event
 
         public string? EventGroupName { get; set; }
 
+        public string? EventGroupId { get; set; }
+
         [Required]
         public ICollection<ParticipantViewDto>? Participants { get; set; } = new List<ParticipantViewDto>();
     }

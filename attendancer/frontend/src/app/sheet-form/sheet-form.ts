@@ -15,7 +15,7 @@ import { SheetService } from '../services/sheet.service';
 })
 export class SheetForm implements OnInit {
   customFields: number[] = []
-  selectedEventOrEventGroup: string | undefined = undefined
+  selectedEventOrEventGroup: string = "default"
   currentEvent: EventUpdateDto = new EventUpdateDto()
   events: EventViewDto[] = []
   eventGroups: EventGroupViewDto[] = []
@@ -35,12 +35,12 @@ export class SheetForm implements OnInit {
     private sheetService: SheetService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     // A bejelentkezett felhasználó userId-jének megszerzése.
     this.userId = this.jwtDecodeService.getUserId()
     this.currentEvent.userId = this.userId ?? ""
 
-    this.selectedEventOrEventGroup = undefined
+    this.selectedEventOrEventGroup = "default"
 
     // Ha szerkesztő oldal.
     if (this.route.snapshot.routeConfig?.path === "editSheet") {
@@ -56,9 +56,6 @@ export class SheetForm implements OnInit {
       this.currentEvent.metadata!.forEach(() => {
         this.addCustomField()
       })
-
-      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? undefined
-      this.onSelectionChange(this.currentEvent.eventGroupId!)
     }
 
     // Leellenőrizni, hogy ne legyen undefined a metadata.
@@ -74,6 +71,8 @@ export class SheetForm implements OnInit {
         //console.log(jsonData)
 
         this.events = jsonData
+
+        this.initMetadata()
       }
       reader.readAsText(response.data)
     })
@@ -86,6 +85,8 @@ export class SheetForm implements OnInit {
         //console.log(jsonData)
 
         this.eventGroups = jsonData
+
+        this.initMetadata()
       }
       reader.readAsText(response.data)
     })
@@ -96,7 +97,7 @@ export class SheetForm implements OnInit {
       this.currentEvent.eventGroupId = selectedValue
     }
 
-    if (selectedValue === undefined) {
+    if (selectedValue === "default") {
       this.isSelectedEvent = false
     }
 
@@ -134,20 +135,7 @@ export class SheetForm implements OnInit {
 
           // Ha egy esemény lett kiválasztva akkor hozza létre a hozzá tartozó esemény csoportot is.
           if (this.isSelectedEvent) {
-            this.createEventGroup.userId = this.userId ?? undefined
-
-            this.createEventGroup.metadata = this.currentEvent.metadata!.slice()
-            this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup!
-          
-            //console.log(this.createEventGroup)
-            this.sheetService.postEventGroup(this.createEventGroup).subscribe({
-              next: (response: any) => {
-                this.resetPage()
-              },
-              error: (err) => {
-                console.error("Error occurred: ", err)
-              },
-            })
+            this.createEventGroupMethod()
           }
           else {
             this.resetPage()
@@ -165,11 +153,31 @@ export class SheetForm implements OnInit {
 
       this.currentEvent.metadata = this.currentEvent.metadata!.filter(data => data !== undefined && data !== '')
 
-      this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
+      // A megfelelő esemény csoport id-k megadása.
+      if (this.currentEvent.eventGroupId === "default" || this.selectedEventOrEventGroup === "default") {
+        this.currentEvent.eventGroupId = undefined
+      }
+      else {
+        this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
+      }
+
+      // Ha egy esemémy van kiválasztva akkor létre kell hozni mellé egy esemény csoportot is.
+      if (this.isSelectedEvent)
+      {
+        //console.log( this.currentEvent)
+        this.createEventGroup.eventIds[0] = this.currentEvent.id!
+        this.currentEvent.eventGroupId = undefined
+      }
 
       // Egy esemény frissítése.
       this.sheetService.updateEvent(this.currentEvent).subscribe({
-        next: (response: any) => {},
+        next: (response: any) => {
+          //this.createEventGroup.eventIds[0] = this.currentEvent.id!
+
+          if (this.isSelectedEvent) {
+            this.createEventGroupMethod()
+          }
+        },
         error: (err) => {
           console.error("Error occurred: ", err)
         },
@@ -188,7 +196,7 @@ export class SheetForm implements OnInit {
 
   resetPage(): void {
     this.customFields = []
-    this.selectedEventOrEventGroup = undefined
+    this.selectedEventOrEventGroup = "default"
     this.currentEvent = new EventCreateDto()
     this.events = []
     this.eventGroups = []
@@ -205,5 +213,29 @@ export class SheetForm implements OnInit {
   removeCustomField(index: number): void {
     this.customFields.splice(index, 1)
     this.currentEvent.metadata![index] = ""
+  }
+
+  initMetadata(): void {
+    if (this.editMode) {
+      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? "default"
+      this.onSelectionChange(this.selectedEventOrEventGroup)
+    }
+  }
+
+  createEventGroupMethod() {
+    this.createEventGroup.userId = this.userId ?? undefined
+
+    this.createEventGroup.metadata = this.currentEvent.metadata!.slice()
+    this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup
+
+    //console.log(this.createEventGroup)
+    this.sheetService.postEventGroup(this.createEventGroup).subscribe({
+      next: (response: any) => {
+        this.resetPage()
+      },
+      error: (err) => {
+        console.error("Error occurred: ", err)
+      },
+    })
   }
 }

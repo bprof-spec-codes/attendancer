@@ -15,7 +15,7 @@
                             style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
                             [(ngModel)]="selectedEventOrEventGroup"
                             (ngModelChange)="onSelectionChange($event)" name="sheetGroup">
-                      <option [value]="undefined" default>{{ 'SHEET.NO_SHEET_GROUP' | translate }}</option>
+                      <option [value]="'default'" default>{{ 'SHEET.NO_SHEET_GROUP' | translate }}</option>
                       <option *ngFor="let eventGroup of eventGroups" [value]="eventGroup.id">{{ eventGroup.name }}</option>
                       <option disabled>────────────</option>
                       <option *ngFor="let event of events" [value]="event.id">{{ event.name }}</option>
@@ -53,37 +53,36 @@
 
                 <!--
                 Az alábbi metaadat felvevő felület akkor jelenik meg ha nincs kiválasztva esemény vagy esemény csoport.
-                Vagy szerkesztő módban ha üres van kiválasztva vagy az éppen az az esemény van kiválasztva amelybe tartozik.
+                Vagy szerkesztő módban ha üres van kiválasztva.
                 -->
-                @if (selectedEventOrEventGroup === undefined || ((selectedEventOrEventGroup === undefined ||
-                selectedEventOrEventGroup === currentEvent.eventGroupId) && editMode)) {
-                <div class="form">
-                    <!-- Metadata hozzáadás. -->
-                    <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
-                        <input type="text" [attr.name]="'requiredField' + i" placeholder="{{ 'SHEET.ENTER_DATA_PLACEHOLDER' | translate }}"
-                            name="sheetMetadata" [(ngModel)]="currentEvent.metadata![i]"
-                            [ngModelOptions]="{ standalone: true }">
-                        <button (click)="removeCustomField(i)" type="button" class="button-icon button-icon-danger">
-                            <img style="width: 15px; height: 15px;" src="./assets/icons/red-cross.svg">
-                        </button>
-                    </div>
-                    <button type="button" class="button-striped" (click)="addCustomField()">+</button>
-                </div>
-                }
+                @if (selectedEventOrEventGroup === "default" || (selectedEventOrEventGroup === "default" && editMode)) {
+                  <div class="form">
+                      <!-- Metadata hozzáadás. -->
+                      <div *ngFor="let field of customFields; let i = index" class="custom-field-row">
+                          <input type="text" [attr.name]="'requiredField' + i" placeholder="{{ 'SHEET.ENTER_DATA_PLACEHOLDER' | translate }}"
+                              name="sheetMetadata" [(ngModel)]="currentEvent.metadata![i]"
+                              [ngModelOptions]="{ standalone: true }">
+                          <button (click)="removeCustomField(i)" type="button" class="button-icon button-icon-danger">
+                              <img style="width: 15px; height: 15px;" src="./assets/icons/red-cross.svg">
+                          </button>
+                      </div>
+                      <button type="button" class="button-striped" (click)="addCustomField()">+</button>
+                  </div>
+                  }
                 @else {
-                <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
-                <div class="form">
-                    @for (data of currentlySelectedMetadata; track $index) {
-                    <input [placeholder]="data" disabled type="text">
-                    }
-                </div>
+                  <!-- A kiválasztott esemény vagy esemény csoport adatai. -->
+                  <div class="form">
+                      @for (data of currentlySelectedMetadata; track $index) {
+                        <input [placeholder]="data" disabled type="text">
+                      }
+                  </div>
                 }
 
                 <!-- A megfelelő gomb megjelenítése. -->
                 <button type="submit" class="button-primary" (click)="editMode ? editSheet() : createSheet()"
-                    [disabled]="inputInvalid()"
-                    style="width: 50%; align-self: center; margin-top: 1rem;">
-                    {{ editMode ? ('SHEET.EDIT_SHEET_BUTTON' | translate) : ('SHEET.CREATE_BUTTON' | translate) }}
+                  [disabled]="inputInvalid()"
+                  style="width: 50%; align-self: center; margin-top: 1rem;">
+                  {{ editMode ? ('SHEET.EDIT_SHEET_BUTTON' | translate) : ('SHEET.CREATE_BUTTON' | translate) }}
                 </button>
 
                 <div *ngIf="inputInvalid()" class="invalid-validation-message text-center mt-2">

@@ -37,7 +37,8 @@ namespace AttenDancer.Logic.Helper
                 cfg.CreateMap<Event, EventViewDto>()
                    .AfterMap((src, dest) =>
                    {
-                       dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : "Nincs csoportja";
+                       dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : null;
+                       dest.EventGroupId = src.EventGroup != null ? src.EventGroup.Id : null;
                    });
 
                 cfg.CreateMap<ParticipantCreateDto, Participant>();
