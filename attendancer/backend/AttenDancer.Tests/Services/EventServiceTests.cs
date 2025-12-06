@@ -110,5 +110,97 @@ namespace AttenDancer.Tests.Services
 
             Assert.That(ex.Message, Is.EqualTo("Nincs a felhasználóhoz tartozó esemény."));
         }
+
+
+        [Test]
+        public async Task UpdateEventAsyncValidUpdateShouldUpdateEvent()
+        {
+            
+            var eventId = "event1";
+            var userId = "user1";
+            var existingEvent = new Event
+            {
+                Id = eventId,
+                Name = "Old Name",
+                UserId = userId,
+                Date = "2025-12-01"
+            };
+
+            var updateDto = new EventCreateDto
+            {
+                Name = "New Name",
+                UserId = userId,
+                Date = "2025-12-05",
+                Metadata = new List<string> { "updated" }
+            };
+
+            var eventList = new List<Event> { existingEvent };
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(eventList.BuildMock());
+
+            _mockEventRepository.Setup(r => r.Update(It.IsAny<Event>()))
+                .ReturnsAsync((Event e) => e);
+
+            
+            var result = await _eventService.UpdateEventAsync(updateDto, eventId);
+
+            
+            Assert.That(result, Is.Not.Null);
+            _mockEventRepository.Verify(r => r.Update(It.IsAny<Event>()), Times.Once);
+        }
+
+        [Test]
+        public void UpdateEventAsyncNonExistentEventShouldThrowException()
+        {
+            
+            var eventId = "nonexistent";
+            var updateDto = new EventCreateDto
+            {
+                Name = "New Name",
+                UserId = "user1",
+                Date = "2025-12-01"
+            };
+
+            var emptyEventList = new List<Event>();
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(emptyEventList.BuildMock());
+
+            
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventService.UpdateEventAsync(updateDto, eventId));
+
+            Assert.That(ex.Message, Is.EqualTo("Esemény nem található"));
+        }
+
+        [Test]
+        public void UpdateEventAsyncWrongUserIdShouldThrowException()
+        {
+            
+            var eventId = "event1";
+            var existingEvent = new Event
+            {
+                Id = eventId,
+                Name = "Event",
+                UserId = "user1",
+                Date = "2025-12-01"
+            };
+
+            var updateDto = new EventCreateDto
+            {
+                Name = "Updated",
+                UserId = "user2", 
+                Date = "2025-12-01"
+            };
+
+            var eventList = new List<Event> { existingEvent };
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(eventList.BuildMock());
+
+            
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventService.UpdateEventAsync(updateDto, eventId));
+
+            Assert.That(ex.Message, Is.EqualTo("Esemény nem a bejelentkezett felhasználóhoz tartozik"));
+        }
     }
 }
