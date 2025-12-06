@@ -98,6 +98,7 @@ export class SheetForm implements OnInit {
     }
 
     if (selectedValue === "default") {
+      this.currentEvent.metadata = []
       this.isSelectedEvent = false
     }
 
