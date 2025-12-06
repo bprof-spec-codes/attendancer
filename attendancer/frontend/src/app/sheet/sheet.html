@@ -120,6 +120,17 @@
                                     Delete QR code
                                 </button>
                             </div>
+                            <div class="col-auto">
+                                <button class="btn button-primary py-2 ms-3"
+                                    style="border: 2px solid #213F9A; width: 120px; white-space: nowrap;">Show QR
+                                    Code</button>
+                            </div>
+                            <div class="col-auto">
+                                <button (click)="modal.open()" class="btn button-danger py-2 me-3"
+                                    style="width: 120px; white-space: nowrap;">
+                                    Delete QR Code
+                                </button>
+                            </div>
                         </div>
 
                         <app-modal-warning #modal [eventId]="eventId" [message]="'Are you sure you want to delete this event?'" [title]="'Warning!'" (confirmed)="onDeleteEvent()"></app-modal-warning>

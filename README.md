@@ -1,29 +1,29 @@
 # attendancer
-# Email Service
 
-## Leírás
+## Email Service
+
+### Leírás
 
 Ez az **Email Service** a projekt **felhasználói regisztrációja** során küld emailt a regisztrált felhasználónak.  
 A szolgáltatás **template alapú**, így minden email HTML sablonból generálódik.  
 
 Jelenleg a fejlesztői környezetben a szolgáltatás **lokálisan futó SMTP szerverre** csatlakozik, ami a mi esetünkben egy **FakeSMTP**.
 
-- Email template-ek a `EmailTemplates` mappában találhatók (`registration.html`, stb.)  
+- Email template-ek a `EmailTemplates` mappában találhatók (`registration.html`, stb.).  
 - A **backend** a regisztrációs folyamat végén automatikusan elküldi az emailt.  
 - A **frontend** (pl. Angular) csak meghívja a regisztrációs API-t, az email küldést a backend intézi.
 
 ---
 
-## Használat
+#### SMTP szerver futtatása fejlesztéshez
 
-###  SMTP szerver futtatása fejlesztéshez
-
-- Töltsd le a **FakeSMTP**-t innen: [FakeSMTP Download](https://nilhcem.github.io/FakeSMTP/)  
-- Indítsd el a programot a **localhost**-on, pl. port `25`-ön.  
-- A MailKit kód a backendben így csatlakozik:
+1. Töltsd le a **FakeSMTP**-t innen: [FakeSMTP Download](https://nilhcem.github.io/FakeSMTP/)  
+2. Indítsd el a programot a **localhost**-on, pl. port `25`-ön.  
+3. A MailKit kód a backendben így csatlakozik:
 
 ```csharp
 await client.ConnectAsync("localhost", 25, false);
+```
 
 
 # Karma Browser Configuration
@@ -48,3 +48,66 @@ module.exports = function(config) {
     // ... további beállítások
   });
 };
+```
+---
+# Angular Többnyelvűsítés (i18n) – README (ngx-translate, futásidőben váltható nyelv)
+---
+
+##  Telepítés
+```bash
+npm install @ngx-translate/core @ngx-translate/http-loader
+```
+
+##  Fordítási fájlok létrehozása
+Hozd létre a mappát:
+```
+public/Assets/i18n/
+```
+
+### **hu.json**
+```json
+{
+  "NAV": {
+    "LOGIN": "Bejelentkezés",
+    "REGISTER": "Regisztráció",
+    "HOME": "Főoldal"
+  }
+}
+```
+
+### **en.json**
+```json
+{
+  "NAV": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "HOME": "Home"
+  }
+}
+```
+
+Ezután a HTML-ben így használod:
+```html
+{{ 'NAV.LOGIN' | translate }}
+```
+
+---
+
+##  TranslateModule konfigurálása
+Nyisd meg az `app.module.ts` fájlt:
+
+```ts
+    TranslateModule.forRoot({
+      defaultLanguage: 'hu',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+```
+
+
+
+
+

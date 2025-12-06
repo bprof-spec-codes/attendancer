@@ -8,7 +8,7 @@ import { EditEventService } from '../services/edit-event-service';
   selector: 'app-sheet',
   standalone: false,
   templateUrl: './sheet.html',
-  styleUrl: './sheet.sass'
+  styleUrls: ['./sheet.sass']
 })
 export class Sheet implements OnInit {
   eventId: string = ""

@@ -1,17 +1,21 @@
 <div class="modal fade" [ngClass]="{'show': isOpen}" [style.display]="isOpen ? 'block' : 'none'" tabindex="-1"
-    role="dialog" aria-labelledby="warningModalLabel" aria-hidden="{{!isOpen}}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="warningModalLabel">{{ title }}</h5>
-            </div>
-            <div class="modal-body">
-                <p>{{ message }}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="close()">Close</button>
-                <button type="button" class="btn btn-danger" (click)="confirmGeneric()">Delete</button>
-            </div>
-        </div>
+     role="dialog" aria-labelledby="warningModalLabel" aria-hidden="{{!isOpen}}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="warningModalLabel">{{ 'MODAL.WARNING_TITLE' | translate }}</h5>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'MODAL.DELETE_CONFIRM_MESSAGE' | translate }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="close()">
+          {{ 'MODAL.CLOSE_BUTTON' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="confirmGeneric()">
+          {{ 'MODAL.DELETE_BUTTON' | translate }}
+        </button>
+      </div>
     </div>
+  </div>
 </div>
