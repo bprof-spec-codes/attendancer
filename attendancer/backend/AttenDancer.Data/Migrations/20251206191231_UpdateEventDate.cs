@@ -27,6 +27,13 @@ namespace AttenDancer.Data.Migrations
             migrationBuilder.UpdateData(
                 table: "Events",
                 keyColumn: "Id",
+                keyValue: "asd43vx5-x3fd-df34-sdf3-ngunds823sd2",
+                column: "Date",
+                value: new DateTime(2025, 9, 30, 16, 2, 20, DateTimeKind.Utc).ToString());
+
+            migrationBuilder.UpdateData(
+                table: "Events",
+                keyColumn: "Id",
                 keyValue: "fsd32dfs-asd3-a23f-b53d-s7mkds8u3fdi",
                 column: "Date",
                 value: new DateTime(2025, 9, 30, 16, 2, 20, DateTimeKind.Utc).ToString());

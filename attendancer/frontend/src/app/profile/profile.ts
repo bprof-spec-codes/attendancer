@@ -3,6 +3,7 @@ import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
 import { UserClient } from '../app.api-client.generated';
+import { EventGroupDto, EventGroupMatrixViewDto, StatisticsService } from '../services/statistics-service';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -33,6 +34,10 @@ export class Profile implements OnInit {
   signedEventGroupName: string = ""
   user: User = new User();
 
+  eventGroups: EventGroupDto[] = [];
+  selectedEventGroupId: string = '';
+  matrix: EventGroupMatrixViewDto | null = null;
+
   nameErrorMessage: string = '';
   emailErrorMessage: string = '';
   emailConfirmErrorMessage: string = '';
@@ -52,7 +57,8 @@ export class Profile implements OnInit {
     private router: Router,
     private userService: UserClient,
     private customUserService: UserService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private statisticsService: StatisticsService
   ) {}
 
   ngOnInit(): void {
@@ -105,6 +111,20 @@ export class Profile implements OnInit {
       }
       reader.readAsText(response.data)
     })
+
+    this.loadEventGroups();
+  }
+
+  loadEventGroups(): void {
+    this.statisticsService.getMyEventGroups().subscribe({
+      next: (data: EventGroupDto[]) => {
+        this.eventGroups = data || [];
+      },
+      error: (err) => {
+        console.error('Hiba az eseménycsoportok betöltésekor', err);
+        this.eventGroups = [];
+      }
+    });
   }
 
   setActiveSection(section: 'profile' | 'statistics' | 'edit' | 'sheets'): void {
@@ -176,19 +196,21 @@ export class Profile implements OnInit {
     }
     const passwordData = {
       oldPassword: form.value.oldPassword,
-      newPassword: password,
+      newPassword: form.value.password
     };
 
-    this.customUserService.updatePassword(this.user.id, passwordData).subscribe({
+    //this.customUserService.updatePassword(this.user.id, passwordData).subscribe({
+    this.userService.changePassword(passwordData as any).subscribe({
       next: (response: any) => {
         console.log('Password updated successfully', response);
-        form.resetForm();
+
       },
       error: (err) => {
         console.error('Error updating password', err);
         this.passwordErrorMessage = 'Error updating password. Please try again.';
       },
     });
+    form.resetForm();
   }
   onDeleteAccount(): void {
     this.userService.deleteUser().subscribe({
@@ -213,6 +235,22 @@ export class Profile implements OnInit {
 
     this.translate.get('MODAL.ACCOUNT_DELETE_CONFIRM_MESSAGE').subscribe((res: string) => {
       this.modalMessage = res;
+    });
+  }
+
+  onEventGroupChange(): void {
+    if (!this.selectedEventGroupId) {
+      this.matrix = null;
+      return;
+    }
+
+    this.statisticsService.getEventGroupMatrix(this.selectedEventGroupId).subscribe({
+      next: (matrix) => {
+        this.matrix = matrix;
+      },
+      error: (err) => {
+        console.error('Hiba a mátrix betöltésekor', err);
+      },
     });
   }
 }

@@ -12,7 +12,7 @@ import { JwtDecodeService } from '../services/jwt-decode.service';
   selector: 'app-sheet',
   standalone: false,
   templateUrl: './sheet.html',
-  styleUrl: './sheet.sass'
+  styleUrls: ['./sheet.sass']
 })
 export class Sheet implements OnInit {
   event: EventViewDto = new EventViewDto()

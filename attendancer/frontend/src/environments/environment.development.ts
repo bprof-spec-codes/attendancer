@@ -10,7 +10,9 @@ export const environment = {
     postEvent: "https://localhost:7198/api/Event",
     postEventGroup: "https://localhost:7198/api/EventGroup",
     updateEvent: "https://localhost:7198/api/Event/{id}",
-    updateEventGroup: "https://localhost:7198/api/EventGroup/{id}"
+    updateEventGroup: "https://localhost:7198/api/EventGroup/{id}",
+    eventGroupView: "https://localhost:7198/api/EventGroup/{eventGroupId}/matrix",
+    eventGroupByUserId: "https://localhost:7198/api/EventGroup/ByUserId"
   },
   tokenKey: "attendancer-jwt-token"
 };

@@ -15,12 +15,11 @@ export class UserService {
   return this.http.get<User>(`${environment.apis.getUserMe}`);
   }
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${environment.apis.getUser}/${user.id}`, user);
+    return this.http.put<User>(environment.apis.updateUser, user);
   }
 
-  updatePassword(userId: string, passwordData: any): Observable<any> {
-  const url = environment.apis.changePassword.replace('{id}', userId);
-  return this.http.put<any>(url, passwordData);
+  updatePassword(user: User): Observable<User> {
+  return this.http.put<User>(environment.apis.changePassword, user);
   }
 
   deleteAccount(): Observable<any> {
