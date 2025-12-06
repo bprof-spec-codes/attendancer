@@ -8,6 +8,7 @@ export const environment = {
     changePassword: "https://localhost:7198/api/User/{id}/password",
     eventGroupView: "https://localhost:7198/api/EventGroup/{eventGroupId}/matrix",
     eventGroupByUserId: "https://localhost:7198/api/EventGroup/ByUserId"
+    deleteAccount: 'https://localhost:7198/api/User'
   },
   tokenKey: "attendancer-jwt-token"
 };
