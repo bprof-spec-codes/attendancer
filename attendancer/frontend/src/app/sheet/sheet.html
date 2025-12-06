@@ -102,7 +102,7 @@
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="!authService.isLoggedIn(); else logOutSection">
+                    <div class="row" *ngIf="!authService.isLoggedIn(); else logoutSection">
                     </div>
                     <ng-template #logOutSection>
                         <div class="row">
@@ -118,6 +118,17 @@
                                 <button class="button-alert py-2" style="width: 200px; white-space: nowrap;">
                                     <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px; ">
                                     Delete QR code
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn button-primary py-2 ms-3"
+                                    style="border: 2px solid #213F9A; width: 120px; white-space: nowrap;">Show QR
+                                    Code</button>
+                            </div>
+                            <div class="col-auto">
+                                <button (click)="modal.open()" class="btn button-danger py-2 me-3"
+                                    style="width: 120px; white-space: nowrap;">
+                                    Delete QR Code
                                 </button>
                             </div>
                         </div>

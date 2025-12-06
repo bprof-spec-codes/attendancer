@@ -1,111 +1,119 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100" style="padding: 55px;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card shadow-sm border-0" style="border-radius: 10px;">
-                    <div class="row g-0">
-                        <div class="col-md-6 d-none d-md-block position-relative" style="background: url('Assets/register-image.jpg') center/cover no-repeat;
-                        border-bottom-left-radius: 9px; border-top-left-radius: 9px;">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-start align-items-center pt-5"
-                                style="background-color: rgba(0,0,0,0.5); border-bottom-left-radius: 8px; border-top-left-radius: 8px;">
-                                <div class="row mt-5 justify-content-center">
-                                    <h2
-                                        style="color: #EFF1F2; font-size: 35px; align-self: center; text-align: center;">
-                                        Attendance tracking<br>
-                                        made easy</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="card-body p-5">
-                                <div class="text-center mb-5">
-                                    <h1 style="font-size: 35px;">Sign up!</h1>
-                                </div>
-
-                                <form #registerForm="ngForm" class="form" (ngSubmit)="onRegister(registerForm)">
-                                    <div *ngIf="errorMessage" class="error-message">
-                                        {{ errorMessage }}
-                                    </div>
-
-                                    <div class="form-field">
-                                        <label for="firstName" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
-                                            First name
-                                        </label>
-                                        <input type="text" [(ngModel)]="registerModel.firstName" name="firstname"
-                                            #firstname="ngModel" placeholder="Frist name" required minlength="2" />
-                                        <div class="error" *ngIf="firstname.invalid && firstname.touched">
-                                            <small *ngIf="firstname.errors?.['required']">First name is
-                                                required.</small>
-                                            <small *ngIf="firstname.errors?.['minlength']">Minimum 2 characters.</small>
-                                        </div>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="lastName" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
-                                            Last name
-                                        </label>
-                                        <input type="text" [(ngModel)]="registerModel.lastName" name="lastname"
-                                            #lastname="ngModel" placeholder="Last name" required />
-                                        <div class="error" *ngIf="lastname.invalid && lastname.touched">
-                                            <small *ngIf="lastname.errors?.['required']">Last name is required.</small>
-                                        </div>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="email" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
-                                            Email address
-                                        </label>
-                                        <input type="email" [(ngModel)]="registerModel.email" name="email"
-                                            #email="ngModel" placeholder="Email address" required email />
-                                        <div class="error" *ngIf="email.invalid && email.touched">
-                                            <small *ngIf="email.errors?.['required']">Email is required.</small>
-                                            <small *ngIf="email.errors?.['email']">Invalid email format.</small>
-                                        </div>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="password" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
-                                            Password
-                                        </label>
-                                        <input type="password" [(ngModel)]="registerModel.password" name="password"
-                                            placeholder="Password" #password="ngModel" required minlength="6"
-                                            maxlength="18" pattern="^(?=.*[A-Z])(?=.*\d).{6,18}$" />
-                                        <div class="error" *ngIf="password.invalid && password.touched">
-                                            <small *ngIf="password.errors?.['required']">Password is required.</small>
-                                            <small *ngIf="password.errors?.['minlength']">Password must be at least 6
-                                                characters long.</small>
-                                            <small *ngIf="password.errors?.['maxlength']">Password cannot exceed 18
-                                                characters.</small>
-                                            <small *ngIf="password.errors?.['pattern']">
-                                                Password must contain at least one uppercase letter and one number.
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="form-field">
-                                        <label for="passwordCheck" class="field-label"
-                                            style="font-size: 1.3rem; font-weight: 700;">
-                                            Confirm password
-                                        </label>
-                                        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
-                                            #confirmPasswordInput="ngModel" placeholder="Confirm password" required />
-                                        <div class="error"
-                                            *ngIf="confirmPasswordInput.touched && registerModel.password !== confirmPassword">
-                                            <small>Passwords don't match.</small>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="button-primary mt-2" [disabled]="registerForm.invalid"
-                                        style="height: 55px; width: 98%; align-self: center; font-size: 20px;">
-                                        Sign up</button>
-                                    <p class="small-text d-flex align-self-center" style="font-size: 15px;">
-                                        <a routerLink="/login" class="nav-link">Already have an account? <b>Sign
-                                                in!</b></a>
-                                    </p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card shadow-sm border-0" style="border-radius: 10px;">
+          <div class="row g-0">
+            <div class="col-md-6 d-none d-md-block position-relative"
+                 style="background: url('Assets/register-image.jpg') center/cover no-repeat; border-bottom-left-radius: 9px; border-top-left-radius: 9px;">
+              <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-start align-items-center pt-5"
+                   style="background-color: rgba(0,0,0,0.5); border-bottom-left-radius: 8px; border-top-left-radius: 8px;">
+                <div class="row mt-5 justify-content-center">
+                  <h2 style="color: #EFF1F2; font-size: 35px; text-align: center;">
+                    {{ 'REGISTER.HEADING_LINE1' | translate }}<br>
+                    {{ 'REGISTER.HEADING_LINE2' | translate }}
+                  </h2>
                 </div>
+              </div>
             </div>
+            <div class="col-12 col-md-6">
+              <div class="card-body p-5">
+                <div class="text-center mb-5">
+                  <h1 style="font-size: 35px;">{{ 'REGISTER.TITLE' | translate }}</h1>
+                </div>
+
+                <form #registerForm="ngForm" class="form" (ngSubmit)="onRegister(registerForm)">
+                  <div *ngIf="errorMessage" class="error-message">
+                    {{ errorMessage }}
+                  </div>
+
+                  <div class="form-field">
+                    <label for="firstName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                      {{ 'REGISTER.FIRST_NAME_LABEL' | translate }}
+                    </label>
+                    <input type="text" [(ngModel)]="registerModel.firstName" name="firstname"
+                           #firstname="ngModel"
+                           placeholder="{{ 'REGISTER.FIRST_NAME_PLACEHOLDER' | translate }}"
+                           required minlength="2" />
+                    <div class="error" *ngIf="firstname.invalid && firstname.touched">
+                      <small *ngIf="firstname.errors?.['required']">{{ 'REGISTER.ERROR.FIRST_NAME_REQUIRED' | translate }}</small>
+                      <small *ngIf="firstname.errors?.['minlength']">{{ 'REGISTER.ERROR.FIRST_NAME_MIN' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="lastName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                      {{ 'REGISTER.LAST_NAME_LABEL' | translate }}
+                    </label>
+                    <input type="text" [(ngModel)]="registerModel.lastName" name="lastname"
+                           #lastname="ngModel"
+                           placeholder="{{ 'REGISTER.LAST_NAME_PLACEHOLDER' | translate }}"
+                           required />
+                    <div class="error" *ngIf="lastname.invalid && lastname.touched">
+                      <small *ngIf="lastname.errors?.['required']">{{ 'REGISTER.ERROR.LAST_NAME_REQUIRED' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="email" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                      {{ 'REGISTER.EMAIL_LABEL' | translate }}
+                    </label>
+                    <input type="email" [(ngModel)]="registerModel.email" name="email"
+                           #email="ngModel"
+                           placeholder="{{ 'REGISTER.EMAIL_PLACEHOLDER' | translate }}"
+                           required email />
+                    <div class="error" *ngIf="email.invalid && email.touched">
+                      <small *ngIf="email.errors?.['required']">{{ 'REGISTER.ERROR.EMAIL_REQUIRED' | translate }}</small>
+                      <small *ngIf="email.errors?.['email']">{{ 'REGISTER.ERROR.EMAIL_INVALID' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="password" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                      {{ 'REGISTER.PASSWORD_LABEL' | translate }}
+                    </label>
+                    <input type="password" [(ngModel)]="registerModel.password" name="password"
+                           placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}"
+                           #password="ngModel"
+                           required minlength="6" maxlength="18" pattern="^(?=.*[A-Z])(?=.*\d).{6,18}$" />
+                    <div class="error" *ngIf="password.invalid && password.touched">
+                      <small *ngIf="password.errors?.['required']">{{ 'REGISTER.ERROR.PASSWORD_REQUIRED' | translate }}</small>
+                      <small *ngIf="password.errors?.['minlength']">{{ 'REGISTER.ERROR.PASSWORD_MIN' | translate }}</small>
+                      <small *ngIf="password.errors?.['maxlength']">{{ 'REGISTER.ERROR.PASSWORD_MAX' | translate }}</small>
+                      <small *ngIf="password.errors?.['pattern']">{{ 'REGISTER.ERROR.PASSWORD_PATTERN' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="passwordCheck" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
+                      {{ 'REGISTER.CONFIRM_PASSWORD_LABEL' | translate }}
+                    </label>
+                    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
+                           #confirmPasswordInput="ngModel"
+                           placeholder="{{ 'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
+                           required />
+                    <div class="error" *ngIf="confirmPasswordInput.touched && registerModel.password !== confirmPassword">
+                      <small>{{ 'REGISTER.ERROR.PASSWORDS_MISMATCH' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="button-primary mt-2" [disabled]="registerForm.invalid"
+                          style="height: 55px; width: 98%; align-self: center; font-size: 20px;">
+                    {{ 'REGISTER.BUTTON_SIGN_UP' | translate }}
+                  </button>
+
+                  <p class="small-text d-flex align-self-center" style="font-size: 15px;">
+                    <a routerLink="/login" class="nav-link">
+                      {{ 'REGISTER.HAVE_ACCOUNT' | translate }} <b>{{ 'REGISTER.SIGN_IN_HERE' | translate }}</b>
+                    </a>
+                  </p>
+                </form>
+
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>
