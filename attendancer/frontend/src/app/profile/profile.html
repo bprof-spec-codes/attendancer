@@ -20,7 +20,7 @@
                         <div class="card-body mt-2 mb-2">
                             <div class="row justify-content-center">
                                 <button class="btn btn-primary button-primary w-50"
-                                    (click)="setActiveSection('edit')">Edit</button>
+                                    (click)="setActiveSection('edit')">{{'PROFILE_PAGE.EDIT' | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -295,7 +295,7 @@
                                         </div>
                                         <div class="col-auto mb-2">
                                             <button class="btn button-primary mt-2"
-                                                style="width: 10px; border: 2px solid #213F9A;">Edit</button>
+                                                style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
 
                                         </div>
                                     </div>
@@ -309,7 +309,7 @@
                                             <a class="attendance-block present"></a>
                                         </div>
                                         <div class="col d-flex justify-content-end align-items-end mb-2">
-                                            <button class="btn button-danger mt-2" style="width: 10px;">Delete</button>
+                                            <button class="btn button-danger mt-2" style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -322,13 +322,13 @@
                                         </div>
                                         <div class="col-auto mb-2">
                                             <button class="btn button-primary mt-2"
-                                                style="width: 10px; border: 2px solid #213F9A;">Edit</button>
+                                                style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
 
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-end justify-content-end">
                                         <div class="col-auto mb-2">
-                                            <button class="btn button-danger mt-2" style="width: 10px;">Delete</button>
+                                            <button class="btn button-danger mt-2" style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -380,10 +380,10 @@
                                         style="font-size: 20px; font-weight: 700;">
                                         {{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}
                                     </label>
-                                    <input type="text" class="flex-grow-1" placeholder="First Name" id="firstName"
+                                    <input type="text" class="flex-grow-1" placeholder="{{'PROFILE_PAGE.FIRST_NAME' | translate}}" id="firstName"
                                         name="firstName" [(ngModel)]="pendingFirstName" required>
                                     <input type="text" class="flex-grow-1" [(ngModel)]="pendingLastName"
-                                        placeholder="Last Name" id="lastName" name="lastName" required>
+                                        placeholder="{{ 'PROFILE_PAGE.LAST_NAME' | translate }}" id="lastName" name="lastName" required>
                                     <button type="submit" class="btn btn-primary button-primary align-self-center"
                                         style="width: 290px;">{{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}</button>
                                 </div>
@@ -391,15 +391,46 @@
                             </form>
                         </div>
                         <hr class="mt-4">
-                        <div class="form" style="gap: 20px;">
+                        <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 20px;">
                             <label for="password" class="field-label text-center"
                                 style="font-size: 20px; font-weight: 700;">
                                 {{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}
                             </label>
-                            <input type="text" class="form-control" placeholder="Password" name="password">
-                            <input type="text" class="form-control" placeholder="Confirm password" name="passwordCheck">
+                            <input
+                              type="password"
+                              id="oldPassword"
+                              name="oldPassword"
+                              placeholder="{{'PROFILE_PAGE.PASSWORD_CURRENT' | translate}}"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                              >
+                            <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              placeholder="{{ 'PROFILE_PAGE.CONFIRM_PASSWORD' | translate }}"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
+                            <input
+                              type="password"
+                              id="passwordConfirm"
+                              name="passwordConfirm"
+                              placeholder="Confirm Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
                             <button type="submit" class="btn btn-primary button-primary align-self-center">{{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}</button>
-                        </div>
+                            <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                <small>{{ passwordErrorMessage }}</small>
+                              </div>
+                              <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                <small>{{ passwordConfirmErrorMessage }}</small>
+                            </div>
+                        </form>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
                             <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
@@ -408,12 +439,31 @@
                                         style="font-size: 20px; font-weight: 700;">
                                         {{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}
                                     </label>
-                                    <input type="email" class="flex-grow-1" placeholder="Email address" id="email"
-                                        name="email" [(ngModel)]="pendingEmail" required>
-                                    <input type="text" class="flex-grow-1" placeholder="Confirm Email address"
-                                        id="emailCheck" name="emailConfirm" [(ngModel)]="pendingEmailConfirm" required>
+                                    <input 
+                                     type="email"
+                                     class="flex-grow-1" 
+                                     placeholder="{{ 'PROFILE_PAGE.EMAIL_ADDRESS' | translate }}" 
+                                     id="email"
+                                     name="email" 
+                                     [(ngModel)]="pendingEmail" required
+                                    >
+                                    <input 
+                                     type="text" 
+                                     class="flex-grow-1" 
+                                     placeholder="{{ 'PROFILE_PAGE.CONFIRM_EMAIL_ADDRESS' | translate }}"
+                                     id="emailCheck" 
+                                     name="emailConfirm" 
+                                     [(ngModel)]="pendingEmailConfirm" 
+                                     required
+                                    >
                                     <button type="submit" class="btn btn-primary button-primary align-self-center"
                                         style="width: 290px;">{{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}</button>
+                                        <div *ngIf="emailErrorMessage" class="error mt-2">
+                                  <small>{{ emailErrorMessage }}</small>
+                                </div>
+                                <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                                  <small>{{ emailConfirmErrorMessage }}</small>
+                                </div>
                                 </div>
 
                             </form>
@@ -513,7 +563,7 @@
                     <div class="card-body">
                         <div class="row g-3 d-flex justify-content-between align-items-center">
                             <div class="col-auto pt-4">
-                                <h1>{{ 'PROFILE_PAGE.STATISTISC' | translate }}</h1>
+                                <h1>{{ 'PROFILE_PAGE.STATISTICS' | translate }}</h1>
                             </div>
                             <div class="col-auto">
                                 <div class="form-field">
@@ -660,7 +710,7 @@
                                             </div>
                                             <div class="col-auto mb-2">
                                                 <button class="btn button-primary mt-2"
-                                                    style="width: 10px; border: 2px solid #213F9A;">Edit</button>
+                                                    style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
 
                                             </div>
                                         </div>
@@ -675,7 +725,7 @@
                                             </div>
                                             <div class="col d-flex justify-content-end align-items-end mb-2">
                                                 <button class="btn button-danger mt-2"
-                                                    style="width: 10px;">Delete</button>
+                                                    style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
                                             </div>
                                         </div>
                                         <div class="row ms-1">
@@ -694,14 +744,14 @@
                                             </div>
                                             <div class="col-auto mb-2">
                                                 <button class="btn button-primary mt-2"
-                                                    style="width: 10px; border: 2px solid #213F9A;">Edit</button>
+                                                    style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
 
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-end justify-content-end">
                                             <div class="col-auto mb-2">
                                                 <button class="btn button-danger mt-2"
-                                                    style="width: 10px;">Delete</button>
+                                                    style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -725,7 +775,7 @@
                         <hr class="w-100 m-1">
                         <div class="card-body mt-2 mb-2">
                             <button class="btn btn-primary button-primary w-100"
-                                (click)="setActiveSection('edit')">Edit</button>
+                                (click)="setActiveSection('edit')">{{'PROFILE_PAGE.EDIT' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -757,10 +807,10 @@
                                                     {{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}
                                                 </label>
                                                 <div class="d-flex gap-2 justify-content-center">
-                                                    <input type="text" id="firstName" placeholder="First Name"
+                                                    <input type="text" id="firstName" placeholder="{{'PROFILE_PAGE.FIRST_NAME' | translate}}"
                                                         name="firstName" class="form-control flex-fill"
                                                         [(ngModel)]="pendingFirstName" required>
-                                                    <input type="text" id="lastName" placeholder="Last Name"
+                                                    <input type="text" id="lastName" placeholder="{{'PROFILE_PAGE.LAST_NAME' | translate}}"
                                                         name="lastName" class="form-control flex-fill"
                                                         [(ngModel)]="pendingLastName" required>
                                                     <button type="submit" class="button-primary flex-shrink-0 w-25"
@@ -777,17 +827,47 @@
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
                                     <div class="col-8 text-center">
                                         <div class="form" style="gap: 0.75rem;">
-                                            <label for="password" class="field-label"
-                                                style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
-                                                {{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}
-                                            </label>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <input type="text" placeholder="Password" name="password"
-                                                    class="form-control flex-fill">
-                                                <input type="text" placeholder="Confirm password" name="passwordCheck"
-                                                    class="form-control flex-fill">
-                                                <button type="submit" class="button-primary flex-shrink-0 w-25">{{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}</button>
-                                            </div>
+                                            <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 0.75rem;">
+                                          <label for="oldPassword" class="field-label" style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                            Change Password
+                                          </label>
+                                          <div class="d-flex gap-2 justify-content-center">
+                                            <input
+                                              type="password"
+                                              id="oldPassword"
+                                              name="oldPassword"
+                                              placeholder="{{'PROFILE_PAGE.PASSWORD_CURRENT' | translate}}"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="password"
+                                              name="password"
+                                              placeholder="{{'PROFILE_PAGE.CHANGE_PASSWORD' | translate}}"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="passwordConfirm"
+                                              name="passwordConfirm"
+                                              placeholder="{{'PROFILE_PAGE.CONFIRM_PASSWORD' | translate}}"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <button type="submit" class="button-primary flex-shrink-0 w-25">Change password</button>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                            <small>{{ passwordErrorMessage }}</small>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                            <small>{{ passwordConfirmErrorMessage }}</small>
+                                          </div>
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -801,10 +881,10 @@
                                                     {{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}
                                                 </label>
                                                 <div class="d-flex gap-2 justify-content-center">
-                                                    <input type="email" placeholder="Email" name="email"
+                                                    <input type="email" placeholder="{{'PROFILE_PAGE.EMAIL_ADDRESS' | translate}}" name="email"
                                                         class="form-control flex-fill" required
                                                         [(ngModel)]="pendingEmail" id="email" email>
-                                                    <input type="email" placeholder="Email again" name="emailCheck"
+                                                    <input type="email" placeholder="{{'PROFILE_PAGE.CONFIRM_EMAIL_ADDRESS' | translate}}" name="emailCheck"
                                                         class="form-control flex-fill" [(ngModel)]="pendingEmailConfirm"
                                                         id="emailConfirm" required email>
                                                     <button type="submit"
