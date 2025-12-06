@@ -202,5 +202,79 @@ namespace AttenDancer.Tests.Services
 
             Assert.That(ex.Message, Is.EqualTo("Esemény nem a bejelentkezett felhasználóhoz tartozik"));
         }
+
+
+
+        [Test]
+        public async Task DeleteAsyncValidEventShouldDeleteSuccessfully()
+        {
+            
+
+            var eventId = "event1";
+            var userId = "user1";
+            var existingEvent = new Event
+            {
+                Id = eventId,
+                Name = "Event",
+                UserId = userId,
+                Date = "2025-12-01"
+            };
+
+            var eventList = new List<Event> { existingEvent };
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(eventList.BuildMock());
+
+            _mockEventRepository.Setup(r => r.DeleteById(It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+
+           
+            await _eventService.DeleteAsync(userId, eventId);
+
+            
+            _mockEventRepository.Verify(r => r.DeleteById(eventId), Times.Once);
+        }
+
+        [Test]
+        public void DeleteAsyncNonExistentEventShouldThrowException()
+        {
+            
+            var eventId = "nonexistent";
+            var userId = "user1";
+            var emptyEventList = new List<Event>();
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(emptyEventList.BuildMock());
+
+            
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventService.DeleteAsync(userId, eventId));
+
+            Assert.That(ex.Message, Is.EqualTo("Esemény nem található"));
+        }
+
+        [Test]
+        public void DeleteAsyncWrongUserIdShouldThrowException()
+        {
+            
+            var eventId = "event1";
+            var existingEvent = new Event
+            {
+                Id = eventId,
+                Name = "Event",
+                UserId = "user1",
+                Date = "2025-12-01"
+            };
+
+            var eventList = new List<Event> { existingEvent };
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(eventList.BuildMock());
+
+            
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventService.DeleteAsync("user2", eventId)); 
+
+
+            Assert.That(ex.Message, Is.EqualTo("Esemény nem a bejelentkezett felhasználóhoz tartozik"));
+        }
     }
 }
