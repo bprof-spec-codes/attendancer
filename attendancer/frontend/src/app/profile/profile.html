@@ -473,6 +473,12 @@
                             <button class="btn btn-primary button-danger align-self-center">
                                 {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
                             </button>
+                            <app-modal-warning
+                              #userDeleteModal
+                              [title]="'Warning!'"
+                              [message]="'Are you sure you want to delete your account?'"
+                              (confirmed)="onDeleteAccount()">
+                            </app-modal-warning>
                         </div>
                     </div>
                 </div>
@@ -907,6 +913,12 @@
                                             {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
                                         </button>
                                     </div>
+                                    <app-modal-warning
+                                      [title]="'Warning!'"
+                                      [message]="'Are you sure you want to delete your account?'"
+                                      #userDeleteModal
+                                      (confirmed)="onDeleteAccount()">
+                                    </app-modal-warning>
                                 </div>
                             </div>
                         </div>
