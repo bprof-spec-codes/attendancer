@@ -98,8 +98,11 @@ export class SheetForm implements OnInit {
     }
 
     if (selectedValue === "default") {
-      this.currentEvent.metadata = []
       this.isSelectedEvent = false
+      if (!this.editMode) {
+        this.currentEvent.metadata = []
+        this.customFields = []
+      }
     }
 
     this.events.forEach(event => {
