@@ -38,8 +38,8 @@ namespace AttenDancer.Controllers
 
             createDto.UserId = userId;
 
-            await _eventService.CreateEventAsync(createDto);
-            return Ok();
+            Event newEvent = await _eventService.CreateEventAsync(createDto);
+            return Ok(newEvent.Id);
         }
 
         [HttpGet]

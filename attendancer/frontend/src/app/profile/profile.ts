@@ -129,18 +129,19 @@ export class Profile implements OnInit {
     }
     const passwordData = {
       oldPassword: form.value.oldPassword,
-      newPassword: password,
+      newPassword: form.value.password
     };
 
-    this.userService.updatePassword(this.user.id, passwordData).subscribe({
+    this.userService.updatePassword(passwordData as any).subscribe({
       next: (response: any) => {
         console.log('Password updated successfully', response);
-        form.resetForm();
+
       },
       error: (err) => {
         console.error('Error updating password', err);
         this.passwordErrorMessage = 'Error updating password. Please try again.';
       },
     });
+    form.resetForm();
   }
 }

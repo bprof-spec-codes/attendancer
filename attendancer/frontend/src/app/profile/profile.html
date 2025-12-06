@@ -387,11 +387,14 @@
                                     <button type="submit" class="btn btn-primary button-primary align-self-center"
                                         style="width: 290px;">{{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}</button>
                                 </div>
+                                <div *ngIf="nameErrorMessage" class="error">
+                                  <small>{{ nameErrorMessage }}</small>
+                                </div>
 
                             </form>
                         </div>
                         <hr class="mt-4">
-                        <div class="form" style="gap: 20px;">
+                        <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 20px;">
                             <label for="password" class="field-label text-center"
                                 style="font-size: 20px; font-weight: 700;">
                                 {{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}
@@ -400,6 +403,42 @@
                             <input type="text" class="form-control" placeholder="Confirm password" name="passwordCheck">
                             <button type="submit" class="btn btn-primary button-primary align-self-center">{{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}</button>
                         </div>
+                            <input
+                              type="password"
+                              id="oldPassword"
+                              name="oldPassword"
+                              placeholder="Current Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                              >
+                            <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              placeholder="New Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
+                            <input
+                              type="password"
+                              id="passwordConfirm"
+                              name="passwordConfirm"
+                              placeholder="Confirm Password"
+                              ngModel
+                              required
+                              class="form-control flex-fill"
+                            >
+                            <button type="submit" class="btn btn-primary button-primary align-self-center">Change
+                                password</button>
+                              <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                <small>{{ passwordErrorMessage }}</small>
+                              </div>
+                              <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                <small>{{ passwordConfirmErrorMessage }}</small>
+                            </div>
+                        </form>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
                             <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
@@ -415,7 +454,12 @@
                                     <button type="submit" class="btn btn-primary button-primary align-self-center"
                                         style="width: 290px;">{{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}</button>
                                 </div>
-
+                                <div *ngIf="emailErrorMessage" class="error mt-2">
+                                  <small>{{ emailErrorMessage }}</small>
+                                </div>
+                                <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                                  <small>{{ emailConfirmErrorMessage }}</small>
+                                </div>
                             </form>
                         </div>
                         <hr class="mt-4">
@@ -789,6 +833,48 @@
                                                 <button type="submit" class="button-primary flex-shrink-0 w-25">{{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}</button>
                                             </div>
                                         </div>
+                                      <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 0.75rem;">
+                                          <label for="oldPassword" class="field-label" style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                                            Change Password
+                                          </label>
+                                          <div class="d-flex gap-2 justify-content-center">
+                                            <input
+                                              type="password"
+                                              id="oldPassword"
+                                              name="oldPassword"
+                                              placeholder="Current Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="password"
+                                              name="password"
+                                              placeholder="New Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <input
+                                              type="password"
+                                              id="passwordConfirm"
+                                              name="passwordConfirm"
+                                              placeholder="Confirm Password"
+                                              ngModel
+                                              required
+                                              class="form-control flex-fill"
+                                            >
+                                            <button type="submit" class="button-primary flex-shrink-0 w-25">Change password</button>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordErrorMessage">
+                                            <small>{{ passwordErrorMessage }}</small>
+                                          </div>
+                                          <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                                            <small>{{ passwordConfirmErrorMessage }}</small>
+                                          </div>
+                                        </form>
+
                                     </div>
                                 </div>
                                 <hr class="mt-3">

@@ -117,7 +117,27 @@ namespace AttenDancer.Logic.Services
 
 
 
-        public async Task<UserResponseDto> UpdateAsync(string id, UserUpdateDto updateDto)
+        public async Task<UserResponseDto> UpdateUserNameAsync(string id, UserUpdateNameDto updateDto)
+        {
+            var user = await _userRepository.GetAll()
+                .Where(u => !u.IsDeleted && u.Id == id)
+                .FirstOrDefaultAsync();
+
+
+            if (user == null)
+            {
+                throw new Exception("Felhasználó nem található");
+            }
+
+
+            user.FirstName = updateDto.FirstName;
+            user.LastName = updateDto.LastName;
+
+            var updatedUser = await _userRepository.Update(user);
+            return _dtoProvider.Mapper.Map<UserResponseDto>(updatedUser);
+        }
+
+        public async Task<UserResponseDto> UpdateEmailAsync(string id, UserUpdateEmailDto updateDto)
         {
             var user = await _userRepository.GetAll()
                 .Where(u => !u.IsDeleted && u.Id == id)
@@ -140,8 +160,6 @@ namespace AttenDancer.Logic.Services
                 }
             }
 
-            user.FirstName = updateDto.FirstName;
-            user.LastName = updateDto.LastName;
             user.Email = updateDto.Email.ToLower();
 
             var updatedUser = await _userRepository.Update(user);
