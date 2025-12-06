@@ -102,7 +102,7 @@
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="!authService.isLoggedIn(); else logoutSection">
+                    <div class="row" *ngIf="!authService.isLoggedIn(); else logOutSection">
                     </div>
                     <ng-template #logOutSection>
                         <div class="row">
