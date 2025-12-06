@@ -4,6 +4,7 @@ import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
 import { EventGroupDto, EventGroupMatrixViewDto, StatisticsService } from '../services/statistics-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -48,7 +49,7 @@ export class Profile implements OnInit {
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
 
-  constructor(private mockDataService: MockDataService, private userService: UserService,private statisticsService: StatisticsService) {}
+  constructor(private mockDataService: MockDataService, private userService: UserService,private statisticsService: StatisticsService, private router: Router) {}
 
   pendingFirstName: string = '';
   pendingLastName: string = '';
