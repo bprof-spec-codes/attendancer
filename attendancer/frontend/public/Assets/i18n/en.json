@@ -69,7 +69,7 @@
     "FIRST_NAME": "First Name",
     "LAST_NAME": "Last Name",
     "CHANGE_PASSWORD": "Change password",
-    "PASSWORD": "Password",
+    "PASSWORD_CURRENT": "Current Password",
     "CONFIRM_PASSWORD": "Confirm password",
     "CHANGE_EMAIL": "Change email",
     "EMAIL_ADDRESS": "Email address",
