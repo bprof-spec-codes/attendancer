@@ -97,7 +97,7 @@ Update-Database
 | `/api/Event/{eventId}` | DELETE | Delete event |
 | `/api/GetEventByUserId` | GET | Read all of user's events |
 | `/api/Event/{eventId}/generate-qr` | POST | Create QR code for event |
-| `api/Event/{eventId}/qr` | GET | Read even's qr code |
+| `api/Event/{eventId}/qr` | GET | Read event's qr code |
 | `/api/Event/{eventId}/invalidate` | PUT | Invalidate event |
 | `/api/Event/{eventId}/validate` | PUT | Validate event|
 | `/api/EventGroup` | POST | Create event group |
@@ -123,6 +123,23 @@ Update-Database
 | Statistics | Display the event group attendance stats in a matrix-like view |
 | Sheets | Display your created events and event groups/modify them |
 | Form | Users sign up on this form to events | 
+
+### Login/Register
+<img width="1395" height="1001" alt="Register" src="https://github.com/user-attachments/assets/ad3c7e68-e834-42a1-a561-92f8b5350e65" />
+
+### Profile
+<img width="2560" height="1440" alt="Profile" src="https://github.com/user-attachments/assets/28c66e06-a0c0-44ba-a115-4ce955de7c48" />
+
+## Sheet
+<img width="2560" height="1440" alt="sheetview" src="https://github.com/user-attachments/assets/ddaf9492-41f9-44e0-9510-9ff70bae779a" />
+
+## Create Sheet
+<img width="1351" height="701" alt="create" src="https://github.com/user-attachments/assets/e70f49ef-84ae-4c73-bdb4-b9ff4d18e1d0" />
+
+## Sheets
+<img width="2560" height="1440" alt="sheets" src="https://github.com/user-attachments/assets/f67b598b-0c4b-404f-8927-1cb03348e2df" />
+
+---
 
 ## Issues throughout development
 
