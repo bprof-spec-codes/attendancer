@@ -1,10 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MockDataService } from '../services/mock-data.service';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
+import { UserClient } from '../app.api-client.generated';
 import { EventGroupDto, EventGroupMatrixViewDto, StatisticsService } from '../services/statistics-service';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { SignedEvents } from '../models/signed-events';
 
 @Component({
   selector: 'app-profile',
@@ -27,21 +30,13 @@ export class Profile implements OnInit {
   onResize() {
     this.updateIsMobile();
   }
-  participation: any[] = [
-    // mock-olása
-    {
-      name: '',
-      lastSigned: '',
-      signedEvents: [],
-    },
-  ];
+  signedEvents: SignedEvents[][] = []
+  signedEventGroupName: string = ""
   user: User = new User();
 
   eventGroups: EventGroupDto[] = [];
   selectedEventGroupId: string = '';
   matrix: EventGroupMatrixViewDto | null = null;
-
-  userId: string = (Math.floor(Math.random() * 3) + 1).toString(); // a bejelentkezett felhasználó id-jének mock-olása
 
   nameErrorMessage: string = '';
   emailErrorMessage: string = '';
@@ -49,23 +44,75 @@ export class Profile implements OnInit {
   passwordErrorMessage: string = '';
   passwordConfirmErrorMessage: string = '';
 
-  constructor(private mockDataService: MockDataService, private userService: UserService,private statisticsService: StatisticsService, private router: Router) {}
-
   pendingFirstName: string = '';
   pendingLastName: string = '';
   pendingEmail: string = '';
   pendingEmailConfirm: string = '';
 
+  modalTitle: string = ""
+  modalMessage: string = ""
+  private unsubscribe$ = new Subject<void>()
+
+  constructor(
+    private router: Router,
+    private userService: UserClient,
+    private customUserService: UserService,
+    private translate: TranslateService,
+    private statisticsService: StatisticsService
+  ) {}
+
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe((data) => {
+    // A modal fordítása.
+    this.translate.onLangChange
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.updateTranslations()
+      })
+
+    this.customUserService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
 
-    this.loadEventGroups();
+    this.userService.getMySignedSheets().subscribe((response) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string) as any[]
+        //console.log(jsonData)
 
-    this.mockDataService.getSignedEventsByUserId(this.userId).subscribe((data) => {
-      this.participation = data;
-    });
+        // Az eventGroupId szerint csoportosítani az eseményeket ami lehet null érték is.
+        const groupedEvents = jsonData.reduce((acc, event) => {
+          const groupId = event.eventGroupId || ""
+          if (!acc[groupId]) {
+            acc[groupId] = []
+          }
+          acc[groupId].push(event)
+          return acc;
+        }, {})
+
+        this.signedEvents = Object.values(groupedEvents)
+
+        //console.log(this.signedEvents)
+
+        for (let i = 0; i < this.signedEvents.length; i++) {
+          for (let j = 0; j < this.signedEvents[i].length; j++) {
+            let eventDate = new Date(this.signedEvents[i][j].eventDate).getTime()
+            let signedAtDate = new Date(this.signedEvents[i][j].signedAt).getTime()
+            const diffMilliseconds = eventDate - signedAtDate
+
+            // Ha 24 órán belül van akkor igaz (86400000 milliseconds).
+            if (diffMilliseconds >= 0 && diffMilliseconds <= 86400000) {
+              this.signedEvents[i][j].inTime = true
+            }
+            else {
+              this.signedEvents[i][j].inTime = false
+            }
+          }
+        }
+      }
+      reader.readAsText(response.data)
+    })
+
+    this.loadEventGroups();
   }
 
   loadEventGroups(): void {
@@ -92,7 +139,7 @@ export class Profile implements OnInit {
     }
     this.user.firstName = this.pendingFirstName;
     this.user.lastName = this.pendingLastName;
-    this.userService.updateUser(this.user).subscribe({
+    this.customUserService.updateUser(this.user).subscribe({
       next: (response: User) => {
         this.user = response;
       },
@@ -115,7 +162,7 @@ export class Profile implements OnInit {
       return;
     }
     this.user.email = this.pendingEmail;
-    this.userService.updateUser(this.user).subscribe({
+    this.customUserService.updateUser(this.user).subscribe({
       next: (response: User) => {
         this.user = response;
       },
@@ -152,7 +199,8 @@ export class Profile implements OnInit {
       newPassword: form.value.password
     };
 
-    this.userService.updatePassword(passwordData as any).subscribe({
+    //this.customUserService.updatePassword(this.user.id, passwordData).subscribe({
+    this.userService.changePassword(passwordData as any).subscribe({
       next: (response: any) => {
         console.log('Password updated successfully', response);
 
@@ -165,7 +213,7 @@ export class Profile implements OnInit {
     form.resetForm();
   }
   onDeleteAccount(): void {
-    this.userService.deleteAccount().subscribe({
+    this.userService.deleteUser().subscribe({
       next: () => {
         localStorage.removeItem('attendancer-jwt-token');
         this.router.navigate(['/login']);
@@ -176,6 +224,20 @@ export class Profile implements OnInit {
       }
     });
   }
+
+  /**
+   * A modal-hoz átadni a megfelelő nyelvű üzeneteket.
+   */
+  updateTranslations() {
+    this.translate.get('MODAL.WARNING_TITLE').subscribe((res: string) => {
+      this.modalTitle = res;
+    });
+
+    this.translate.get('MODAL.ACCOUNT_DELETE_CONFIRM_MESSAGE').subscribe((res: string) => {
+      this.modalMessage = res;
+    });
+  }
+
   onEventGroupChange(): void {
     if (!this.selectedEventGroupId) {
       this.matrix = null;

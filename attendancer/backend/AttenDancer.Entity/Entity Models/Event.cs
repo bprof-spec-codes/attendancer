@@ -26,7 +26,7 @@ namespace AttenDancer.Entity.Entity_Models
         public virtual User User { get; set; } = null!;
 
 
-        public string? EventGroupId { get; set; }
+        public string? EventGroupId { get; set; } = null!;
         public virtual EventGroup? EventGroup { get; set; }
 
 

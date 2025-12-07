@@ -20,14 +20,10 @@ export class ModalWarning {
 
   constructor(private router: Router, private mockDataService: MockDataService, private userService: UserService) {}
 
-
-
   confirmGeneric(): void {
     this.confirmed.emit();
     this.isOpen = false;
   }
-
-
 
   /**
    * Open warning modal.
@@ -42,12 +38,4 @@ export class ModalWarning {
   public close(): void {
     this.isOpen = false;
   }
-
-  /**
-   * Delete event by id and navigate to the create sheet page.
-   */
-  /*remove(): void {
-    this.mockDataService.deleteEvent(this.eventId)
-    this.router.navigate(['/createSheet']);
-  }*/
 }

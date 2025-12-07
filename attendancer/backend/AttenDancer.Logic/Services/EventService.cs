@@ -54,16 +54,16 @@ namespace AttenDancer.Logic.Services
                 .Where(e => e.UserId == userId && e.EventGroupId == null)
                 .ToListAsync();
 
-            if (!events.Any())
+            /*if (!events.Any())
             {
                 throw new Exception("Nincs a felhasználóhoz tartozó esemény.");
-            }
+            }*/
 
             List<EventViewDto> result = dtoProvider.Mapper.Map<List<EventViewDto>>(events);
             return result;
         }
 
-        public async Task<Event> UpdateEventAsync(EventCreateDto updatedto, string id)
+        public async Task<Event> UpdateEventAsync(EventUpdateDto updatedto, string id)
         {
             Event? existingEvent = await _eventRepository.GetAll().FirstOrDefaultAsync(e => e.Id == id);
 

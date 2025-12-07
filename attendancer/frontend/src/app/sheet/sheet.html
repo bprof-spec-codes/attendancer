@@ -1,55 +1,63 @@
-@if(isMobile){
+@if(isMobile) {
 <div class="container-fluid min-vh-100 mt-4">
     <div class="row">
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="!authService.isLoggedIn(); else logoutSection">
-                    </div>
-                    <ng-template #logoutSection>
-                        <div class="row d-flex justify-content-between align-items-center g-2">
-                            <div class="col-auto">
-                                <button class="btn button-primary ms-3"
-                                    style="border: 2px solid #213F9A; width: 120px;">Edit</button>
+                    @if (authService.isLoggedIn() && this.userId === this.event.userId) {
+                        <div class="row">
+                            <div class="row d-flex justify-content-between align-items-center g-2">
+                                <div class="col-auto">
+                                    <button (click)="edit()" class="btn button-primary ms-3">
+                                        <img src="./Assets/Icons/white-edit.svg" class="icons">
+                                        {{ 'EVENT.EDIT_BUTTON' | translate }}
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="modal.open()" class="btn button-danger me-3">
+                                      <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                      {{ 'EVENT.DELETE_BUTTON' | translate }}
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    @if (this.event.isQrValid) {
+                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                        </button>
+                                        <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="this.event.isQrValid"></app-modal-qrcode>
+                                    }
+                                    @else {
+                                        <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
+                                        <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                        <!--<img src="./Assets/Icons/red-trash.svg" class="icons">-->
+                                        {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <button (click)="modal.open()" class="btn button-danger me-3"
-                                    style="width: 120px; white-space: nowrap;">
-                                    Delete
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn button-primary py-2 ms-3"
-                                    style="border: 2px solid #213F9A; width: 120px; white-space: nowrap;">Show QR
-                                    Code</button>
-                            </div>
-                            <div class="col-auto">
-                                <button (click)="modal.open()" class="btn button-danger py-2 me-3"
-                                    style="width: 120px; white-space: nowrap;">
-                                    Delete QR Code
-                                </button>
-                            </div>
+                            <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
                         </div>
-
-                        <app-modal-warning #modal [eventId]="eventId" [message]="'Are you sure you want to delete this event?'" [title]="'Warning!'" (confirmed)="onDeleteEvent()"></app-modal-warning>
-                    </ng-template>
-                    <div class="row mt-4">
+                    }
+                    <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">
                             <h1>{{ event.name }}</h1>
                         </div>
                     </div>
                     <div class="row mb-3 py-4">
                         <div class="container-fluid d-flex justify-content-center gap-4 mt-2">
-                            <div class="card d-flex justify-content-center align-items-center"
-                                style="border-radius: 0; width: 80px; height: 80px; border: 1px solid #213F9A;">
+                            <div class="card d-flex justify-content-center align-items-center present-border">
                                 <div class="card-body d-flex justify-content-center align-items-center p-0">
-                                    <h1 class="text-center m-0" style="color: green;">{{ presentCount }}</h1>
+                                    <h1 class="text-center m-0 text-green">{{ presentCount }}</h1>
                                 </div>
                             </div>
-                            <div class="card d-flex justify-content-center align-items-center"
-                                style="border-radius: 0; width: 80px; height: 80px; border: 1px solid #213F9A;">
+                            <div class="card d-flex justify-content-center align-items-center present-border">
                                 <div class="card-body d-flex justify-content-center align-items-center p-0">
-                                    <h1 class="text-center m-0" style="color: crimson;">{{ absentCount }}</h1>
+                                    <h1 class="text-center m-0 text-crimson">{{ absentCount }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -63,28 +71,32 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-striped m-0 text-center"
-                            style="border-radius: 5px; overflow: hidden;">
-                            <thead style="font-size: 25px; color: #213F9A;">
+                        <table class="table table-striped m-0 text-center table-border">
+                            <thead class="text-thead">
                                 <tr>
-                                    <th class="text-center brand-color-text">Name</th>
-                                    <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data
-                                        }}</th>
-                                    <th class="text-center brand-color-text">Presence</th>
+                                    <th class="text-center brand-color-text">{{ 'EVENT.TABLE_HEADER_NAME' | translate }}</th>
+                                    <th *ngFor="let data of event.metadata" class="text-center">
+                                        {{ data }}
+                                    </th>
+                                    <th class="text-center">{{ 'EVENT.TABLE_HEADER_PRESENCE' | translate }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let participant of participants">
-                                    <td class="sheet-table-cell text-center">{{ participant.username }}</td>
+                                <tr *ngFor="let participant of event.participants">
+                                    <td class="sheet-table-cell text-center">
+                                        {{ participant.userFullName }}
+                                    </td>
                                     <td *ngFor="let data of participant.metadata">
                                         {{ data }}
                                     </td>
                                     <td class="sheet-table-cell text-center">
-                                        <span *ngIf="participant.present; else absent;"><img
-                                                src="Assets/Icons/check.svg" style="width: 25px; height: 25px;"> </span>
+                                        <span *ngIf="participant.present; else absent;">
+                                            <img src="./Assets/Icons/check.svg" class="present-icons">
+                                        </span>
                                         <ng-template #absent>
-                                            <span><img src="Assets/Icons/cross.svg"
-                                                    style="height: 30px; width: 30px;"></span>
+                                            <span>
+                                                <img src="./Assets/Icons/cross.svg" class="present-icons">
+                                            </span>
                                         </ng-template>
                                     </td>
                                 </tr>
@@ -96,45 +108,52 @@
         </div>
     </div>
 </div>
-} @else {
+}
+@else {
 <div class="d-flex flex-column align-items-stretch justify-content-start mt-4 w-75 min-vh-100 mx-auto py-4">
     <div class="row">
         <div class="container-fluid">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="row" *ngIf="!authService.isLoggedIn(); else logOutSection">
-                    </div>
-                    <ng-template #logOutSection>
+                    @if (authService.isLoggedIn() && this.userId === this.event.userId) {
                         <div class="row">
-                            <div class="col-6 d-flex justify-content-start gap-3">
-                                <button class="btn button-primary py-2" style="width: 200px; white-space: nowrap;">Edit</button>
-                                <button (click)="modal.open()" class="btn button-danger py-2" style="width: 200px; white-space: nowrap;">
-                                    <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px;">
-                                    Delete
-                                </button>
+                            <div class="row d-flex justify-content-between align-items-center g-2">
+                                <div class="col-auto">
+                                    <button (click)="edit()" class="btn button-primary ms-3">
+                                        <img src="./Assets/Icons/white-edit.svg" class="icons">
+                                        {{ 'EVENT.EDIT_BUTTON' | translate }}
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="modal.open()" class="btn button-danger me-3">
+                                      <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                      {{ 'EVENT.DELETE_BUTTON' | translate }}
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    @if (this.event.isQrValid) {
+                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                            {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
+                                        </button>
+                                        <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="setIsQrValid($event)"></app-modal-qrcode>
+                                    }
+                                    @else {
+                                        <button (click)="onValidateQr()" class="btn button-success py-2 ms-3">
+                                            {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
+                                        <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                        <!--<img src="./Assets/Icons/red-trash.svg" class="icons">-->
+                                        {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-6 d-flex justify-content-end gap-3">
-                                <button class="button-primary py-2" style="width: 200px; white-space: nowrap;">Show QR code</button>
-                                <button class="button-alert py-2" style="width: 200px; white-space: nowrap;">
-                                    <img src="assets/icons/white-trash.svg" style="width:15px; height: 15px; ">
-                                    Delete QR code
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn button-primary py-2 ms-3"
-                                    style="border: 2px solid #213F9A; width: 120px; white-space: nowrap;">Show QR
-                                    Code</button>
-                            </div>
-                            <div class="col-auto">
-                                <button (click)="modal.open()" class="btn button-danger py-2 me-3"
-                                    style="width: 120px; white-space: nowrap;">
-                                    Delete QR Code
-                                </button>
-                            </div>
+                            <app-modal-warning #modal [eventId]="this.event.id" [message]="modalMessage" [title]="modalTitle" (confirmed)="onDeleteEvent()"></app-modal-warning>
                         </div>
-
-                        <app-modal-warning #modal [eventId]="eventId" [message]="'Are you sure you want to delete this event?'" [title]="'Warning!'" (confirmed)="onDeleteEvent()"></app-modal-warning>
-                    </ng-template>
+                    }
                     <div class="row mt-3">
                         <div class="container-fluid d-flex justify-content-center align-items-center">
                             <h1>{{ event.name }}</h1>
@@ -176,16 +195,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let participant of participants">
-                                    <td class="sheet-table-cell text-center">{{ participant.username }}</td>
+                                <tr *ngFor="let participant of this.event.participants">
+                                    <td class="sheet-table-cell text-center">{{ participant.userFullName }}</td>
                                     <td *ngFor="let data of participant.metadata">
                                         {{ data }}
                                     </td>
                                     <td class="sheet-table-cell text-center">
                                         <span *ngIf="participant.present; else absent;"><img
-                                                src="Assets/Icons/check.svg" style="width: 25px; height: 25px;"> </span>
+                                                src="./Assets/Icons/check.svg" style="width: 25px; height: 25px;"> </span>
                                         <ng-template #absent>
-                                            <span><img src="Assets/Icons/cross.svg"
+                                            <span><img src="./Assets/Icons/cross.svg"
                                                     style="height: 30px; width: 30px;"></span>
                                         </ng-template>
                                     </td>

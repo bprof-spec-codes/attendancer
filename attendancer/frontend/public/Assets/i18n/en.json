@@ -79,6 +79,7 @@
   "EVENT": {
     "EDIT_BUTTON": "Edit",
     "SHOW_QR_BUTTON": "Show QR code",
+    "VALIDATE_QR_BUTTON": "Validate QR Code",
     "DELETE_QR_BUTTON": "Delete QR code",
     "DELETE_BUTTON": "Delete",
     "TABLE_HEADER_NAME": "Name",
@@ -91,11 +92,14 @@
     "SHEET_NAME_PLACEHOLDER": "Sheet name",
     "SHEET_DATE_LABEL": "Date of event:",
     "SHEET_DATE_PLACEHOLDER": "Date of event",
+    "SHEET_EVENT_GROUP_LABEL": "Name your event group:",
+    "SHEET_EVENT_GROUP_PLACEHOLDER": "Event group name",
     "OPTIONAL_DATA_LABEL": "Optional data:",
     "ENTER_DATA_PLACEHOLDER": "Enter data",
     "EDIT_SHEET_BUTTON": "Edit sheet",
     "CREATE_BUTTON": "Create",
     "REQUIRED_NAME_DATE_ERROR": "You need to give a name and a date to your sheet!",
+    "REQUIRED_NAME_DATE_EVENT_GROUP_ERROR": "You need to give a name, a date and an event group name to your sheet!",
     "ALREADY_SIGNED": "Sheet already signed",
     "EXAMPLE_EVENT": "Example event",
     "NEPTUN_ID_LABEL": "Neptun ID",
@@ -106,7 +110,9 @@
   },
    "MODAL": {
     "WARNING_TITLE": "Warning!",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",
+    "EVENT_DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this event?",
+    "ACCOUNT_DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete your account?",
+    "QR_ERROR_MESSAGE": "Invalid event ID",
     "CLOSE_BUTTON": "Close",
     "DELETE_BUTTON": "Delete"
   },

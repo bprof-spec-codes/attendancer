@@ -26,15 +26,22 @@ namespace AttenDancer.Data.Migrations
             migrationBuilder.InsertData(
                 table: "EventGroups",
                 columns: new[] { "Id", "Name", "UserId" },
-                values: new object[] { "18f2745f-652e-4817-b7e1-ea7787fc71c8", "Adatbázisok 2024/25 őszi félév", "22f10921-4a13-48ce-aaf8-61f99c0e3433" });
+                values: new object[,] {
+                    { "18f2745f-652e-4817-b7e1-ea7787fc71c8", "Adatbázisok 2024/25 őszi félév", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "fd3f3srf-d3rs-x3sd-dffe-jdud8du8kd89", "Devops Órák", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Events",
                 columns: new[] { "Id", "EventGroupId", "Metadata", "Name", "QrCode", "UserId" },
                 values: new object[,]
                 {
-                    { "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "18f2745f-652e-4817-b7e1-ea7787fc71c8", null, "Adatbázisok - 2. előadás", "QR_CODE_EVENT_2_DEF456", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
-                    { "abcf9f45-d59d-4229-b13a-28e9a35718ca", "18f2745f-652e-4817-b7e1-ea7787fc71c8", null, "Adatbázisok - 1. előadás", "QR_CODE_EVENT_1_ABC123", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
+                    { "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "18f2745f-652e-4817-b7e1-ea7787fc71c8", "neptun,seat", "Adatbázisok - 2. előadás", "QR_CODE_EVENT_2_DEF456", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "abcf9f45-d59d-4229-b13a-28e9a35718ca", "18f2745f-652e-4817-b7e1-ea7787fc71c8", "neptun,seat", "Adatbázisok - 1. előadás", "QR_CODE_EVENT_1_ABC123", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "fsd32dfs-asd3-a23f-b53d-s7mkds8u3fdi", null, "email", "Egyszeri Előadás", "QR_CODE_EVENT_3_GHJ789", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "asd43vx5-x3fd-df34-sdf3-ngunds823sd2", null, "phone number", "Egy Event", "QR_CODE_EVENT_4_QWE987", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "jdididld-ldkd-opc9-u8dd-ldidd88339ld", "fd3f3srf-d3rs-x3sd-dffe-jdud8du8kd89", "neptun", "1. Devops Óra", "QR_CODE_EVENT_5_HJK789", "22f10921-4a13-48ce-aaf8-61f99c0e3433" },
+                    { "kc984ecc-cdkl-dsdf-45ge-md74j473kjd8", "fd3f3srf-d3rs-x3sd-dffe-jdud8du8kd89", "neptun", "2. Devops Óra", "QR_CODE_EVENT_6_DFG456", "22f10921-4a13-48ce-aaf8-61f99c0e3433" }
                 });
 
             migrationBuilder.InsertData(
@@ -42,9 +49,11 @@ namespace AttenDancer.Data.Migrations
                 columns: new[] { "Id", "Date", "EventId", "Metadata", "UserId" },
                 values: new object[,]
                 {
-                    { "c2f8c2ea-d385-466f-ad97-74c762114fc1", new DateTime(2025, 9, 30, 16, 2, 20, 252, DateTimeKind.Utc).AddTicks(9410), "abcf9f45-d59d-4229-b13a-28e9a35718ca", "{\"neptun\":\"ABC123\",\"seat\":\"12A\"}", "b5f30803-2ff2-42a3-8353-20fc04bd0992" },
-                    { "cc3e1c61-b5ca-4042-a7b8-d2505d433530", new DateTime(2025, 9, 30, 16, 2, 20, 252, DateTimeKind.Utc).AddTicks(9856), "abcf9f45-d59d-4229-b13a-28e9a35718ca", "{\"neptun\":\"DEF456\",\"seat\":\"15B\"}", "843f06a0-befe-48a3-8a3d-6ad8ca807670" },
-                    { "e2580ebc-b428-47b0-852b-0453d580414e", new DateTime(2025, 10, 1, 16, 2, 20, 252, DateTimeKind.Utc).AddTicks(9862), "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "{\"neptun\":\"ABC123\",\"seat\":\"10C\"}", "b5f30803-2ff2-42a3-8353-20fc04bd0992" }
+                    { "c2f8c2ea-d385-466f-ad97-74c762114fc1", new DateTime(2025, 9, 30, 16, 2, 20, DateTimeKind.Utc), "abcf9f45-d59d-4229-b13a-28e9a35718ca", "{\"neptun\":\"ABC123\",\"seat\":\"12A\"}", "b5f30803-2ff2-42a3-8353-20fc04bd0992" },
+                    { "cc3e1c61-b5ca-4042-a7b8-d2505d433530", new DateTime(2025, 9, 30, 16, 2, 20, DateTimeKind.Utc), "abcf9f45-d59d-4229-b13a-28e9a35718ca", "{\"neptun\":\"DEF456\",\"seat\":\"15B\"}", "843f06a0-befe-48a3-8a3d-6ad8ca807670" },
+                    { "e2580ebc-b428-47b0-852b-0453d580414e", new DateTime(2025, 10, 1, 16, 2, 20, DateTimeKind.Utc), "58148cbb-f925-45ee-a4a1-17e2f981c8bc", "{\"neptun\":\"ABC123\",\"seat\":\"10C\"}", "b5f30803-2ff2-42a3-8353-20fc04bd0992" },
+                    { "9d9ekd9d-dfif-diu8-dfkd-id8i8398ejd8", new DateTime(2025, 11, 10, 16, 2, 20, DateTimeKind.Utc), "jdididld-ldkd-opc9-u8dd-ldidd88339ld", "{\"neptun\":\"ABC123\"}", "b5f30803-2ff2-42a3-8353-20fc04bd0992" },
+                    { "jdudud89-kdaf-8d8d-lkd8-2j18kd83kld9", new DateTime(2025, 11, 10, 15, 2, 20, DateTimeKind.Utc), "jdididld-ldkd-opc9-u8dd-ldidd88339ld", "{\"neptun\":\"ABC123\"}", "843f06a0-befe-48a3-8a3d-6ad8ca807670" }
                 });
         }
 

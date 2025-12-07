@@ -24,6 +24,7 @@ namespace AttenDancer.Logic.Helper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<EventCreateDto, Event>();
+                cfg.CreateMap<EventUpdateDto, Event>();
 
                 cfg.CreateMap<Participant, ParticipantViewDto>()
                    .AfterMap((src, dest) =>
@@ -36,7 +37,8 @@ namespace AttenDancer.Logic.Helper
                 cfg.CreateMap<Event, EventViewDto>()
                    .AfterMap((src, dest) =>
                    {
-                       dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : "Nincs csoportja";
+                       dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : null;
+                       dest.EventGroupId = src.EventGroup != null ? src.EventGroup.Id : null;
                    });
 
                 cfg.CreateMap<ParticipantCreateDto, Participant>();

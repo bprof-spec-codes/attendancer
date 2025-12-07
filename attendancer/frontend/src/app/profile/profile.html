@@ -29,29 +29,20 @@
             <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
                 <div class="card-body">
                     <div class="scrollable-container">
-                        @for (currentParticipation of participation; track $index) {
+                        @for (event of signedEvents; track $index) {
                         <div class="row mb-3">
                             <div class="card shadow" style="background-color: #EFF1F2;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
+                                            <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ?? event[0].name }}</h2>
                                         </div>
                                     </div>
                                     <div class="row align-items-center">
                                         <div class="col-md-6">
-                                            @for (signedEvent of currentParticipation.signedEvents; track
-                                            $index) {
-                                            @if (signedEvent) {
-                                            <span class="attendance-block present"></span>
-                                            } @else {
-                                            <span class="attendance-block absent"></span>
+                                            @for (isSigned of signedEvents[$index]; track $index) {
+                                                <span class="attendance-block" [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
                                             }
-                                            }
-                                        </div>
-                                        <div class="col-md-6 text-md-end mt-2 mt-md-0">
-                                            <span>Last signed: <b>{{ currentParticipation.lastSigned
-                                                    }}</b></span>
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +201,7 @@
                                 <div class="col-auto ms-auto">
                                     <button class="border-0 p-0 m-0" type="button"
                                         (click)="setActiveSection('profile')">
-                                        <img src="Assets/Icons/cross.svg" style="width: 40px; height: 40px;">
+                                        <img src="./Assets/Icons/cross.svg" style="width: 40px; height: 40px;">
                                     </button>
                                 </div>
                             </div>
@@ -313,13 +304,13 @@
                         </div>
                         <hr class="mt-4">
                         <div class="form" style="gap: 20px;">
-                            <button class="btn btn-primary button-danger align-self-center">
+                            <button class="btn btn-primary button-danger align-self-center" (click)="userDeleteModal.open()">
                                 {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
                             </button>
                             <app-modal-warning
                               #userDeleteModal
-                              [title]="'Warning!'"
-                              [message]="'Are you sure you want to delete your account?'"
+                              [title]="modalTitle"
+                              [message]="modalMessage"
                               (confirmed)="onDeleteAccount()">
                             </app-modal-warning>
                         </div>
@@ -368,29 +359,20 @@
                         style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                         <div class="card-body" style="max-height: 2fr; overflow-y: auto;">
                             <div class="scrollable-container">
-                                @for (currentParticipation of participation; track $index) {
+                                @for (event of signedEvents; track $index) {
                                 <div class="row mb-3">
                                     <div class="card shadow" style="background-color: #EFF1F2;">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-8">
-                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ currentParticipation.name }}</h2>
+                                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ?? event[0].name }}</h2>
                                                 </div>
                                             </div>
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
-                                                    @for (signedEvent of currentParticipation.signedEvents; track
-                                                    $index) {
-                                                    @if (signedEvent) {
-                                                    <span class="attendance-block present"></span>
-                                                    } @else {
-                                                    <span class="attendance-block absent"></span>
+                                                    @for (isSigned of signedEvents[$index]; track $index) {
+                                                        <span class="attendance-block" [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
                                                     }
-                                                    }
-                                                </div>
-                                                <div class="col-md-6 text-md-end mt-2 mt-md-0">
-                                                    <span>{{ 'PROFILE_PAGE.LAST_SIGNED' | translate }}: <b>{{ currentParticipation.lastSigned
-                                                            }}</b></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -564,7 +546,7 @@
                                     <div class="col-auto">
                                         <button class="border-0 p-0" type="button"
                                             (click)="setActiveSection('profile')">
-                                            <img src="Assets/Icons/cross.svg"
+                                            <img src="./Assets/Icons/cross.svg"
                                                 style="width: 50px; height: 50px; margin-bottom: 5px;">
                                         </button>
                                     </div>
@@ -676,13 +658,13 @@
                                 <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-4">
                                     <div class="col-8 text-center">
                                         <button class="button-danger"
-                                            style="height:50px; width: 300px; font-size: 20px;">
+                                            style="height:50px; width: 300px; font-size: 20px;" (click)="userDeleteModal.open()">
                                             {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
                                         </button>
                                     </div>
                                     <app-modal-warning
-                                      [title]="'Warning!'"
-                                      [message]="'Are you sure you want to delete your account?'"
+                                      [title]="modalTitle"
+                                      [message]="modalMessage"
                                       #userDeleteModal
                                       (confirmed)="onDeleteAccount()">
                                     </app-modal-warning>

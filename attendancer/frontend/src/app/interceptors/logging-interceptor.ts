@@ -9,7 +9,7 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     http
       .post('http://localhost:5283/api/Log', { message: logMessage }, { responseType: 'text' })
       .subscribe({
-        next: (res) => console.log('Log sent successfully.', res),
+        next: (res) => /*console.log('Log sent successfully.', res)*/{},
         error: (err) => console.error('Error sending log: ', err),
       });
   }

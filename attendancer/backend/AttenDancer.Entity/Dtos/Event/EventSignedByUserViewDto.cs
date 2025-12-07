@@ -13,7 +13,11 @@ namespace AttenDancer.Entity.Dtos.Event
         public string Name { get; set; } = string.Empty;
         public DateTime SignedAt { get; set; }
         public string? EventGroupName { get; set; }
-        
+
+        public string? EventGroupId { get; set; }
+
+        public string? EventDate { get; set; }
+
         public bool IsQrValid { get; set; }
 
     }

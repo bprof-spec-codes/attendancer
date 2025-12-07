@@ -41,14 +41,14 @@ namespace AttenDancer.Logic.Services
             });
             var newEventGroup = dtoProvider.Mapper.Map<EventGroup>(createDto);
 
-            if(events.Count != 1 && (events.All(e => e.Metadata.SequenceEqual(events[0].Metadata))))
+            /*if(events.Count != 1 && (events.All(e => e.Metadata.SequenceEqual(events[0].Metadata))))
             {
                 throw new Exception("A csoporthoz tartozó események metadata értékei nem egyeznek meg.");
             }
             else
-            {
+            {*/
                 newEventGroup.Metadata = events[0].Metadata;
-            }
+            //}
 
             await _eventGroupRepository.Create(newEventGroup);
 
@@ -93,10 +93,10 @@ namespace AttenDancer.Logic.Services
                 .Where(eg => eg.UserId == userId)
                 .ToListAsync();
 
-            if (!eventGroups.Any())
+            /*if (!eventGroups.Any())
             {
                 throw new Exception("A felhasználónak nincsenek eseménycsoportjai.");
-            }
+            }*/
 
             return dtoProvider.Mapper.Map<List<EventGroupViewDto>>(eventGroups);
         }

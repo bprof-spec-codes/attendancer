@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationService } from './services/tanslation/translation';
+import { TranslationService } from './services/translation/translation';
 
 @Component({
   selector: 'app-root',
