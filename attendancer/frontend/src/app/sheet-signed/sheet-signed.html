@@ -15,6 +15,10 @@
             <form>
               <div class="form" style="gap: 0.75rem; margin-top: 2rem;">
                 
+                <div *ngFor="let meta of metadata; let i = index">
+                  <input type="text" [(ngModel)]="metadata[i]" placeholder="Metaadat {{ metadataNames[i] }}">
+                </div>
+
                 <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
                   {{ 'SHEET.NEPTUN_ID_LABEL' | translate }}
                 </label>
@@ -25,7 +29,7 @@
                 </label>
                 <input type="text" placeholder="{{ 'SHEET.EMAIL_PLACEHOLDER' | translate }}" name="email">
 
-                <button type="submit" class="button-primary w-50 align-self-center mt-3"
+                <button (click)="SignInEvent()" type="submit" class="button-primary w-50 align-self-center mt-3"
                         style="height: 55px; font-size: 25px;">
                   {{ 'SHEET.SIGN_SHEET_BUTTON' | translate }}
                 </button>
