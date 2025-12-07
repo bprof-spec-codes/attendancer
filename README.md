@@ -13,11 +13,122 @@
 | Özséb Kelemen | Backend Developer | [KelemenOzseb](http://github.com/KelemenOzseb) |
 | Dániel Rezsnyák | Backend Developer | [rezsnyakdani](http://github.com/rezsnyakdani) |
 | Benedek Zoltán Szabó | Backend Developer | [szabo-benedek](http://github.com/szabo-benedek) |
+| Kánya Marcell | Frontend Developer | [Marci260](https://github.com/Marci260) |
 
 Használt technológiák:
 - Frontend: Angular
 - Backend: ASP.NET
 
 ## Developer Guide
+- Node.js + npm
+- Angular CLI
+- Visual Studio (ASP.NET Core)
+- SQL database (LocalDB/MSSQL)
+- .NET EF Tools
 
-## Issues arisen during development
+## Frontend (Angular)
+
+```
+cd Frontend/Attendancer
+npm install
+ng serve
+```
+
+Runs at `http://localhost:4200/`
+
+## Backend (ASP.NET Core)
+
+1. Open the solution in Visual Studio
+2. Add Migration (if needed)
+```
+Add-Migration
+```
+
+3. Update database
+```
+Update-Database
+```
+
+4. Run the application
+5. Swagger UI is available during runtime
+
+---
+
+## Develop Default Accounts
+
+| Email | Password |
+|-------|----------|
+| janos.kovacs@example.com | JanosKovacs123 |
+| peter.toth@example.com | PeterToth123 |
+| anna.nagy@example.com | AnnaNagy123 |
+
+## Use-cases
+
+### Users
+
+- Create attendance sheets
+- Create groups out of attendance sheets
+- Sign attendance sheets
+- Edit or delete their sheets
+- See a table for each of their attendance sheet groups, that include all users that signed on the sheets in said group
+- See sheets they signed
+- Edit user information
+
+---
+
+## API function list
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/User/register` | POST | User registration |
+| `/api/User/login` | POST | User login | 
+| `/api/User/{id}` | GET | Read user |
+| `/api/User` | GET | Read all users |
+| `/api/User` | DELETE | Deactivate user |
+| `/name` | PUT | Update user's name |
+| `/email` | PUT | Update user's email | 
+| `/passowrd` | PUT | Update user's password |
+| `/api/User/me` | GET | Read logged in user |
+| `/api/User/me/signed-sheets` | GET | Read sheets signed by user |
+| `/api/Event` | POST | Create Event |
+| `/api/Event` | GET | Read all events |
+| `/api/Event/{eventId}` | GET | Read event |
+| `/api/Event/{eventId}` | PUT | Update event |
+| `/api/Event/{eventId}` | DELETE | Delete event |
+| `/api/GetEventByUserId` | GET | Read all of user's events |
+| `/api/Event/{eventId}/generate-qr` | POST | Create QR code for event |
+| `api/Event/{eventId}/qr` | GET | Read even's qr code |
+| `/api/Event/{eventId}/invalidate` | PUT | Invalidate event |
+| `/api/Event/{eventId}/validate` | PUT | Validate event|
+| `/api/EventGroup` | POST | Create event group |
+| `/api/EventGroup` | GET | Read all event groups | 
+| `/api/EventGroup/BzUserId` | GET | Read event groups of user |
+| `/api/EventGroup/{eventGroupId}` | PUT | Update event group |
+| `/api/EventGroup/{eventGroupId}` | DELETE | Delete event group |
+| `/api/EventGroup/{eventGroupId}` | GET | Read event group |
+| `/api/EventGroup/{eventGroupId}/{userId}` | GET | Read event group of user |
+| `/api/EventGroup/{eventGroupId}/matrix` | GET | Give back an event group's attendance stats |
+| `/api/Particiant/{eventId}` | POST | Add user to event |
+| `/api/participant` | GET | Read all participants | 
+
+---
+## Frontend Components
+
+| Screen | Purpose |
+|--------|---------|
+| Login/Register | User authentication |
+| Profile | Control panel and displaying events the user signed up to |
+| Sheet | Display data from the event | 
+| Create sheet | Form to create or update events | 
+| Statistics | Display the event group attendance stats in a matrix-like view |
+| Sheets | Display your created events and event groups/modify them |
+| Form | Users sign up on this form to events | 
+
+## Issues throughout development
+
+| Problem | Area | Rsolution | 
+|---------|------|-----------|
+
+## Documentation
+`/Docs` folder in the repository includes:
+- `UserManual.pdf` 
