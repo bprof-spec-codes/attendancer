@@ -139,6 +139,9 @@ Update-Database
 ## Sheets
 <img width="2560" height="1440" alt="sheets" src="https://github.com/user-attachments/assets/f67b598b-0c4b-404f-8927-1cb03348e2df" />
 
+## Statistics
+<img width="2560" height="1080" alt="Matrix" src="https://github.com/user-attachments/assets/4998590c-2b4c-477d-b736-52ec116a344c" />
+
 ---
 
 ## Issues throughout development
