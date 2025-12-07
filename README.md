@@ -87,7 +87,7 @@ Update-Database
 | `/api/User` | DELETE | Deactivate user |
 | `/name` | PUT | Update user's name |
 | `/email` | PUT | Update user's email | 
-| `/passowrd` | PUT | Update user's password |
+| `/password` | PUT | Update user's password |
 | `/api/User/me` | GET | Read logged in user |
 | `/api/User/me/signed-sheets` | GET | Read sheets signed by user |
 | `/api/Event` | POST | Create Event |
@@ -102,13 +102,13 @@ Update-Database
 | `/api/Event/{eventId}/validate` | PUT | Validate event|
 | `/api/EventGroup` | POST | Create event group |
 | `/api/EventGroup` | GET | Read all event groups | 
-| `/api/EventGroup/BzUserId` | GET | Read event groups of user |
+| `/api/EventGroup/ByUserId` | GET | Read event groups of user |
 | `/api/EventGroup/{eventGroupId}` | PUT | Update event group |
 | `/api/EventGroup/{eventGroupId}` | DELETE | Delete event group |
 | `/api/EventGroup/{eventGroupId}` | GET | Read event group |
 | `/api/EventGroup/{eventGroupId}/{userId}` | GET | Read event group of user |
 | `/api/EventGroup/{eventGroupId}/matrix` | GET | Give back an event group's attendance stats |
-| `/api/Particiant/{eventId}` | POST | Add user to event |
+| `/api/Participant/{eventId}` | POST | Add user to event |
 | `/api/participant` | GET | Read all participants | 
 
 ---
