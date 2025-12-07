@@ -39,6 +39,14 @@ namespace AttenDancer.Logic.Helper
                    {
                        dest.EventGroupName = src.EventGroup != null ? src.EventGroup.Name : null;
                        dest.EventGroupId = src.EventGroup != null ? src.EventGroup.Id : null;
+                       dest.ParticipantNames = src.EventGroup != null
+                        ? src.EventGroup.Events
+                              .SelectMany(e => e.Participants)     
+                              .Where(p => p.User != null)
+                              .Select(p => $"{p.User.LastName} {p.User.FirstName}")
+                              .Distinct()                           
+                              .ToList()
+                        : new List<string>();
                    });
 
                 cfg.CreateMap<ParticipantCreateDto, Participant>();
