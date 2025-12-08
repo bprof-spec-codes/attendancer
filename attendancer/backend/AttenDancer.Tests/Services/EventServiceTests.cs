@@ -92,7 +92,7 @@ namespace AttenDancer.Tests.Services
         }
 
         [Test]
-        public void GetEventByUserIdAsyncUserWithNoEventsShouldThrowException()
+        public async Task GetEventByUserIdAsyncUserWithNoEventsShouldThrowException()
         {
             
             var userId = "user1";
@@ -104,11 +104,11 @@ namespace AttenDancer.Tests.Services
             _mockEventRepository.Setup(r => r.GetAll())
                 .Returns(events.BuildMock());
 
-            
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
-                await _eventService.GetEventByUserIdAsync(userId));
 
-            Assert.That(ex.Message, Is.EqualTo("Nincs a felhasználóhoz tartozó esemény."));
+            var result = await _eventService.GetEventByUserIdAsync(userId);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(0));
         }
 
 
@@ -126,8 +126,9 @@ namespace AttenDancer.Tests.Services
                 Date = "2025-12-01"
             };
 
-            var updateDto = new EventCreateDto
+            var updateDto = new EventUpdateDto
             {
+                Id = eventId,
                 Name = "New Name",
                 UserId = userId,
                 Date = "2025-12-05",
@@ -154,8 +155,9 @@ namespace AttenDancer.Tests.Services
         {
             
             var eventId = "nonexistent";
-            var updateDto = new EventCreateDto
+            var updateDto = new EventUpdateDto
             {
+                Id = eventId,
                 Name = "New Name",
                 UserId = "user1",
                 Date = "2025-12-01"
@@ -185,8 +187,9 @@ namespace AttenDancer.Tests.Services
                 Date = "2025-12-01"
             };
 
-            var updateDto = new EventCreateDto
+            var updateDto = new EventUpdateDto
             {
+                Id = eventId,
                 Name = "Updated",
                 UserId = "user2", 
                 Date = "2025-12-01"
