@@ -38,10 +38,10 @@ namespace AttenDancer.Logic.Services
             {
                 throw new Exception("A felhasználó már résztvevőként van regisztrálva ezen az eseményen.");
             }
-            if(!(createDto.Metadata.ToList().Count() == Getevent.Metadata.ToList().Count()))
-            {
-                throw new Exception("A metaadatok hibásan vannak megadva.");
-            }
+            //if(!(createDto.Metadata.ToList().Count() == Getevent.Metadata.ToList().Count()))
+            //{
+            //    throw new Exception("A metaadatok hibásan vannak megadva.");
+            //}
             var participant = dtoProvider.Mapper.Map<Participant>(createDto);
             return await _participantRepository.Create(participant);
         }

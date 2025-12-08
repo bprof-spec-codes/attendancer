@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100 mt-2 mb-2">
   <div class="container p-4">
     <div class="card shadow shadow-sm p-4" style="background-color: #EFF1F2;">
-      
-      <div *ngIf="eventIsSigned(); else signForm" class="card-body d-flex justify-content-center">
+
+      <div *ngIf="eventIsSigned() || isSigned; else signForm" class="card-body d-flex justify-content-center">
         <div class="row">
           <h1>{{ 'SHEET.ALREADY_SIGNED' | translate }}</h1>
         </div>
@@ -14,28 +14,18 @@
             <h1 class="text-center">{{ 'SHEET.EXAMPLE_EVENT' | translate }}</h1>
             <form>
               <div class="form" style="gap: 0.75rem; margin-top: 2rem;">
-                
-                <label for="sheetName" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                  {{ 'SHEET.NEPTUN_ID_LABEL' | translate }}
-                </label>
-                <input type="text" placeholder="{{ 'SHEET.NEPTUN_ID_PLACEHOLDER' | translate }}" name="neptunId">
-
-                <label for="sheetDate" class="field-label" style="font-size: 1.3rem; font-weight: 700;">
-                  {{ 'SHEET.EMAIL_LABEL' | translate }}
-                </label>
-                <input type="text" placeholder="{{ 'SHEET.EMAIL_PLACEHOLDER' | translate }}" name="email">
-
-                <button type="submit" class="button-primary w-50 align-self-center mt-3"
-                        style="height: 55px; font-size: 25px;">
+                <div *ngFor="let name of metadataNames; let i = index" class="d-flex flex-column w-50" style="margin-left: auto; margin-right: auto;">
+                  <label class="field-label " style="font-size: 20px; font-weight: 700;">{{ name }}:</label>
+                  <input type="text" [(ngModel)]="metadata[i]"  name="meta_{{i}}" class="form-control ">
+                </div>
+                <button (click)="SignInEvent()" type="submit" class="button-primary w-50 align-self-center mt-3" style="height: 55px; font-size: 25px;">
                   {{ 'SHEET.SIGN_SHEET_BUTTON' | translate }}
                 </button>
-                
               </div>
             </form>
           </div>
         </div>
       </ng-template>
-
     </div>
   </div>
 </div>

@@ -153,7 +153,7 @@ namespace AttenDancer.Controllers
             // Például: http://localhost:5000/api/participant/create/{qrCode}
             // A Request Sceme a http vagy https részt adja a Request Host pedig a localhostos részt
 
-            string qrContent = $"{Request.Scheme}://{Request.Host}/api/participant/{eventId}";
+            string qrContent = $"http://localhost:4200/sign/{eventId}";
             var qrBytes = _qrService.GenerateQrCode(qrContent);
 
             //Ezzel tudunk visszaadni egy képet, nem application/json lesz a headerben, hanem image/png
