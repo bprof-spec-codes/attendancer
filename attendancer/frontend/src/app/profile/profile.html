@@ -398,7 +398,8 @@
                             <div class="col-auto">
                                 <div class="form-field">
                                     <select id="sheetGroup" class="form-select"
-                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;" (change)="onEventGroupChange()">
+                                        style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
+                                        [(ngModel)]="selectedEventGroupId" (change)="onEventGroupChange()">
                                         <option value="">Choose</option>
                                         <option *ngFor="let group of eventGroups" [value]="group.id">
                                           {{ group.name }}
