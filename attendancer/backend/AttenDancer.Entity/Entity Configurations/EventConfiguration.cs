@@ -21,7 +21,7 @@ namespace AttenDancer.Entity.Entity_Configurations
             builder.HasOne(e => e.EventGroup)
                 .WithMany(eg => eg.Events)
                 .HasForeignKey(e => e.EventGroupId)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(false);
 
             var valueComparer = new ValueComparer<List<string>>(
