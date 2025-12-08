@@ -185,6 +185,7 @@ namespace AttenDancer.Tests.Services
                 UserId = "user1"
             };
 
+
             var groupList = new List<EventGroup> { eventGroup };
             _mockEventGroupRepository.Setup(r => r.GetAll())
                 .Returns(groupList.BuildMock());
@@ -198,6 +199,158 @@ namespace AttenDancer.Tests.Services
         }
 
 
+        [Test]
+        public async Task UpdateEventGroupAsyncValidUpdateShouldUpdateGroup()
+        {
+            
+
+            var eventGroupId = "group1";
+            var userId = "user1";
+
+
+            var oldEvent = new Event { Id = "event1", Name = "Old Event", UserId = userId, EventGroupId = eventGroupId };
+            var newEvent = new Event { Id = "event2", Name = "New Event", UserId = userId, EventGroupId = null };
+
+            var eventGroup = new EventGroup
+            {
+                Id = eventGroupId,
+                Name = "Old Name",
+                UserId = userId,
+                Events = new List<Event> { oldEvent }
+            };
+
+
+            var updateDto = new EventGroupCreateDto
+            {
+                Name = "Updated Name",
+                UserId = userId,
+                EventIds = new List<string> { "event2" }
+            };
+
+
+
+            var groupList = new List<EventGroup> { eventGroup };
+            _mockEventGroupRepository.Setup(r => r.GetAll())
+                .Returns(groupList.BuildMock());
+
+            var eventList = new List<Event> { oldEvent, newEvent };
+            _mockEventRepository.Setup(r => r.GetAll())
+                .Returns(eventList.BuildMock());
+
+            _mockEventGroupRepository.Setup(r => r.Update(It.IsAny<EventGroup>()))
+                .ReturnsAsync((EventGroup eg) => eg);
+
+            _mockEventRepository.Setup(r => r.Update(It.IsAny<Event>()))
+                .ReturnsAsync((Event e) => e);
+
+           
+            var result = await _eventGroupService.UpdateEventGroupAsync(eventGroupId, updateDto);
+
+            
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Name, Is.EqualTo("Updated Name"));
+            _mockEventGroupRepository.Verify(r => r.Update(It.IsAny<EventGroup>()), Times.Once);
+            _mockEventRepository.Verify(r => r.Update(It.IsAny<Event>()), Times.AtLeastOnce);
+        }
+
+
+        [Test]
+        public void UpdateEventGroupAsyncWrongUserIdShouldThrowException()
+        {
+            
+            var eventGroupId = "group1";
+            var eventGroup = new EventGroup
+            {
+                Id = eventGroupId,
+                Name = "Test Group",
+                UserId = "user1",
+                Events = new List<Event>()
+            };
+
+
+            var updateDto = new EventGroupCreateDto
+            {
+                Name = "Updated Name",
+                UserId = "user2",
+                EventIds = new List<string> { "event1" }
+            };
+
+
+            var groupList = new List<EventGroup> { eventGroup };
+            _mockEventGroupRepository.Setup(r => r.GetAll())
+                .Returns(groupList.BuildMock());
+
+            
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventGroupService.UpdateEventGroupAsync(eventGroupId, updateDto));
+
+            Assert.That(ex.Message, Is.EqualTo("Eseménycsoportot csak a tulajdonosa tudja módosítani"));
+        }
+
+
+        [Test]
+        public async Task DeleteEventGroupAsyncValidDeleteShouldDeleteSuccessfully()
+        {
+            
+
+            var eventGroupId = "group1";
+            var userId = "user1";
+
+            var event1 = new Event { Id = "event1", Name = "Event 1", UserId = userId, EventGroupId = eventGroupId };
+            var event2 = new Event { Id = "event2", Name = "Event 2", UserId = userId, EventGroupId = eventGroupId };
+
+            var eventGroup = new EventGroup
+            {
+                Id = eventGroupId,
+                Name = "Test Group",
+                UserId = userId,
+                Events = new List<Event> { event1, event2 }
+            };
+
+            var groupList = new List<EventGroup> { eventGroup };
+            _mockEventGroupRepository.Setup(r => r.GetAll())
+                .Returns(groupList.BuildMock());
+
+
+            _mockEventRepository.Setup(r => r.Update(It.IsAny<Event>()))
+                .ReturnsAsync((Event e) => e);
+
+            _mockEventGroupRepository.Setup(r => r.DeleteById(It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+
+            
+            await _eventGroupService.DeleteEventGroupAsync(eventGroupId, userId);
+
+            _mockEventRepository.Verify(r => r.Update(It.IsAny<Event>()), Times.Exactly(2));
+            _mockEventGroupRepository.Verify(r => r.DeleteById(eventGroupId), Times.Once);
+        }
+
+
+
+        [Test]
+        public void DeleteEventGroupAsyncWrongUserIdShouldThrowException()
+        {
+            
+            var eventGroupId = "group1";
+            var eventGroup = new EventGroup
+            {
+                Id = eventGroupId,
+                Name = "Test Group",
+                UserId = "user1",
+                Events = new List<Event>()
+            };
+
+            var groupList = new List<EventGroup> { eventGroup };
+            _mockEventGroupRepository.Setup(r => r.GetAll())
+                .Returns(groupList.BuildMock());
+
+            
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+                await _eventGroupService.DeleteEventGroupAsync(eventGroupId, "user2"));
+
+            Assert.That(ex.Message, Is.EqualTo("Eseménycsoportot csak a tulajdonosa tudja kitörölni"));
+        }
 
     }
 }
