@@ -2,7 +2,7 @@
   <div class="container p-4">
     <div class="card shadow shadow-sm p-4" style="background-color: #EFF1F2;">
 
-      <div *ngIf="eventIsSigned(); else signForm" class="card-body d-flex justify-content-center">
+      <div *ngIf="eventIsSigned() || isSigned; else signForm" class="card-body d-flex justify-content-center">
         <div class="row">
           <h1>{{ 'SHEET.ALREADY_SIGNED' | translate }}</h1>
         </div>

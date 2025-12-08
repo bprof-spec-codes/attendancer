@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventViewDto } from '../models/event-view-dto';
 import { EventClient, FileResponse, ParticipantClient, ParticipantCreateDto} from '../app.api-client.generated';
 import { UserService } from '../services/user-service';
@@ -18,9 +18,10 @@ export class SheetSigned implements OnInit {
   eventId: string = ""
   user: User = new User()
   metadata: string[] = [];
+  isSigned: boolean = false
 
   
-  constructor(private route:ActivatedRoute, private eventService: EventClient, private userService: UserService, private participantService: ParticipantClient) {}
+  constructor(private route:ActivatedRoute, private router:Router, private eventService: EventClient, private userService: UserService, private participantService: ParticipantClient) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -63,29 +64,32 @@ export class SheetSigned implements OnInit {
   }
 
   SignInEvent() {
-    const dto = new ParticipantCreateDto()
-    console.log("Current user:", this.user)
-    dto.userId = this.user.id
-    dto.eventId = this.eventId
-    dto.metadata = dto.metadata = JSON.stringify(this.dataConverter())
-    this.participantService.createParticipant(this.eventId, dto).subscribe({
+  const dto = new ParticipantCreateDto();
+  dto.eventId = this.eventId;
+  dto.userId = this.user.id;
+  dto.metadata = JSON.stringify(this.dataConverter());
+
+  this.participantService.createParticipant(dto).subscribe({
     next: (res: FileResponse) => {
-      res.data.text().then(text => {
-        if (text) {
-          const created = JSON.parse(text);
-          console.log("Participant created:", created);
-          this.eventIsSigned();
-        } else {
-          console.warn("Üres válasz érkezett");
-        }
-      });
+      if (res.data) {
+        res.data.text().then(text => {
+          if (text) {
+            try {
+              const created = JSON.parse(text);
+            } catch (err) {
+              console.error("Error parsing response text:", err);
+            }
+          } 
+           //this.router.navigate(['/profile'])
+           this.isSigned = true;
+        });
+      }
     },
     error: err => {
       console.error("Error creating participant:", err);
       console.log("DTO that will be sent:", dto);
     }
-  });
-  }
+  });}
 
   eventIsSigned(): boolean {
     return this.event.participants?.some(p => p.userFullName === this.user.lastName + ' ' +  this.user.firstName) || false

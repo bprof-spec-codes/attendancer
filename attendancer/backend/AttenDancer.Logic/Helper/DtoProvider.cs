@@ -49,7 +49,11 @@ namespace AttenDancer.Logic.Helper
                         : new List<string>();
                    });
 
-                cfg.CreateMap<ParticipantCreateDto, Participant>();
+                cfg.CreateMap<ParticipantCreateDto, Participant>()
+                .AfterMap(async (src, dest, context) =>
+                 {
+                     dest.User = await _userRepository.GetOne(src.UserId);
+                 });
                 cfg.CreateMap<EventGroupCreateDto, EventGroup>();
                 cfg.CreateMap<EventGroup, EventGroupViewDto>();
                 cfg.CreateMap<EventGroup, EventGroupParticipantInfoDto>()

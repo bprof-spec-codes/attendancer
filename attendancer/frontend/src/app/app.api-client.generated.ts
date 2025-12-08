@@ -1132,7 +1132,7 @@ export class EventGroupClient implements IEventGroupClient {
 }
 
 export interface IParticipantClient {
-    createParticipant(eventId: string, createDto: ParticipantCreateDto): Observable<FileResponse>;
+    createParticipant(createDto: ParticipantCreateDto): Observable<FileResponse>;
     getParticipants(id: string | undefined): Observable<ParticipantViewDto[]>;
 }
 
@@ -1149,11 +1149,8 @@ export class ParticipantClient implements IParticipantClient {
         this.baseUrl = baseUrl ?? "https://localhost:7198";
     }
 
-    createParticipant(eventId: string, createDto: ParticipantCreateDto): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/Participant/{eventId}";
-        if (eventId === undefined || eventId === null)
-            throw new globalThis.Error("The parameter 'eventId' must be defined.");
-        url_ = url_.replace("{eventId}", encodeURIComponent("" + eventId));
+    createParticipant(createDto: ParticipantCreateDto): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Participant";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(createDto);
