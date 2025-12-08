@@ -15,8 +15,9 @@
             <form>
               <div class="form" style="gap: 0.75rem; margin-top: 2rem;">
 
-                <div *ngFor="let name of metadataNames; let i = index">
-                  <input type="text" [(ngModel)]="metadata[i]" placeholder={{ name }} name="meta_{{i}}">
+                <div *ngFor="let name of metadataNames; let i = index" class="d-flex flex-column w-50" style="margin-left: auto; margin-right: auto;">
+                  <label class="field-label " style="font-size: 20px; font-weight: 700;">{{ name }}:</label>
+                  <input type="text" [(ngModel)]="metadata[i]"  name="meta_{{i}}" class="form-control ">
                 </div>
                 <button (click)="SignInEvent()" type="submit" class="button-primary w-50 align-self-center mt-3" style="height: 55px; font-size: 25px;">
                   {{ 'SHEET.SIGN_SHEET_BUTTON' | translate }}
