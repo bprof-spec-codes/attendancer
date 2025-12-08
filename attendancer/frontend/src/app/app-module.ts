@@ -1,5 +1,5 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -15,10 +15,15 @@ import { LoadingSpinner } from './loading-spinner/loading-spinner';
 import { SheetForm } from './sheet-form/sheet-form';
 import { ModalWarning } from './modal-warning/modal-warning';
 import { authenticationInterceptor } from './interceptors/authentication-interceptor';
-import { errorInterceptor } from './interceptors/error-interceptor';
-import { loadingInterceptor } from './interceptors/loading-interceptor';
-import { loggingInterceptor } from './interceptors/logging-interceptor';
 import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
+import { loggingInterceptor } from './interceptors/logging-interceptor';
+import { loadingInterceptor } from './interceptors/loading-interceptor';
+import { errorInterceptor } from './interceptors/error-interceptor';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from './services/translation/translation';
+import { LanguageSwitcher } from './language-switcher/language-switcher';
+import { SheetSigned } from './sheet-signed/sheet-signed';
+import { ModalQrcode } from './modal-qrcode/modal-qrcode';
 
 @NgModule({
   declarations: [
@@ -33,12 +38,23 @@ import { mockDataInterceptor } from './interceptors/mock-data-interceptor';
     SheetForm,
     LoadingSpinner,
     ModalWarning,
+    LanguageSwitcher,
+    SheetSigned,
+    ModalQrcode
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    TranslateModule.forRoot({
+        defaultLanguage: 'en',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      }),
   ],
   providers: [
     provideHttpClient(

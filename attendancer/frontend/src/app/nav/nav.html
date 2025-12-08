@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EFF1F2;">
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" routerLink="/">
-      <img src="Assets/Attendancer emblem_blue.svg" alt="Attendancer emblem" height="40">
+      <img src="./Assets/attendancer-emblem-blue.svg" alt="Attendancer emblem" height="40">
     </a>
 
     <button class="navbar-toggler border-0 shadow-none" type="button"
@@ -12,19 +12,19 @@
     <div class="collapse navbar-collapse text-end text-lg-start" id="mainNav">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="!authService.isLoggedIn(); else loggedInLinks">
         <li class="nav-item">
-          <a routerLink="/login" class="nav-link">Log in</a>
+          <a routerLink="/login" class="nav-link">{{ 'NAV.LOGIN' | translate }}</a>
         </li>
       </ul>
       <ng-template #loggedInLinks>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a routerLink="/createSheet" class="nav-link">+ Create sheet</a>
+            <a routerLink="/createSheet" class="nav-link">{{ 'NAV.CREATE_SHEET' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/profile" class="nav-link">Profile</a>
+            <a routerLink="/profile" class="nav-link">{{ 'NAV.PROFILE' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a (click)="authService.logout()" class="nav-link">Log out</a>
+            <a (click)="authService.logout()" class="nav-link">{{ 'NAV.LOGOUT' | translate }}</a>
           </li>
         </ul>
       </ng-template>

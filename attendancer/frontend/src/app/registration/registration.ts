@@ -17,7 +17,7 @@ export class Registration {
 
   constructor(public authService: AuthService, private router: Router) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/sheet/1']);
+      this.router.navigate(['/sheet/abcf9f45-d59d-4229-b13a-28e9a35718ca']);
     }
   }
 

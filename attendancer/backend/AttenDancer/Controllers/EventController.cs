@@ -39,7 +39,7 @@ namespace AttenDancer.Controllers
             createDto.UserId = userId;
 
             Event newEvent = await _eventService.CreateEventAsync(createDto);
-            return Ok(newEvent.Id);
+            return Ok(new { id = newEvent.Id });
         }
 
         [HttpGet]
@@ -65,8 +65,8 @@ namespace AttenDancer.Controllers
         }
 
         [Authorize]
-        [HttpGet("/GetEventByUserId")]
-        public async Task<IActionResult> GetEventByUserIdAsync()
+        [HttpGet("/GetEventsByUserId")]
+        public async Task<IActionResult> GetEventsByUserIdAsync()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -82,7 +82,7 @@ namespace AttenDancer.Controllers
 
         [Authorize]
         [HttpPut("{eventId}")]
-        public async Task<IActionResult> UpdateEventAsync([FromBody] EventCreateDto dto, string eventId)
+        public async Task<IActionResult> UpdateEventAsync([FromBody] EventUpdateDto dto, string eventId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

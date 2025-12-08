@@ -1,79 +1,75 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card shadow-sm border-0" style="border-radius: 10px;">
-                    <div class="row g-0">
-                        <div class="col-md-6 d-none d-md-block position-relative" style="background: url('Assets/login-image.jpg'); background-size: cover;
-                            border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-start align-items-center pt-5"
-                                style="background-color: rgba(0, 0, 0, 0.5); border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
-
-                                <div class="row mt-5 justify-content-center">
-                                    <h2 style="color: #EFF1F2; font-size: 45px; align-self: center;">Welcome back!</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="card-body p-5">
-                                <div class="text-center mb-5">
-                                    <h1 style="font-size: 35px;">Sign into Attendancer</h1>
-                                </div>
-
-                    
-
-                                <form #loginForm="ngForm" class="form" (ngSubmit)="onLogin(loginForm)">
-                                    <div class="form-field p-2">
-                                        <label for="email" class="field-label"
-                                            style="font-size: 20px; font-weight: 700;">
-                                            Email address
-                                        </label>
-                                        <input
-                                            type="email"
-                                            [(ngModel)]="loginModel.email"
-                                            name="email"
-                                            #email="ngModel"
-                                            placeholder="Enter email"
-                                            required
-                                            email
-                                        />
-                                        <div class="error" *ngIf="email.invalid && email.touched">
-                                            <small *ngIf="email.errors?.['required']">Email is required.</small>
-                                            <small *ngIf="email.errors?.['email']">Invalid email format.</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-field p-2">
-                                        <label for="password" class="field-label"
-                                            style="font-size: 20px; font-weight: 700;">
-                                            Password
-                                        </label>
-                                        <input
-                                            type="password"
-                                            [(ngModel)]="loginModel.password"
-                                            name="password"
-                                            #password="ngModel"
-                                            placeholder="Enter password"
-                                            required
-                                        />
-                                        <div class="error" *ngIf="password.invalid && password.touched">
-                                            <small *ngIf="password.errors?.['required']">Password is required.</small>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" class="button-primary mt-2" [disabled]="loginForm.invalid"
-                                        style="height: 55px; width: 98%; align-self: center; font-size: 20px;">
-                                        Sign in</button>
-                                    <p class="small-text d-flex align-self-center" style="font-size: 15px;">
-                                        <a routerLink="/register" class="nav-link">Don't have an account yet? <b>Sign
-                                                up!</b></a>
-                                    </p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card shadow-sm border-0" style="border-radius: 10px;">
+          <div class="row g-0">
+            <div class="col-md-6 d-none d-md-block position-relative"
+                 style="background: url('./Assets/login-image.jpg'); background-size: cover; border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
+              <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-start align-items-center pt-5"
+                   style="background-color: rgba(0, 0, 0, 0.5); border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
+                <div class="row mt-5 justify-content-center">
+                  <h2 style="color: #EFF1F2; font-size: 45px; align-self: center;">
+                    {{ 'LOGIN.WELCOME_BACK' | translate }}
+                  </h2>
                 </div>
+              </div>
             </div>
+            <div class="col-12 col-md-6">
+              <div class="card-body p-5">
+                <div class="text-center mb-5">
+                  <h1 style="font-size: 35px;">
+                    {{ 'LOGIN.SIGN_IN_TITLE' | translate }}
+                  </h1>
+                </div>
+
+                <form #loginForm="ngForm" class="form" (ngSubmit)="onLogin(loginForm)">
+                  <div class="form-field p-2">
+                    <label for="email" class="field-label" style="font-size: 20px; font-weight: 700;">
+                      {{ 'LOGIN.EMAIL_LABEL' | translate }}
+                    </label>
+                    <input type="email" [(ngModel)]="loginModel.email" name="email" #email="ngModel"
+                           placeholder="{{ 'LOGIN.EMAIL_PLACEHOLDER' | translate }}" required email />
+                    <div class="error" *ngIf="email.invalid && email.touched">
+                      <small *ngIf="email.errors?.['required']">
+                        {{ 'LOGIN.ERROR.EMAIL_REQUIRED' | translate }}
+                      </small>
+                      <small *ngIf="email.errors?.['email']">
+                        {{ 'LOGIN.ERROR.EMAIL_INVALID' | translate }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-field p-2">
+                    <label for="password" class="field-label" style="font-size: 20px; font-weight: 700;">
+                      {{ 'LOGIN.PASSWORD_LABEL' | translate }}
+                    </label>
+                    <input type="password" [(ngModel)]="loginModel.password" name="password" #password="ngModel"
+                           placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}" required />
+                    <div class="error" *ngIf="password.invalid && password.touched">
+                      <small *ngIf="password.errors?.['required']">
+                        {{ 'LOGIN.ERROR.PASSWORD_REQUIRED' | translate }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="button-primary mt-2" [disabled]="loginForm.invalid"
+                          style="height: 55px; width: 98%; align-self: center; font-size: 20px;">
+                    {{ 'LOGIN.BUTTON_SIGN_IN' | translate }}
+                  </button>
+
+                  <p class="small-text d-flex align-self-center" style="font-size: 15px;">
+                    <a routerLink="/register" class="nav-link">
+                      {{ 'LOGIN.NO_ACCOUNT' | translate }} <b>{{ 'LOGIN.SIGN_UP_HERE' | translate }}</b>
+                    </a>
+                  </p>
+                </form>
+
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

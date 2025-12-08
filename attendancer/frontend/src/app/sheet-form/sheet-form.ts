@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MockDataService } from '../services/mock-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditEventService } from '../services/edit-event-service';
+import { EventClient, EventCreateDto, EventGroupClient, EventGroupCreateDto, EventUpdateDto } from '../app.api-client.generated';
+import { EventViewDto } from '../models/event-view-dto';
+import { JwtDecodeService } from '../services/jwt-decode.service';
+import { EventGroupViewDto } from '../models/event-group-view-dto';
+import { SheetService } from '../services/sheet.service';
 
 @Component({
   selector: 'app-sheet-form',
@@ -11,53 +15,81 @@ import { EditEventService } from '../services/edit-event-service';
 })
 export class SheetForm implements OnInit {
   customFields: number[] = []
-  selectedEventOrEventGroup: string = ""
-  currentEvent: any = {
-    id: "",
-    name: "",
-    date: "",
-    eventGroupId: "",
-    metadata: []
-  }
-  events: any[] = []
-  eventGroups: any[] = []
+  selectedEventOrEventGroup: string = "default"
+  currentEvent: EventUpdateDto = new EventUpdateDto()
+  events: EventViewDto[] = []
+  eventGroups: EventGroupViewDto[] = []
   currentlySelectedMetadata: string[] = []
-  userId: string = (Math.floor(Math.random() * 3) + 1).toString()
   editMode: boolean = false
+  isSelectedEvent: boolean = false
+  public userId: string | null = null
+  public createEventGroup: EventGroupCreateDto = new EventGroupCreateDto()
 
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
-    private mockDataService: MockDataService, 
-    private editEventService: EditEventService
+    private eventClient: EventClient, 
+    private eventGroupClient: EventGroupClient, 
+    private editEventService: EditEventService, 
+    private jwtDecodeService: JwtDecodeService,
+    private sheetService: SheetService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    // A bejelentkezett felhasználó userId-jének megszerzése.
+    this.userId = this.jwtDecodeService.getUserId()
+    this.currentEvent.userId = this.userId ?? ""
+
+    this.selectedEventOrEventGroup = "default"
+
+    // Ha szerkesztő oldal.
     if (this.route.snapshot.routeConfig?.path === "editSheet") {
 
       this.editMode = true
 
-      this.currentEvent = this.editEventService.getEvent();
+      this.currentEvent = this.editEventService.getEvent()
 
       if (this.currentEvent === undefined) {
-        this.router.navigate(['/createSheet']);
+        this.router.navigate(['/createSheet'])
       }
 
-      this.currentEvent.metadata.forEach(() => {
+      this.currentEvent.metadata!.forEach(() => {
         this.addCustomField()
-      });
-
-      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId
-      this.onSelectionChange(this.currentEvent.eventGroupId)
+      })
     }
-    
-    this.mockDataService.getEventsByUserId(this.userId).subscribe((data) => {
-      this.events = data;
-    });
 
-    this.mockDataService.getEventGroupsWithMetadataByUserId(this.userId).subscribe((data) => {
-      this.eventGroups = data;
-    });
+    // Leellenőrizni, hogy ne legyen undefined a metadata.
+    if (this.currentEvent.metadata === undefined) {
+      this.currentEvent.metadata = []
+    }
+
+    // Események melyek nincsenek eseménycsoportba.
+    this.eventClient.getEventsByUserId().subscribe((response) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string)
+        //console.log(jsonData)
+
+        this.events = jsonData
+
+        this.initMetadata()
+      }
+      reader.readAsText(response.data)
+    })
+
+    // Eseménycsoportok a metaadataikkal.
+    this.eventGroupClient.getEventGroupsByUserId().subscribe((response) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const jsonData = JSON.parse(reader.result as string)
+        //console.log(jsonData)
+
+        this.eventGroups = jsonData
+
+        this.initMetadata()
+      }
+      reader.readAsText(response.data)
+    })
   }
 
   onSelectionChange(selectedValue: string) {
@@ -65,68 +97,149 @@ export class SheetForm implements OnInit {
       this.currentEvent.eventGroupId = selectedValue
     }
 
+    if (selectedValue === "default") {
+      this.isSelectedEvent = false
+      if (!this.editMode) {
+        this.currentEvent.metadata = []
+        this.customFields = []
+      }
+    }
+
     this.events.forEach(event => {
       if (event.id === selectedValue) {
         this.currentlySelectedMetadata = event.metadata
+        this.currentEvent.metadata = this.currentlySelectedMetadata
+        this.isSelectedEvent = true
       }
-    });
+    })
 
     this.eventGroups.forEach(eventGroup => {
       if (eventGroup.id === selectedValue) {
         this.currentlySelectedMetadata = eventGroup.metadata
+        this.currentEvent.metadata = this.currentlySelectedMetadata
+        this.isSelectedEvent = false
       }
-    });
+    })
+
+    if (this.isSelectedEvent) {
+      this.currentEvent.eventGroupId = undefined
+    }
   }
 
   createSheet() {
     if (!this.inputInvalid()) {
 
-      this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
+      this.currentEvent.metadata = this.currentEvent.metadata!.filter(data => data !== undefined && data !== '')
 
-      this.mockDataService.postEvent(this.currentEvent)
-      this.resetPage()
+      // Elkészíteni az esemény is visszakapni annak id-jét.
+      this.sheetService.postEvent(this.currentEvent).subscribe({
+        next: (response: string) => {
+          //console.log("The created event's id: ", Object.values(response)[0])
+          this.createEventGroup.eventIds[0] = Object.values(response)[0]
+
+          // Ha egy esemény lett kiválasztva akkor hozza létre a hozzá tartozó esemény csoportot is.
+          if (this.isSelectedEvent) {
+            this.createEventGroupMethod()
+          }
+          else {
+            this.resetPage()
+          }
+        },
+        error: (err) => {
+          console.error("Error occurred: ", err)
+        },
+      })
     }
   }
-
 
   editSheet() {
     if (!this.inputInvalid()) {
 
-      this.currentEvent.metadata = this.currentEvent.metadata.filter((data: undefined) => data !== undefined && data !== '')
+      this.currentEvent.metadata = this.currentEvent.metadata!.filter(data => data !== undefined && data !== '')
 
-      this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
+      // A megfelelő esemény csoport id-k megadása.
+      if (this.currentEvent.eventGroupId === "default" || this.selectedEventOrEventGroup === "default") {
+        this.currentEvent.eventGroupId = undefined
+      }
+      else {
+        this.currentEvent.eventGroupId = this.selectedEventOrEventGroup
+      }
 
-      this.mockDataService.updateEvent(this.currentEvent)
-      this.router.navigate(['/profile']);
+      // Ha egy esemémy van kiválasztva akkor létre kell hozni mellé egy esemény csoportot is.
+      if (this.isSelectedEvent)
+      {
+        //console.log( this.currentEvent)
+        this.createEventGroup.eventIds[0] = this.currentEvent.id!
+        this.currentEvent.eventGroupId = undefined
+      }
+
+      // Egy esemény frissítése.
+      this.sheetService.updateEvent(this.currentEvent).subscribe({
+        next: (response: any) => {
+          //this.createEventGroup.eventIds[0] = this.currentEvent.id!
+
+          if (this.isSelectedEvent) {
+            this.createEventGroupMethod()
+          }
+        },
+        error: (err) => {
+          console.error("Error occurred: ", err)
+        },
+      })
+
+      this.router.navigate(['/profile'])
     }
   }
 
   inputInvalid(): boolean {
-    return !(this.currentEvent.name.length > 0 && this.currentEvent.date.length > 0)
+    if (this.isSelectedEvent) {
+      return !(this.currentEvent.name && this.currentEvent.date && this.createEventGroup.name)
+    }
+    return !(this.currentEvent.name && this.currentEvent.date)
   }
 
   resetPage(): void {
     this.customFields = []
-    this.selectedEventOrEventGroup = ""
-    this.currentEvent = {
-      name: "",
-      eventGroupId: "",
-      date: "",
-      metadata: []
-    }
+    this.selectedEventOrEventGroup = "default"
+    this.currentEvent = new EventCreateDto()
     this.events = []
     this.eventGroups = []
     this.currentlySelectedMetadata = []
-    this.userId = (Math.floor(Math.random() * 3) + 1).toString()
+    this.createEventGroup = new EventGroupCreateDto()
+    this.isSelectedEvent = false
     this.ngOnInit()
   }
 
   addCustomField(): void {
-    this.customFields.push(this.customFields.length);
+    this.customFields.push(this.customFields.length)
   }
 
   removeCustomField(index: number): void {
-    this.customFields.splice(index, 1);
-    this.currentEvent.metadata[index] = ""
+    this.customFields.splice(index, 1)
+    this.currentEvent.metadata![index] = ""
+  }
+
+  initMetadata(): void {
+    if (this.editMode) {
+      this.selectedEventOrEventGroup = this.currentEvent.eventGroupId ?? "default"
+      this.onSelectionChange(this.selectedEventOrEventGroup)
+    }
+  }
+
+  createEventGroupMethod() {
+    this.createEventGroup.userId = this.userId ?? undefined
+
+    this.createEventGroup.metadata = this.currentEvent.metadata!.slice()
+    this.createEventGroup.eventIds[1] = this.selectedEventOrEventGroup
+
+    //console.log(this.createEventGroup)
+    this.sheetService.postEventGroup(this.createEventGroup).subscribe({
+      next: (response: any) => {
+        this.resetPage()
+      },
+      error: (err) => {
+        console.error("Error occurred: ", err)
+      },
+    })
   }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttenDancer.Data.Migrations
 {
     [DbContext(typeof(AttenDancerDbContext))]
-    [Migration("20251117211418_RemoveExpirationDate")]
-    partial class RemoveExpirationDate
+    [Migration("20251124161330_RandomChanges")]
+    partial class RandomChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

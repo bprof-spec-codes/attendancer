@@ -1,19 +1,19 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MockDataService } from '../services/mock-data.service';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { mergeMap, of } from 'rxjs';
 
 export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
-  const mockDataService = inject(MockDataService);
+  /*const mockDataService = inject(MockDataService);
 
     if (req.url.endsWith('/api/User/login')) {
     return next(req);
   }
 
-  const token = localStorage.getItem(environment.tokenKey);
+  const token = localStorage.getItem(environment.tokenKey);*/
   let modifiedReq = req;
-
+/*
   if (token) {
     modifiedReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
@@ -56,7 +56,7 @@ export const mockDataInterceptor: HttpInterceptorFn = (req, next) => {
       status: 201,
       body: { message: 'Event created (mock)' }
     }));
-  }
+  }*/
 
   return next(modifiedReq);
 };

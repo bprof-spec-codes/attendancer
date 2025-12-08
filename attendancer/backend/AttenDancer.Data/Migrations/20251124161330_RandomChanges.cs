@@ -5,7 +5,7 @@
 namespace AttenDancer.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class EventModelExtension : Migration
+    public partial class RandomChanges : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,8 +32,10 @@ namespace AttenDancer.Data.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "QrCode",
                 table: "Events",
-                type: "nvarchar(max)",
-                nullable: true);
+                type: "nvarchar(500)",
+                maxLength: 500,
+                nullable: false,
+                defaultValue: "");
         }
     }
 }
