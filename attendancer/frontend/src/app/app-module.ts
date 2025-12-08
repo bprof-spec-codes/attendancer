@@ -48,7 +48,7 @@ import { ModalQrcode } from './modal-qrcode/modal-qrcode';
     ReactiveFormsModule,
     FormsModule,
     TranslateModule.forRoot({
-        defaultLanguage: 'en',
+        fallbackLang: 'en',
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
