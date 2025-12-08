@@ -1,5 +1,7 @@
 export const environment = {
+  production: false,
   apis: {
+    base: "https://localhost:7198",
     login: "https://localhost:7198/api/User/login",
     register: "https://localhost:7198/api/User/register",
     getUser: 'https://localhost:7198/api/User',

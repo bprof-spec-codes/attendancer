@@ -24,6 +24,8 @@ import { HttpLoaderFactory } from './services/translation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';
+import { API_BASE_URL } from './app.api-client.generated';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { ModalQrcode } from './modal-qrcode/modal-qrcode';
         mockDataInterceptor
       ])
     ),
+    { provide: API_BASE_URL, useValue: environment.apis.base },
     provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
