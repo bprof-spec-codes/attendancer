@@ -3,11 +3,17 @@ import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 import { NgForm } from '@angular/forms';
 import { UserClient } from '../app.api-client.generated';
-import { EventGroupDto, EventGroupMatrixViewDto, StatisticsService } from '../services/statistics-service';
+import {
+  EventGroupDto,
+  EventGroupMatrixViewDto,
+  StatisticsService,
+} from '../services/statistics-service';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { SignedEvents } from '../models/signed-events';
+import { EventViewDto } from '../models/event-view-dto';
+import { SheetService } from '../services/sheet.service';
 
 @Component({
   selector: 'app-profile',
@@ -30,13 +36,15 @@ export class Profile implements OnInit {
   onResize() {
     this.updateIsMobile();
   }
-  signedEvents: SignedEvents[][] = []
-  signedEventGroupName: string = ""
+  signedEvents: SignedEvents[][] = [];
+  signedEventGroupName: string = '';
   user: User = new User();
 
   eventGroups: EventGroupDto[] = [];
   selectedEventGroupId: string = '';
   matrix: EventGroupMatrixViewDto | null = null;
+
+  userEvents: EventViewDto[] = [];
 
   nameErrorMessage: string = '';
   emailErrorMessage: string = '';
@@ -49,70 +57,66 @@ export class Profile implements OnInit {
   pendingEmail: string = '';
   pendingEmailConfirm: string = '';
 
-  modalTitle: string = ""
-  modalMessage: string = ""
-  private unsubscribe$ = new Subject<void>()
+  modalTitle: string = '';
+  modalMessage: string = '';
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private router: Router,
     private userService: UserClient,
     private customUserService: UserService,
     private translate: TranslateService,
-    private statisticsService: StatisticsService
+    private statisticsService: StatisticsService,
+    private eventService: SheetService
   ) {}
 
   ngOnInit(): void {
     // A modal fordítása.
-    this.translate.onLangChange
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.updateTranslations()
-      })
+    this.translate.onLangChange.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.updateTranslations();
+    });
 
     this.customUserService.getCurrentUser().subscribe((data) => {
       this.user = data;
     });
 
     this.userService.getMySignedSheets().subscribe((response) => {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = () => {
-        const jsonData = JSON.parse(reader.result as string) as any[]
-        //console.log(jsonData)
+        const jsonData = JSON.parse(reader.result as string) as any[];
 
         // Az eventGroupId szerint csoportosítani az eseményeket ami lehet null érték is.
         const groupedEvents = jsonData.reduce((acc, event) => {
-          const groupId = event.eventGroupId || ""
+          const groupId = event.eventGroupId || '';
           if (!acc[groupId]) {
-            acc[groupId] = []
+            acc[groupId] = [];
           }
-          acc[groupId].push(event)
+          acc[groupId].push(event);
           return acc;
-        }, {})
+        }, {});
 
-        this.signedEvents = Object.values(groupedEvents)
-
-        //console.log(this.signedEvents)
+        this.signedEvents = Object.values(groupedEvents);
 
         for (let i = 0; i < this.signedEvents.length; i++) {
           for (let j = 0; j < this.signedEvents[i].length; j++) {
-            let eventDate = new Date(this.signedEvents[i][j].eventDate).getTime()
-            let signedAtDate = new Date(this.signedEvents[i][j].signedAt).getTime()
-            const diffMilliseconds = eventDate - signedAtDate
+            let eventDate = new Date(this.signedEvents[i][j].eventDate).getTime();
+            let signedAtDate = new Date(this.signedEvents[i][j].signedAt).getTime();
+            const diffMilliseconds = eventDate - signedAtDate;
 
             // Ha 24 órán belül van akkor igaz (86400000 milliseconds).
             if (diffMilliseconds >= 0 && diffMilliseconds <= 86400000) {
-              this.signedEvents[i][j].inTime = true
-            }
-            else {
-              this.signedEvents[i][j].inTime = false
+              this.signedEvents[i][j].inTime = true;
+            } else {
+              this.signedEvents[i][j].inTime = false;
             }
           }
         }
-      }
-      reader.readAsText(response.data)
-    })
+      };
+      reader.readAsText(response.data);
+    });
 
     this.loadEventGroups();
+    this.loadUserEvents();
   }
 
   loadEventGroups(): void {
@@ -123,7 +127,35 @@ export class Profile implements OnInit {
       error: (err) => {
         console.error('Hiba az eseménycsoportok betöltésekor', err);
         this.eventGroups = [];
-      }
+      },
+    });
+  }
+
+  loadUserEvents(): void {
+    this.eventService.getEvents().subscribe({
+      next: (data: EventViewDto[]) => {
+        this.userEvents = data || [];
+      },
+      error: (err) => {
+        this.userEvents = [];
+      },
+    });
+  }
+
+  onEditSheet() {
+    this.router.navigate(['/editSheet']);
+  }
+
+  onDeleteSheet(id: string) {
+    this.eventService.deleteEvent(id).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/profile']);
+        });
+      },
+      error: (err) => {
+        console.error('Hiba a lap törlésekor', err);
+      },
     });
   }
 
@@ -196,14 +228,13 @@ export class Profile implements OnInit {
     }
     const passwordData = {
       oldPassword: form.value.oldPassword,
-      newPassword: form.value.password
+      newPassword: form.value.password,
     };
 
     //this.customUserService.updatePassword(this.user.id, passwordData).subscribe({
     this.userService.changePassword(passwordData as any).subscribe({
       next: (response: any) => {
         console.log('Password updated successfully', response);
-
       },
       error: (err) => {
         console.error('Error updating password', err);
@@ -221,7 +252,7 @@ export class Profile implements OnInit {
       error: (err) => {
         console.error(err);
         alert('Hiba történt a fiók törlése során.');
-      }
+      },
     });
   }
 

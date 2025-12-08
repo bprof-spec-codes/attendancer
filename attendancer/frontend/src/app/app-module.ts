@@ -24,6 +24,7 @@ import { HttpLoaderFactory } from './services/translation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';
+import { EditSheet } from './edit-sheet/edit-sheet';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ModalQrcode } from './modal-qrcode/modal-qrcode';
     ModalWarning,
     LanguageSwitcher,
     SheetSigned,
-    ModalQrcode
+    ModalQrcode,
+    EditSheet
   ],
   imports: [
     BrowserModule,
