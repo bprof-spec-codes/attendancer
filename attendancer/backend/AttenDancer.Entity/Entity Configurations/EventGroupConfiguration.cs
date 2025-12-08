@@ -13,7 +13,7 @@ namespace AttenDancer.Entity.Entity_Configurations
             builder.HasOne(eg => eg.User)
                 .WithMany(u => u.EventGroups)
                 .HasForeignKey(eg => eg.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
