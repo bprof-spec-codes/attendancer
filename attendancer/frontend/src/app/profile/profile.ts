@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SignedEvents } from '../models/signed-events';
 import { EventViewDto } from '../models/event-view-dto';
 import { SheetService } from '../services/sheet.service';
+import { EditEventService } from '../services/edit-event-service';
 
 @Component({
   selector: 'app-profile',
@@ -67,7 +68,8 @@ export class Profile implements OnInit {
     private customUserService: UserService,
     private translate: TranslateService,
     private statisticsService: StatisticsService,
-    private eventService: SheetService
+    private eventService: SheetService,
+    private editEventService: EditEventService
   ) {}
 
   ngOnInit(): void {
@@ -142,7 +144,9 @@ export class Profile implements OnInit {
     });
   }
 
-  onEditSheet() {
+  onEditSheet(sheet: EventViewDto) {
+    this.editEventService.setEvent(sheet);
+
     this.router.navigate(['/editSheet']);
   }
 
