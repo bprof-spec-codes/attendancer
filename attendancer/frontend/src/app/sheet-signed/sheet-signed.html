@@ -16,7 +16,7 @@
               <div class="form" style="gap: 0.75rem; margin-top: 2rem;">
 
                 <div *ngFor="let name of metadataNames; let i = index">
-                  <input type="text" [(ngModel)]="metadata[i]" placeholder={{ name }} name="meta_{{i}}">
+                  <input type="text" [(ngModel)]="metadata[i]" placeholder="{{ name }}" name="meta_{{i}}">
                 </div>
                 <button (click)="SignInEvent()" type="submit" class="button-primary w-50 align-self-center mt-3" style="height: 55px; font-size: 25px;">
                   {{ 'SHEET.SIGN_SHEET_BUTTON' | translate }}

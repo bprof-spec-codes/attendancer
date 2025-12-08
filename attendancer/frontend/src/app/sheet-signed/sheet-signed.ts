@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventViewDto } from '../models/event-view-dto';
-import { EventClient, ParticipantClient, ParticipantCreateDto} from '../app.api-client.generated';
+import { EventClient, FileResponse, ParticipantClient, ParticipantCreateDto} from '../app.api-client.generated';
 import { UserService } from '../services/user-service';
 import { User } from '../models/user';
 
@@ -67,20 +67,26 @@ export class SheetSigned implements OnInit {
     console.log("Current user:", this.user)
     dto.userId = this.user.id
     dto.eventId = this.eventId
-    dto.metadata = this.dataConverter();
-    this.participantService.createParticipant(this.eventId, dto).subscribe(res => {
+    dto.metadata = dto.metadata = JSON.stringify(this.dataConverter())
+    this.participantService.createParticipant(this.eventId, dto).subscribe({
+    next: (res: FileResponse) => {
       res.data.text().then(text => {
         if (text) {
-          const created = JSON.parse(text)
-          console.log("Participant created:", created)
+          const created = JSON.parse(text);
+          console.log("Participant created:", created);
+          this.eventIsSigned();
+        } else {
+          console.warn("Üres válasz érkezett");
         }
-      })
-    })
-    console.log("Jelenléti ív aláírva!")
-    console.log("Current userId:", dto.userId)
-    console.log("Event ID:", dto.eventId)
-    console.log("Metadata:", dto.metadata)
+      });
+    },
+    error: err => {
+      console.error("Error creating participant:", err);
+      console.log("DTO that will be sent:", dto);
+    }
+  });
   }
+
   eventIsSigned(): boolean {
     return this.event.participants?.some(p => p.userFullName === this.user.lastName + ' ' +  this.user.firstName) || false
   }
