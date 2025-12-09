@@ -30,7 +30,7 @@ public class Startup(IConfiguration configuration)
             opt.Filters.Add<ValidationFilter>();
         });
 
-        string conString = Configuration.GetConnectionString("AttenDancerDb") ??
+        string conString = Configuration["db:conn"] ??
             throw new InvalidOperationException("Connection string 'AttenDancerDb'" + " not found.");
 
         services.AddDbContext<AttenDancerDbContext>(options =>
@@ -43,8 +43,16 @@ public class Startup(IConfiguration configuration)
                 name: "AllowOrigin",
                 builder =>
                 {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                });
+                    var frontendUrl = Configuration["settings:frontend"] ?? "http://localhost:4200/";
+
+                    //builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
+                    builder.WithOrigins(frontendUrl)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                }
+            );
         });
 
         services.AddAuthentication(options =>

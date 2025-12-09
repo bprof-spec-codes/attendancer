@@ -25,6 +25,8 @@ import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';
 import { EditSheet } from './edit-sheet/edit-sheet';
+import { API_BASE_URL } from './app.api-client.generated';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { EditSheet } from './edit-sheet/edit-sheet';
         mockDataInterceptor
       ])
     ),
+    { provide: API_BASE_URL, useValue: environment.apis.base },
     provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
