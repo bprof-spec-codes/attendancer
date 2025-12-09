@@ -4,6 +4,7 @@ using AttenDancer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttenDancer.Data.Migrations
 {
     [DbContext(typeof(AttenDancerDbContext))]
-    partial class AttenDancerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251207100048_AddCascadeForEventGroup")]
+    partial class AddCascadeForEventGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,7 +185,7 @@ namespace AttenDancer.Data.Migrations
                     b.HasOne("AttenDancer.Entity.Entity_Models.User", "User")
                         .WithMany("EventGroups")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
