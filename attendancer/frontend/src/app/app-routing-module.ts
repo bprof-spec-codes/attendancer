@@ -19,13 +19,12 @@ const routes: Routes = [
   { path: 'create', component: SheetForm }, //UI tesztelésre van
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'prof', component: Profile }, //UI tesztelésre van
-  { path: 'sign/:id', component: SheetSigned},
+  { path: 'sign/:id', component: SheetSigned },
   { path: '**', redirectTo: 'login' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -117,58 +117,71 @@
         }
         @if (activeSection==='sheets'){
         <div class="col mt-4">
-            <div class="card shadow mb-4" style="background-color: #EFF1F2;">
+            <div class="card shadow" style="background-color: #EFF1F2;">
                 <div class="card-body">
-                    <div class="scrollable-container">
-                        <div class="row g-3">
-                            <div class="card shadow" style="background-color: #EFF1F2;">
-                                <div class="card-body">
-                                    <div class="row d-flex align-items-center justify-content-between">
-                                        <div class="col mt-2">
-                                            <p class="h1" style="color: #213F9A;">Calculus I.</p>
-                                        </div>
-                                        <div class="col-auto mb-2">
-                                            <button class="btn button-primary mt-2"
-                                                style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
-
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex align-items-end justify-content-end">
-                                        <div class="col">
-                                            <a class="attendance-block present" [routerLink]="['/sheet',]"></a>
-                                            <!--Ide majd mehet az hogy [routerLink]="['/sheet', sheet.id]" pl-->
-                                            <a class="attendance-block present"></a>
-                                            <a class="attendance-block present"></a>
-                                            <a class="attendance-block present"></a>
-                                            <a class="attendance-block present"></a>
-                                        </div>
-                                        <div class="col d-flex justify-content-end align-items-end mb-2">
-                                            <button class="btn button-danger mt-2" style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    
+                    <div class="row g-3 d-flex justify-content-between justify-content-center">
+                        <div class="col">
+                            <h1>Sheets</h1>
+                        </div>
+                        <div class="col-auto">
                             </div>
-                            <div class="card shadow" style="background-color: #EFF1F2;">
-                                <div class="card-body" style="cursor: pointer;" [routerLink]="['/sheet',]">
-                                    <div class="row d-flex align-items-center justify-content-between">
-                                        <div class="col mt-2">
-                                            <p class="h1" style="color: #213F9A;">Meeting</p>
-                                        </div>
-                                        <div class="col-auto mb-2">
-                                            <button class="btn button-primary mt-2"
-                                                style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
+                        <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+                    </div>
 
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="scrollable-container">
+                                <div class="row g-3">
+
+                                    <div class="col-12" *ngFor="let sheet of userEvents">
+                                        <div class="card shadow" style="background-color: #EFF1F2;">
+                                            <div class="card-body" style="cursor: pointer;">
+                                                
+                                                <div class="row d-flex align-items-center justify-content-between">
+                                                    <div class="col mt-2" [routerLink]="['/sheet', sheet.id]">
+                                                        <p class="h1" style="color: #213F9A;">{{ sheet.name }}</p>
+                                                    </div>
+                                                    
+                                                    <div class="col-auto mb-2">
+                                                        <button class="btn button-primary mt-2"
+                                                            style="width: 10px; border: 2px solid #213F9A;"
+                                                            (click)="$event.stopPropagation(); onEditSheet(sheet)">
+                                                            {{'PROFILE_PAGE.EDIT' | translate}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex align-items-end justify-content-end">
+                                                <div class="col">
+                                                    <a class="attendance-block" 
+                                                    [routerLink]="['/sheet', sheet.id]"
+                                                    title="Részletek megtekintése">
+                                                    </a>
+                                                </div>
+
+                                                    <div class="col d-flex justify-content-end align-items-end mb-2">
+                                                        <button class="btn button-danger mt-2" 
+                                                                style="width: 10px;"
+                                                                (click)="$event.stopPropagation(); onDeleteSheet(sheet.id)">
+                                                            {{'PROFILE_PAGE.DELETE' | translate}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row d-flex align-items-end justify-content-end">
-                                        <div class="col-auto mb-2">
-                                            <button class="btn button-danger mt-2" style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
-                                        </div>
+                                    
+                                    <div class="col-12 text-center" *ngIf="userEvents?.length === 0">
+                                        <p class="text-muted">No sheets found.</p>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -451,71 +464,68 @@
             }
             <!--Minden a felhasználó által létrehozott jelenléti ív csoport és egyedi listázása. Kérdéses, hogy egyáltalán ez kell-e-->
             @if (activeSection === 'sheets'){
-            <div class="col mt-5">
-                <div class="card w-100" style="background-color: #EFF1F2; width: 240vh;
-                border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                    <div class="card-body" style="max-height: 93vh; overflow-y: auto;">
-                        <div class="scrollable-container">
-                            <div class="row g-3">
-                                <div class="card shadow" style="background-color: #EFF1F2; cursor: pointer;">
-                                    <div class="card-body">
-                                        <div class="row d-flex align-items-center justify-content-between">
-                                            <div class="col mt-2">
-                                                <p class="h1" style="color: #213F9A;">Calculus I.</p>
-                                            </div>
-                                            <div class="col-auto mb-2">
-                                                <button class="btn button-primary mt-2"
-                                                    style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
+            <div class="col mt-4">
+            <div class="card shadow" style="background-color: #EFF1F2;">
+                <div class="card-body">
+                    <div class="row g-3 d-flex justify-content-between justify-content-center">
+                        <div class="col">
+                            <h1>Sheets</h1>
+                        </div>
+                        <div class="col-auto">
+                            </div>
+                        <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="scrollable-container">
+                                <div class="row g-3">
+
+                                    <div class="col-12" *ngFor="let sheet of userEvents">
+                                        <div class="card shadow" style="background-color: #EFF1F2;">
+                                            <div class="card-body" style="cursor: pointer;">       
+                                                <div class="row d-flex align-items-center justify-content-between">
+                                                    <div class="col mt-2">
+                                                        <p class="h1" style="color: #213F9A;">{{ sheet.name }}</p>
+                                                    </div>
+
+                                                    <div class="col-auto mb-2">
+                                                        <button class="btn button-primary mt-2"
+                                                            style="width: 10px; border: 2px solid #213F9A;"
+                                                            (click)="$event.stopPropagation(); onEditSheet(sheet)">
+                                                            {{'PROFILE_PAGE.EDIT' | translate}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-flex align-items-end justify-content-end">
+                                                <div class="col">
+                                                    <a class="attendance-block" 
+                                                    [routerLink]="['/sheet', sheet.id]"
+                                                    title="Részletek megtekintése">
+                                                    </a>
+                                                </div>
+                                                    <div class="col d-flex justify-content-end align-items-end mb-2">
+                                                        <button class="btn button-danger mt-2" 
+                                                                style="width: 10px;"
+                                                                (click)="$event.stopPropagation(); onDeleteSheet(sheet.id)">
+                                                            {{'PROFILE_PAGE.DELETE' | translate}}
+                                                        </button>
+                                                    </div>
+                                                </div>
 
                                             </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center justify-content-between">
-                                            <div class="col">
-                                                <a class="attendance-block present" [routerLink]="['/sheet',]"></a>
-                                                <!--Ide majd mehet az hogy [routerLink]="['/sheet', sheet.id]" pl-->
-                                                <a class="attendance-block present"></a>
-                                                <a class="attendance-block present"></a>
-                                                <a class="attendance-block present"></a>
-                                                <a class="attendance-block present"></a>
-                                            </div>
-                                            <div class="col d-flex justify-content-end align-items-end mb-2">
-                                                <button class="btn button-danger mt-2"
-                                                    style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
-                                            </div>
-                                        </div>
-                                        <div class="row ms-1">
-
-                                            <!--@for (eventcount of eventGroup){
-                                        <span class="attendance-block present"></span>
-                                    }-->
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card shadow" style="background-color: #EFF1F2;">
-                                    <div class="card-body" style="cursor: pointer;" [routerLink]="['/sheet',]">
-                                        <div class="row d-flex align-items-center justify-content-between">
-                                            <div class="col mt-2">
-                                                <p class="h1" style="color: #213F9A;">Meeting</p>
-                                            </div>
-                                            <div class="col-auto mb-2">
-                                                <button class="btn button-primary mt-2"
-                                                    style="width: 10px; border: 2px solid #213F9A;">{{'PROFILE_PAGE.EDIT' | translate}}</button>
-
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-end justify-content-end">
-                                            <div class="col-auto mb-2">
-                                                <button class="btn button-danger mt-2"
-                                                    style="width: 10px;">{{'PROFILE_PAGE.DELETE' | translate}}</button>
-                                            </div>
-                                        </div>
+                                    <div class="col-12 text-center" *ngIf="userEvents?.length === 0">
+                                        <p class="text-muted">No sheets found.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+        </div>
             }
 
             @if (activeSection === 'edit'){

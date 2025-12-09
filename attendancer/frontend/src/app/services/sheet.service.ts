@@ -3,6 +3,7 @@ import { EventCreateDto, EventGroupCreateDto, EventUpdateDto } from '../app.api-
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { EventViewDto } from '../models/event-view-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +12,24 @@ export class SheetService {
   constructor(private http: HttpClient) {}
 
   postEvent(eventCreateDto: EventCreateDto): Observable<string> {
-    return this.http.post<string>(environment.apis.postEvent, eventCreateDto)
+    return this.http.post<string>(environment.apis.postEvent, eventCreateDto);
   }
 
   postEventGroup(eventGroupCreateDto: EventGroupCreateDto): Observable<any> {
-    return this.http.post<any>(environment.apis.postEventGroup, eventGroupCreateDto)
+    return this.http.post<any>(environment.apis.postEventGroup, eventGroupCreateDto);
   }
 
   updateEvent(eventUpdateDto: EventUpdateDto): Observable<any> {
     const url = environment.apis.updateEvent.replace('{id}', eventUpdateDto.id!);
-    return this.http.put<any>(url, eventUpdateDto)
+    return this.http.put<any>(url, eventUpdateDto);
+  }
+
+  public getEvents(): Observable<EventViewDto[]> {
+    const url = environment.apis.eventsByUser;
+    return this.http.get<EventViewDto[]>(url);
+  }
+
+  public deleteEvent(eventId: string): Observable<void> {
+    return this.http.delete<void>(environment.apis.deleteEvent.replace('{id}', eventId));
   }
 }

@@ -14,7 +14,9 @@ export const environment = {
     updateEvent: "https://api.attendancer.hu/api/Event/{id}",
     updateEventGroup: "https://api.attendancer.hu/api/EventGroup/{id}",
     eventGroupView: "https://api.attendancer.hu/api/EventGroup/{eventGroupId}/matrix",
-    eventGroupByUserId: "https://api.attendancer.hu/api/EventGroup/ByUserId"
+    eventGroupByUserId: "https://api.attendancer.hu/api/EventGroup/ByUserId",
+    eventsByUser: 'https://api.attendancer.hu/GetEventsByUserId',
+    deleteEvent: 'https://api.attendancer.hu/api/Event/{id}',
   },
-  tokenKey: "attendancer-jwt-token"
+  tokenKey: 'attendancer-jwt-token',
 };
