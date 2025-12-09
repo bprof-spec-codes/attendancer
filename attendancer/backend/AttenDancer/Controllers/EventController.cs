@@ -126,6 +126,7 @@ namespace AttenDancer.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("{eventId}/generate-qr")]
         public async Task<IActionResult> GenerateQrForEvent(string eventId)
         {
@@ -141,6 +142,7 @@ namespace AttenDancer.Controllers
             return Ok(new { QrCodeUrl = qrUrl });
         }
 
+        [Authorize]
         [HttpGet("{eventId}/qr")]
         public async Task<IActionResult> GetEventQrCode(string eventId)
         {
@@ -153,13 +155,14 @@ namespace AttenDancer.Controllers
             // Például: http://localhost:5000/api/participant/create/{qrCode}
             // A Request Sceme a http vagy https részt adja a Request Host pedig a localhostos részt
 
-            string qrContent = $"http://localhost:4200/sign/{eventId}";
+            string qrContent = $"attendancer.hu/sign/{eventId}";
             var qrBytes = _qrService.GenerateQrCode(qrContent);
 
             //Ezzel tudunk visszaadni egy képet, nem application/json lesz a headerben, hanem image/png
             return File(qrBytes, "image/png");
         }
 
+        [Authorize]
         [HttpPut("{eventId}/invalidate")]
         public async Task<IActionResult> InvalidateQr(string eventId)
         {
@@ -167,6 +170,7 @@ namespace AttenDancer.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("{eventId}/validate")]
         public async Task<IActionResult> validateQr(string eventId)
         {
