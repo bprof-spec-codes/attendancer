@@ -8,34 +8,30 @@
                         <div class="row">
                             <div class="row d-flex justify-content-between align-items-center g-2">
                                 <div class="col-auto">
-                                    <button (click)="edit()" class="btn button-primary ms-3">
-                                        <img src="./Assets/Icons/white-edit.svg" class="icons">
+                                    <button (click)="edit()" class="btn button-primary ms-3" style="border: 2px solid #213F9A; width: 120px;">
                                         {{ 'EVENT.EDIT_BUTTON' | translate }}
                                     </button>
                                 </div>
                                 <div class="col-auto">
-                                    <button (click)="modal.open()" class="btn button-danger me-3">
-                                      <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                    <button (click)="modal.open()" class="btn button-danger me-3" style="width: 120px; white-space: nowrap;">
                                       {{ 'EVENT.DELETE_BUTTON' | translate }}
                                     </button>
                                 </div>
                                 <div class="col-auto">
                                     @if (this.event.isQrValid) {
-                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3" style="border: 2px solid #213F9A; width: 120px; white-space: nowrap;">
                                             {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
                                         </button>
                                         <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="this.event.isQrValid"></app-modal-qrcode>
                                     }
                                     @else {
-                                        <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3">
+                                        <button (click)="onValidateQr()" class="btn button-primary py-2 ms-3" style="width: 120px; background-color: rgb(4, 97, 4);" >
                                             {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
                                         </button>
                                     }
                                 </div>
                                 <div class="col-auto">
-                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
-                                        <img src="./Assets/Icons/white-trash.svg" class="icons">
-                                        <!--<img src="./Assets/Icons/red-trash.svg" class="icons">-->
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3" style="width: 120px; white-space: nowrap; ">
                                         {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                     </button>
                                 </div>
@@ -118,35 +114,27 @@
                     @if (authService.isLoggedIn() && this.userId === this.event.userId) {
                         <div class="row">
                             <div class="row d-flex justify-content-between align-items-center g-2">
-                                <div class="col-auto">
-                                    <button (click)="edit()" class="btn button-primary ms-3">
-                                        <img src="./Assets/Icons/white-edit.svg" class="icons">
+                                <div class="col-auto d-flex gap-3 ms-3">
+                                    <button (click)="edit()" class="btn button-primary w-50">
                                         {{ 'EVENT.EDIT_BUTTON' | translate }}
                                     </button>
-                                </div>
-                                <div class="col-auto">
-                                    <button (click)="modal.open()" class="btn button-danger me-3">
-                                      <img src="./Assets/Icons/white-trash.svg" class="icons">
+                                    <button (click)="modal.open()" class="btn button-danger w-50">
                                       {{ 'EVENT.DELETE_BUTTON' | translate }}
                                     </button>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto d-flex gap-3 me-3">
                                     @if (this.event.isQrValid) {
-                                        <button (click)="modalQR.open()" class="btn button-primary py-2 ms-3">
+                                        <button (click)="modalQR.open()" class="btn button-primary w-50">
                                             {{ 'EVENT.SHOW_QR_BUTTON' | translate }}
                                         </button>
                                         <app-modal-qrcode #modalQR [eventId]="this.event.id" (isQrValid)="setIsQrValid($event)"></app-modal-qrcode>
                                     }
                                     @else {
-                                        <button (click)="onValidateQr()" class="btn button-success py-2 ms-3">
+                                        <button (click)="onValidateQr()" class="btn button-success w-50" style="background-color: rgb(4, 97, 4);">
                                             {{ 'EVENT.VALIDATE_QR_BUTTON' | translate }}
                                         </button>
                                     }
-                                </div>
-                                <div class="col-auto">
-                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger py-2 me-3">
-                                        <img src="./Assets/Icons/white-trash.svg" class="icons">
-                                        <!--<img src="./Assets/Icons/red-trash.svg" class="icons">-->
+                                    <button (click)="onInvalidateQr()" [disabled]="!this.event.isQrValid" class="btn button-danger w-50">
                                         {{ 'EVENT.DELETE_QR_BUTTON' | translate }}
                                     </button>
                                 </div>
@@ -184,23 +172,23 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-striped m-0 text-center"
+                        <table class="table table-striped m-0 text-center align-middle"
                             style="border-radius: 5px; overflow: hidden;">
                             <thead style="font-size: 25px; color: #213F9A;">
                                 <tr>
-                                    <th class="text-center brand-color-text">Name</th>
-                                    <th *ngFor="let data of event.metadata" class="text-center brand-color-text">{{ data
+                                    <th class="text-center align-middle brand-color-text">Name</th>
+                                    <th *ngFor="let data of event.metadata" class="text-center align-middle brand-color-text">{{ data
                                         }}</th>
-                                    <th class="text-center brand-color-text">Presence</th>
+                                    <th class="text-center align-middle brand-color-text">Presence</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let participant of this.event.participants">
-                                    <td class="sheet-table-cell text-center">{{ participant.userFullName }}</td>
-                                    <td *ngFor="let data of participant.metadata">
+                                    <td class="sheet-table-cell text-center align-middle">{{ participant.userFullName }}</td>
+                                    <td *ngFor="let data of participant.metadata" class="text-center align-middle">
                                         {{ data }}
                                     </td>
-                                    <td class="sheet-table-cell text-center">
+                                    <td class="sheet-table-cell text-center align-middle">
                                         <span *ngIf="participant.present; else absent;"><img
                                                 src="./Assets/Icons/check.svg" style="width: 25px; height: 25px;"> </span>
                                         <ng-template #absent>

@@ -1,11 +1,5 @@
-<div class="language-switcher">
-    <button 
-        *ngFor="let lang of languages"
-        [class.active]="currentLanguage === lang.code"
-        (click)="changeLanguage(lang.code)"
-        class="lang-btn"
-      >
-        <span class="flag">{{ lang.flag }}</span>
-        <span class="name">{{ lang.name }}</span>
-    </button>
+<div class="d-flex justify-content-between align-items-center gap-3 me-4 text-center" style="align-self: center;">
+  <div *ngFor="let lang of languages">
+    <p [class.active]="currentLanguage === lang.code" (click)="changeLanguage(lang.code)" class="lang-font">{{ lang.name }}</p>
+  </div>
 </div>

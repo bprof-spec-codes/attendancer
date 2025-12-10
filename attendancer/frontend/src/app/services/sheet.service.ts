@@ -32,4 +32,12 @@ export class SheetService {
   public deleteEvent(eventId: string): Observable<void> {
     return this.http.delete<void>(environment.apis.deleteEvent.replace('{id}', eventId));
   }
+
+  public getEventsByGroupId(groupId: string): Observable<EventViewDto[]> {
+    return this.http.get<EventViewDto[]>(environment.apis.eventsByGroupId.replace('{id}', groupId));
+  }
+
+  public deleteEventGroup(groupId: string): Observable<void>{
+    return this.http.delete<void>(environment.apis.deleteEventGroup.replace('{id}', groupId));
+  }
 }

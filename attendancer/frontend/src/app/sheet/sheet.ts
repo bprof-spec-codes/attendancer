@@ -53,6 +53,8 @@ export class Sheet implements OnInit {
    * Az oldal betöltésekor lekérdezni az adatokat az esemény id-ja alapján.
    */
   ngOnInit(): void {
+    this.checkScreenSize();
+    window.addEventListener('resize', this.checkScreenSize.bind(this));
     // Az id lekérdezése a route-ból.
     this.route.params.subscribe(params => {
       this.event.id = params['id']
@@ -120,6 +122,9 @@ export class Sheet implements OnInit {
       }
       reader.readAsText(response.data)
     })
+  }
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 1100;
   }
 
   /**

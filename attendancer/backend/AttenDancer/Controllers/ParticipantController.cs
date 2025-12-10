@@ -24,7 +24,7 @@ namespace AttenDancer.Controllers
             return  Ok();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<List<ParticipantViewDto>> GetParticipants(string id)
         {

@@ -26,6 +26,10 @@ import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';
 import { API_BASE_URL } from './app.api-client.generated';
 import { environment } from '../environments/environment';
+import { ProfileSection } from './profile-section/profile-section';
+import { StatisticsSection } from './statistics-section/statistics-section';
+import { SheetsSection } from './sheets-section/sheets-section';
+import { EditSection } from './edit-section/edit-section';
 
 @NgModule({
   declarations: [
@@ -43,6 +47,10 @@ import { environment } from '../environments/environment';
     LanguageSwitcher,
     SheetSigned,
     ModalQrcode,
+    ProfileSection,
+    StatisticsSection,
+    SheetsSection,
+    EditSection,
   ],
   imports: [
     BrowserModule,
