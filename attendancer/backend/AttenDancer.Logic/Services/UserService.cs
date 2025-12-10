@@ -31,39 +31,38 @@ namespace AttenDancer.Logic.Services
 
         public async Task<User> RegisterAsync(string firstName, string lastName, string email, string password)
         {
-
-            var exists = await _userRepository.GetAll()
-                .FirstOrDefaultAsync(u => u.Email == email.ToLower());
-
-
-            if (exists != null)
-            {
-                if (!exists.IsDeleted)
-                {
-                    throw new Exception("Ez az email cím már regisztrálva van");
-                }
-
-
-                exists.IsDeleted = false;
-                exists.DeletedAt = null;
-                exists.FirstName = firstName;
-                exists.LastName = lastName;
-                exists.Password = BCrypt.Net.BCrypt.HashPassword(password);
-
-                return await _userRepository.Update(exists);
-
-
-            }
-
-
+            string normalizedEmail = email.ToLower();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
+            var activeUserExists = await _userRepository.GetAll()
+                .AnyAsync(u => u.Email == normalizedEmail && !u.IsDeleted);
+
+            if (activeUserExists)
+            {
+                throw new Exception("Ez az email cím már regisztrálva van");
+            }
+
+            var deletedUser = await _userRepository.GetAll()
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == normalizedEmail && u.IsDeleted);
+
+            if (deletedUser != null)
+            {
+                deletedUser.IsDeleted = false;
+                deletedUser.DeletedAt = null;
+                deletedUser.FirstName = firstName;
+                deletedUser.LastName = lastName;
+                deletedUser.Password = hashedPassword;
+                deletedUser.Email = normalizedEmail;
+
+                return await _userRepository.Update(deletedUser);
+            }
 
             var user = new User
             {
                 FirstName = firstName,
                 LastName = lastName,
-                Email = email.ToLower(),
+                Email = normalizedEmail,
                 Password = hashedPassword
             };
 
