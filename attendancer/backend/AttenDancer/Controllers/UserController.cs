@@ -45,12 +45,14 @@ namespace AttenDancer.Controllers
                     ["CONFIRM_URL"] = confirmUrl
                 };
 
+                /*
                 await _emailService.SendTemplateEmailAsync(
                     to: user.Email,
                     subject: "Sikeres regisztráció",
                     templateName: "registration",
                     placeholders: placeholders
                 );
+                */
 
                 return Ok(new
                 {

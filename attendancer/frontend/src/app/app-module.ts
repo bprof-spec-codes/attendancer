@@ -24,7 +24,6 @@ import { HttpLoaderFactory } from './services/translation/translation';
 import { LanguageSwitcher } from './language-switcher/language-switcher';
 import { SheetSigned } from './sheet-signed/sheet-signed';
 import { ModalQrcode } from './modal-qrcode/modal-qrcode';
-import { EditSheet } from './edit-sheet/edit-sheet';
 import { API_BASE_URL } from './app.api-client.generated';
 import { environment } from '../environments/environment';
 
@@ -44,7 +43,6 @@ import { environment } from '../environments/environment';
     LanguageSwitcher,
     SheetSigned,
     ModalQrcode,
-    EditSheet
   ],
   imports: [
     BrowserModule,
