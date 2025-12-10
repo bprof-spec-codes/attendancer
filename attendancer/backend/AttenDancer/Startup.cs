@@ -49,8 +49,8 @@ public class Startup(IConfiguration configuration)
 
                     builder.WithOrigins("https://attendancer.hu")
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
+                        //.AllowCredentials();
                 }
             );
         });
@@ -115,9 +115,9 @@ public class Startup(IConfiguration configuration)
             app.UseSwaggerUi();
         }
 
-        app.UseCors("AllowOrigin");
-
         app.UseRouting();
+
+        app.UseCors("AllowOrigin");
 
         app.UseAuthentication();
         app.UseMiddleware<ActiveUserMiddleware>();
