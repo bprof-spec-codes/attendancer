@@ -63,6 +63,21 @@ namespace AttenDancer.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        
+        [HttpGet("group/{groupId}")]
+
+        public async Task<IActionResult> GetAllEventsByGroupIdAsync(string groupId)
+        {
+            try
+            {
+                var events = await _eventService.GetEventsByEventGroupIdAsync(groupId);
+                return(Ok(events));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
         [Authorize]
         [HttpGet("/GetEventsByUserId")]

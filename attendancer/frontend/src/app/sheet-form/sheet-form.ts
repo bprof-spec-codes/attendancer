@@ -39,7 +39,7 @@ export class SheetForm implements OnInit {
     private editEventService: EditEventService,
     private jwtDecodeService: JwtDecodeService,
     private sheetService: SheetService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     // A bejelentkezett felhasználó userId-jének megszerzése.
@@ -87,7 +87,7 @@ export class SheetForm implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         const jsonData = JSON.parse(reader.result as string);
-        //console.log(jsonData)
+        console.log(jsonData)
 
         this.eventGroups = jsonData;
 
@@ -148,6 +148,7 @@ export class SheetForm implements OnInit {
             this.createEventGroupMethod();
           } else {
             this.resetPage();
+            this.router.navigate([`/sheet/${Object.values(response)[0]}`]);
           }
         },
         error: (err) => {

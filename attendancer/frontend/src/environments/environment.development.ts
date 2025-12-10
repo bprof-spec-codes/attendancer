@@ -17,6 +17,9 @@ export const environment = {
     eventGroupByUserId: 'https://localhost:7198/api/EventGroup/ByUserId',
     eventsByUser: 'https://localhost:7198/GetEventsByUserId',
     deleteEvent: 'https://localhost:7198/api/Event/{id}',
+    deleteEventGroup:'https://localhost:7198/api/EventGroup/{id}',
+    eventsByGroupId: 'https://localhost:7198/api/Event/group/{id}'
+
   },
   tokenKey: 'attendancer-jwt-token',
 };

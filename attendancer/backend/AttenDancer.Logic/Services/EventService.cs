@@ -47,6 +47,17 @@ namespace AttenDancer.Logic.Services
             return events;
         }
 
+        public async Task<List<EventViewDto>> GetEventsByEventGroupIdAsync(string eventGroupId)
+        {
+            var events = await _eventRepository
+                .GetAll()
+                .Where(e => e.EventGroupId == eventGroupId)
+                .ToListAsync();
+
+            List<EventViewDto> result = dtoProvider.Mapper.Map<List<EventViewDto>>(events);
+            return result;
+        }
+
         public async Task<List<EventViewDto>> GetEventByUserIdAsync(string userId)
         {
             var events = await _eventRepository
