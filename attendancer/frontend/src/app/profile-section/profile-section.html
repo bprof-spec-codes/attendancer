@@ -1,0 +1,165 @@
+@if(isMobile){
+<div class="col mt-4">
+    <div class="card shadow" style="background-color: #EFF1F2;">
+        <div class="card-body">
+            <div class="row g-3 align-items-center">
+                <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                <p class="text-center mb-0">{{ user.email }}</p>
+                <hr class="w-100 mt-4">
+                <div class="card-body mt-2 mb-2">
+                    <div class="row justify-content-center">
+                        <button class="btn btn-primary button-primary w-50"
+                            (click)="setActiveSection('edit')">{{'PROFILE_PAGE.EDIT' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(activeSection === 'edit'){
+    <div class="col mt-4">
+        <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
+            <div class="card-body">
+                <div class="col">
+                    <div class="row d-flex justify-content-between justify-content-center">
+                        <div class="col-auto">
+                            <h1 class="text-center">{{ 'PROFILE_PAGE.EDIT_USER_INFO' | translate }}</h1>
+                        </div>
+                        <div class="col-auto ms-auto">
+                            <button class="border-0 p-0 m-0" type="button" (click)="setActiveSection('profile')">
+                                <img src="./Assets/Icons/cross.svg" style="width: 40px; height: 40px;">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-4">
+                <div class="row align-items-center">
+                    <app-edit-section [user]="user" (userChanged)="onUserChanged($event)"></app-edit-section>
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else {
+    <div class="card shadow mt-4 mb-4" style="background-color: #EFF1F2;">
+        <div class="card-body">
+            <div class="col">
+                <div class="scrollable-container">
+                    @for (event of signedEvents; track $index) {
+                    <div class="row mb-3">
+                        <div class="card shadow" style="background-color: #EFF1F2;">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ??
+                                            event[0].name }}
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        @for (isSigned of signedEvents[$index]; track $index) {
+                                        <span class="attendance-block"
+                                            [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (signedEvents.length === 0){
+                    <div class="col-12 text-center">
+                        <p class="text-muted">You haven't signed any sheets yet.</p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>
+
+} @else {
+<div class="row g-3 mt-5 align-items-start">
+    <div class="col-auto">
+        <div class="card justify-content-center align-items-center" style="background-color:#EFF1F2; min-width: 260px;">
+            <div class="card-body">
+                <h2 class="text-center mt-4 fs-3 fs-lg-2">{{ user.lastName }} {{ user.firstName }}</h2>
+                <p class="text-center mb-0">{{ user.email }}</p>
+            </div>
+            <hr class="w-100 m-1">
+            <div class="card-body mt-2 mb-2">
+                <button class="btn btn-primary button-primary w-100" (click)="setActiveSection('edit')">{{
+                    'PROFILE_PAGE.EDIT' | translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    @if(activeSection === 'edit'){
+    <div class="col">
+        <div class="card w-100" style="background-color: #EFF1F2;
+                    border-top-right-radius: 0; border-bottom-right-radius: 0;">
+            <div class="card-body" style="max-height: 85vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="row d-flex justify-content-between align-items-center mt-1">
+                        <div class="col-auto">
+                            <h1 style="font-size: 43px;">{{ 'PROFILE_PAGE.EDIT_USER_INFO' | translate }}</h1>
+                        </div>
+                        <div class="col-auto">
+                            <button class="border-0 p-0" type="button" (click)="setActiveSection('profile')">
+                                <img src="./Assets/Icons/cross.svg"
+                                    style="width: 50px; height: 50px; margin-bottom: 5px;">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <app-edit-section (userChanged)="onUserChanged($event)"></app-edit-section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+} @else {
+<div class="col">
+    <div class="card w-100"
+        style="background-color: #EFF1F2; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+        <div class="card-body" style="max-height: 2fr; overflow-y: auto;">
+            <div class="scrollable-container">
+                @for (event of signedEvents; track $index) {
+                <div class="row mb-3">
+                    <div class="card shadow" style="background-color: #EFF1F2;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h2 class="fs-4 fs-lg-3 mb-2">{{ event[0].eventGroupName ??
+                                        event[0].name }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    @for (isSigned of signedEvents[$index]; track $index) {
+                                    <span class="attendance-block"
+                                        [ngClass]="isSigned.inTime ? 'present' : 'absent'"></span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @if (signedEvents.length === 0){
+                <div class="col-12 text-center">
+                    <p class="text-muted">You haven't signed any sheets yet.</p>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+</div>
+}

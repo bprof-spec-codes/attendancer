@@ -1,0 +1,204 @@
+@if(isMobile){
+<div class="col mt-4 mb-4">
+    <div class="card shadow" style="background-color: #EFF1F2;">
+        <div class="card-body">
+            <div class="row g-3 d-flex justify-content-between justify-content-center">
+                <div class="col">
+                    <h1>Sheets</h1>
+                </div>
+                <div class="col-auto">
+                </div>
+                <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="scrollable-container ">
+                        <div class="row g-3">
+                            <div class="col-12" *ngFor="let sheet of userEvents">
+                                <div class="card shadow" style="background-color: #EFF1F2;">
+                                    <div class="card-body" style="cursor: pointer;">
+
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <div class="col mt-2" [routerLink]="['/sheet', sheet.id]">
+                                                <p class="h1" style="color: #213F9A;">{{ sheet.name }}</p>
+                                            </div>
+
+                                            <div class="col-auto mb-2">
+                                                <button class="btn button-primary mt-2"
+                                                    style="width: 10px; border: 2px solid #213F9A;"
+                                                    (click)="$event.stopPropagation(); openSheetModal(sheet, 'edit')">
+                                                    {{'PROFILE_PAGE.EDIT' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row d-flex align-items-end justify-content-end">
+                                            <div class="col">
+                                                <a class="attendance-block" [routerLink]="['/sheet', sheet.id]"
+                                                    title="Részletek megtekintése">
+                                                </a>
+                                            </div>
+
+                                            <div class="col d-flex justify-content-end align-items-end mb-2">
+                                                <button class="btn button-danger mt-2" style="width: 10px;"
+                                                    (click)="$event.stopPropagation(); onDeleteSheet(sheet.id)">
+                                                    {{'PROFILE_PAGE.DELETE' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12" *ngFor="let group of eventGroupView">
+                                <div class="card shadow" style="background-color: #EFF1F2;">
+                                    <div class="card-body">
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <p class="h1" style="color: #213F9A;">{{group.name}}</p>
+                                        </div>
+
+                                        <div class="col d-flex justify-content-end align-items-end mb-2">
+                                            <button class="btn button-danger mt-2" style="width: 10px;"
+                                                (click)="$event.stopPropagation(); onDeleteGroup(group.id)">
+                                                {{'PROFILE_PAGE.DELETE' | translate}}
+                                            </button>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6">
+                                                @for (event of group.events; track $index) {
+                                                <span class="attendance-block present" style="cursor: pointer;"
+                                                    (click)="openSheetModal(event, 'edit')"></span>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center"
+                                *ngIf="userEvents?.length === 0 && eventGroupView?.length === 0">
+                                <p class="text-muted">No sheets found.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+} @else {
+<div class="col mt-4">
+    <div class="card shadow" style="background-color: #EFF1F2;">
+        <div class="card-body">
+            <div class="row g-3 d-flex justify-content-between justify-content-center">
+                <div class="col">
+                    <h1>Sheets</h1>
+                </div>
+                <div class="col-auto">
+                </div>
+                <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="scrollable-container">
+                        <div class="row g-3">
+
+                            <div class="col-12" *ngFor="let sheet of userEvents">
+                                <div class="card shadow" style="background-color: #EFF1F2;">
+                                    <div class="card-body" style="cursor: pointer;">
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <div class="col mt-2">
+                                                <p class="h1" style="color: #213F9A;">{{ sheet.name }}</p>
+                                            </div>
+
+                                            <div class="col-auto mb-2">
+                                                <button class="btn button-primary mt-2"
+                                                    style="width: 10px; border: 2px solid #213F9A;"
+                                                    (click)="$event.stopPropagation(); onEditSheet(sheet)">
+                                                    {{'PROFILE_PAGE.EDIT' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex align-items-end justify-content-end">
+                                            <div class="col">
+                                                <a class="attendance-block" [routerLink]="['/sheet', sheet.id]"
+                                                    title="Részletek megtekintése">
+                                                </a>
+                                            </div>
+                                            <div class="col d-flex justify-content-end align-items-end mb-2">
+                                                <button class="btn button-danger mt-2" style="width: 10px;"
+                                                    (click)="$event.stopPropagation(); onDeleteSheet(sheet.id)">
+                                                    {{'PROFILE_PAGE.DELETE' | translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngFor="let group of eventGroupView">
+                                <div class="card shadow" style="background-color: #EFF1F2;">
+                                    <div class="card-body">
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <div class="col mt-2">
+                                                <p class="h1" style="color: #213F9A;">{{group.name}}</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="col d-flex justify-content-end align-items-end mb-2">
+                                            <button class="btn button-danger mt-2 me-3" style="width: 10px;"
+                                                (click)="$event.stopPropagation(); onDeleteGroup(group.id)">
+                                                {{'PROFILE_PAGE.DELETE' | translate}}
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @for (event of group.events; track $index) {
+                                            <span class="attendance-block present" style="cursor: pointer;"
+                                                (click)="openSheetModal(event, 'edit')"></span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center"
+                                *ngIf="userEvents?.length === 0 && eventGroupView.length === 0">
+                                <p class="text-muted">No sheets found.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<div class="modal fade" [ngClass]="{'show': isSheetModalOpen}" [style.display]="isSheetModalOpen ? 'block' : 'none'"
+    [style.pointer-events]="isSheetModalOpen ? 'auto' : 'none'" tabindex="-1" role="dialog"
+    aria-hidden="{{!isSheetModalOpen}}">
+    <div class="modal-dialog  modal-dialog-centered"  role="document">
+        <div class="modal-content shadow" style="background-color: #EFF1F2;">
+            <div class="modal-header">
+                <h5 class="modal-title h1" style="color: #213F9A;">
+                    {{ modalMode === 'edit' ? 'Edit Sheet' : 'View Sheet' }}
+                </h5>
+                <button type="button" class="btn-close" (click)="closeSheetModal()"></button>
+            </div>
+            <div class="modal-body text-center">
+                <button *ngIf="selectedEvent" class="btn button-primary me-2" (click)="viewEvent(selectedEvent.id)">
+                    View Sheet
+                </button>
+                <button *ngIf="selectedEvent" class="btn button-primary" (click)="onEditSheet(selectedEvent)">
+                    Edit Sheet
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn button-danger" (click)="closeSheetModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

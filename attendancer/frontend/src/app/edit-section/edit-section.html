@@ -1,0 +1,168 @@
+@if(isMobile){
+<div class="form" style="gap: 20px">
+    <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)">
+        <div class="row d-flex justify-content-center ms-1 mx-1" style="gap: 20px;">
+            <label for="username" class="field-label text-center" style="font-size: 20px; font-weight: 700;">
+                {{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}
+            </label>
+            <input type="text" class="flex-grow-1" placeholder="{{'PROFILE_PAGE.FIRST_NAME' | translate}}"
+                id="firstName" name="firstName" [(ngModel)]="pendingFirstName" required>
+            <input type="text" class="flex-grow-1" [(ngModel)]="pendingLastName"
+                placeholder="{{ 'PROFILE_PAGE.LAST_NAME' | translate }}" id="lastName" name="lastName" required>
+            <button type="submit" class="btn btn-primary button-primary align-self-center" style="width: 290px;">{{
+                'PROFILE_PAGE.CHANGE_NAME' | translate }}</button>
+        </div>
+
+    </form>
+</div>
+<hr class="mt-4">
+<form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form" style="gap: 20px;">
+    <label for="password" class="field-label text-center" style="font-size: 20px; font-weight: 700;">
+        {{ 'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}
+    </label>
+    <input type="password" id="oldPassword" name="oldPassword"
+        placeholder="{{'PROFILE_PAGE.PASSWORD_CURRENT' | translate}}" ngModel required class="form-control flex-fill">
+    <input type="password" id="password" name="password" placeholder="{{ 'PROFILE_PAGE.CONFIRM_PASSWORD' | translate }}"
+        ngModel required class="form-control flex-fill">
+    <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password" ngModel required
+        class="form-control flex-fill">
+    <button type="submit" class="btn btn-primary button-primary align-self-center">{{
+        'PROFILE_PAGE.CHANGE_PASSWORD' | translate }}</button>
+    <div class="error mt-2" *ngIf="passwordErrorMessage">
+        <small>{{ passwordErrorMessage }}</small>
+    </div>
+    <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+        <small>{{ passwordConfirmErrorMessage }}</small>
+    </div>
+</form>
+<hr class="mt-4">
+<div class="form" style="gap: 20px;">
+    <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
+        <div class="row d-flex justify-content-center ms-1 mx-1" style="gap: 20px;">
+            <label for="email" class="field-label text-center" style="font-size: 20px; font-weight: 700;">
+                {{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}
+            </label>
+            <input type="email" class="flex-grow-1" placeholder="{{ 'PROFILE_PAGE.EMAIL_ADDRESS' | translate }}"
+                id="email" name="email" [(ngModel)]="pendingEmail" required>
+            <input type="text" class="flex-grow-1" placeholder="{{ 'PROFILE_PAGE.CONFIRM_EMAIL_ADDRESS' | translate }}"
+                id="emailCheck" name="emailConfirm" [(ngModel)]="pendingEmailConfirm" required>
+            <button type="submit" class="btn btn-primary button-primary align-self-center" style="width: 290px;">{{
+                'PROFILE_PAGE.CHANGE_EMAIL' | translate }}</button>
+            <div *ngIf="emailErrorMessage" class="error mt-2">
+                <small>{{ emailErrorMessage }}</small>
+            </div>
+            <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                <small>{{ emailConfirmErrorMessage }}</small>
+            </div>
+        </div>
+
+    </form>
+</div>
+<hr class="mt-4">
+<div class="form" style="gap: 20px;">
+    <button class="btn btn-primary button-danger align-self-center" (click)="userDeleteModal.open()">
+        {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
+    </button>
+    <app-modal-warning #userDeleteModal [title]="modalTitle" [message]="modalMessage" (confirmed)="onDeleteAccount()">
+    </app-modal-warning>
+</div>
+} @else {
+<div class="row g-3 mt-5 align-items-start">
+    <div class="row d-flex justify-content-center align-items-center mb-4">
+        <div class="col-8 text-center">
+            <form #nameForm="ngForm" (ngSubmit)="onChangeName(nameForm)">
+                <div class="form mt-3" style="gap: 0.75rem;">
+                    <label for="name" class="field-label"
+                        style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                        {{ 'PROFILE_PAGE.CHANGE_NAME' | translate }}
+                    </label>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <input type="text" id="firstName" placeholder="{{'PROFILE_PAGE.FIRST_NAME' | translate}}"
+                            name="firstName" class="form-control flex-fill" [(ngModel)]="pendingFirstName" required>
+                        <input type="text" id="lastName" placeholder="{{'PROFILE_PAGE.LAST_NAME' | translate}}"
+                            name="lastName" class="form-control flex-fill" [(ngModel)]="pendingLastName" required>
+                        <button type="submit" class="button-primary flex-shrink-0 w-25" style="width: 302px;">{{
+                            'PROFILE_PAGE.CHANGE_NAME' | translate }}</button>
+                    </div>
+                </div>
+                <div *ngIf="nameErrorMessage" class="error">
+                    <small>{{ nameErrorMessage }}</small>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr class="mt-4">
+    <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
+        <div class="col-8 text-center">
+            <div class="form" style="gap: 0.75rem;">
+                <form #passwordForm="ngForm" (ngSubmit)="onChangePassword(passwordForm)" class="form"
+                    style="gap: 0.75rem;">
+                    <label for="oldPassword" class="field-label"
+                        style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                        Change Password
+                    </label>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <input type="password" id="oldPassword" name="oldPassword"
+                            placeholder="{{'PROFILE_PAGE.PASSWORD_CURRENT' | translate}}" ngModel required
+                            class="form-control flex-fill">
+                        <input type="password" id="password" name="password"
+                            placeholder="{{'PROFILE_PAGE.CHANGE_PASSWORD' | translate}}" ngModel required
+                            class="form-control flex-fill">
+                        <input type="password" id="passwordConfirm" name="passwordConfirm"
+                            placeholder="{{'PROFILE_PAGE.CONFIRM_PASSWORD' | translate}}" ngModel required
+                            class="form-control flex-fill">
+                        <button type="submit" class="button-primary flex-shrink-0 w-25">Change
+                            password</button>
+                    </div>
+                    <div class="error mt-2" *ngIf="passwordErrorMessage">
+                        <small>{{ passwordErrorMessage }}</small>
+                    </div>
+                    <div class="error mt-2" *ngIf="passwordConfirmErrorMessage">
+                        <small>{{ passwordConfirmErrorMessage }}</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-3">
+    <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-3">
+        <div class="col-8 text-center">
+            <form #emailForm="ngForm" (ngSubmit)="onChangeEmail(emailForm)">
+                <div class="form" style="gap: 0.75rem;">
+                    <label for="email" class="field-label"
+                        style="font-size: 1.3rem; font-weight: 700; align-self: flex-start;">
+                        {{ 'PROFILE_PAGE.CHANGE_EMAIL' | translate }}
+                    </label>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <input type="email" placeholder="{{'PROFILE_PAGE.EMAIL_ADDRESS' | translate}}" name="email"
+                            class="form-control flex-fill" required [(ngModel)]="pendingEmail" id="email" email>
+                        <input type="email" placeholder="{{'PROFILE_PAGE.CONFIRM_EMAIL_ADDRESS' | translate}}"
+                            name="emailCheck" class="form-control flex-fill" [(ngModel)]="pendingEmailConfirm"
+                            id="emailConfirm" required email>
+                        <button type="submit" class="button-primary flex-shrink-0 w-25">{{
+                            'PROFILE_PAGE.CHANGE_EMAIL' | translate }}</button>
+                    </div>
+                    <div *ngIf="emailErrorMessage" class="error mt-2">
+                        <small>{{ emailErrorMessage }}</small>
+                    </div>
+                    <div *ngIf="emailConfirmErrorMessage" class="error mt-2">
+                        <small>{{ emailConfirmErrorMessage }}</small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr class="mt-3">
+    <div class="row d-flex mt-0 justify-content-center align-items-center mb-4 mt-4">
+        <div class="col-8 text-center">
+            <button class="button-danger" style="height:50px; width: 300px; font-size: 20px;"
+                (click)="userDeleteModal.open()">
+                {{ 'PROFILE_PAGE.DELETE_ACCOUNT' | translate }}
+            </button>
+        </div>
+        <app-modal-warning [title]="modalTitle" [message]="modalMessage" #userDeleteModal
+            (confirmed)="onDeleteAccount()">
+        </app-modal-warning>
+    </div>
+</div>
+}

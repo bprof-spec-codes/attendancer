@@ -8,8 +8,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${environment.apis.getUserMe}`);

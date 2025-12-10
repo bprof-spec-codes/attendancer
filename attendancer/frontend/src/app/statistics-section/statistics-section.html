@@ -1,0 +1,110 @@
+@if(isMobile){
+<div class="col mt-4">
+    <div class="card shadow" style="background-color: #EFF1F2;">
+        <div class="card-body">
+            <div class="row g-3 d-flex justify-content-between justify-content-center">
+                <div class="col">
+                    <h1>Statistics</h1>
+                </div>
+                <div class="col">
+                    <div class="form-field">
+                        <select id="sheetGroup" class="form-select" style="border: 2px solid #213F9A; background-color: transparent;
+                                    font-weight: 600; color: #213F9A;" [(ngModel)]="selectedEventGroupId"
+                            (change)="onEventGroupChange()">
+                            <option value="">Choose</option>
+                            <option *ngFor="let group of eventGroups" [value]="group.id">
+                                {{ group.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="mt-4" style="height: 2px; background-color: #213F9A; opacity: 1;">
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="table-responsive" style="background-color: #EFF1F2;">
+                        <table class="bg-transparent w-100 attendance-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th *ngFor="let event of matrix?.events">{{ event.eventName }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let participant of matrix?.participants">
+                                    <td><strong>{{ participant.userName }}</strong></td>
+                                    <td class="text-center" *ngFor="let event of matrix?.events">
+                                        <img [src]="
+                                            participant.attendances[event.eventId]
+                                              ? 'Assets/Icons/check.svg'
+                                              : 'Assets/Icons/cross.svg'
+                                          " [alt]="
+                                            participant.attendances[event.eventId] ? 'Present' : 'Absent'
+                                          " [style.width.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                            [style.height.px]="participant.attendances[event.eventId] ? 25 : 30" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="col mt-5">
+    <div class="card w-100" style="background-color: #EFF1F2; width: 240vh;
+                border-top-right-radius: 0; border-bottom-right-radius: 0;">
+        <div class="card-body">
+            <div class="row g-3 d-flex justify-content-between align-items-center">
+                <div class="col-auto pt-4">
+                    <h1>{{ 'PROFILE_PAGE.STATISTICS' | translate }}</h1>
+                </div>
+                <div class="col-auto">
+                    <div class="form-field">
+                        <select id="sheetGroup" class="form-select"
+                            style="border: 2px solid #213F9A; background-color: transparent; font-weight: 600; color: #213F9A;"
+                            [(ngModel)]="selectedEventGroupId" (change)="onEventGroupChange()">
+                            <option value="">Choose</option>
+                            <option *ngFor="let group of eventGroups" [value]="group.id">
+                                {{ group.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="mt-4 w-100" style="height: 3px; background-color: #213F9A; opacity: 1;">
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="table-responsive" style="background-color: #EFF1F2;">
+                        <table class="bg-transparent w-100 attendance-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th *ngFor="let event of matrix?.events">{{ event.eventName }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let participant of matrix?.participants">
+                                    <td><strong>{{ participant.userName }}</strong></td>
+                                    <td class="text-center" *ngFor="let event of matrix?.events">
+                                        <img [src]="
+                                                participant.attendances[event.eventId]
+                                                  ? 'Assets/Icons/check.svg'
+                                                  : 'Assets/Icons/cross.svg'
+                                              " [alt]="
+                                                participant.attendances[event.eventId] ? 'Present' : 'Absent'
+                                              " [style.width.px]="participant.attendances[event.eventId] ? 25 : 30"
+                                            [style.height.px]="participant.attendances[event.eventId] ? 25 : 30" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
