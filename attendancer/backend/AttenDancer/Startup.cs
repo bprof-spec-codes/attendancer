@@ -47,7 +47,7 @@ public class Startup(IConfiguration configuration)
 
                     //builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 
-                    builder.WithOrigins(frontendUrl)
+                    builder.WithOrigins("https://attendancer.hu")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

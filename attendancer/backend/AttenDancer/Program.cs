@@ -38,7 +38,7 @@ public class Program
                     if (context.HostingEnvironment.IsProduction())
                     {
                         var port = int.Parse(context.Configuration["settings:port"] ?? "7198");
-                        options.ListenAnyIP(port);
+                        options.ListenAnyIP(7198);
                     }
                 });
 
